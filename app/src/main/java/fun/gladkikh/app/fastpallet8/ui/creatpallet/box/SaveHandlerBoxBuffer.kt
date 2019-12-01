@@ -25,11 +25,12 @@ class SaveHandlerBoxBuffer(compositeDisposable: CompositeDisposable,
             publishSubjectSaveBuffer
                 .toFlowable(BackpressureStrategy.BUFFER)
                 .buffer(2000, TimeUnit.MILLISECONDS)
-                .doOnNext {
-                    it.forEachIndexed { index, boxCreatePallet ->
+                .doOnNext {listBox->
+                    listBox.forEachIndexed { index, boxCreatePallet ->
                         modelRx.saveBox(boxCreatePallet,doc!!)
                             .doFinally {
-                                if (index == it.size - 1) {
+                                //После последней записи оповещаем
+                                if (index == listBox.size - 1) {
                                     doAfterSaveBuffer(boxCreatePallet)
                                 }
                             }

@@ -22,6 +22,11 @@ open class BaseViewModel : ViewModel() {
     fun getMessageErrorChannel(): LiveData<String> = messageErrorChannel
     fun getShowProgressChannel(): LiveData<Boolean> = showProgressChannel
 
+
+    open fun callKeyDown(keyCode: Int? = null,position:Int? = null){
+
+    }
+
     open fun callBackConfirmDialog(confirmDialog: ConfirmDialog) {
 
     }
@@ -35,4 +40,6 @@ open class BaseViewModel : ViewModel() {
         super.onCleared()
         compositeDisposable.dispose()
     }
+
+
 }

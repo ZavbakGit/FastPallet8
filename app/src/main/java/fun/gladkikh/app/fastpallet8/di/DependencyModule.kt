@@ -10,6 +10,7 @@ import `fun`.gladkikh.app.fastpallet8.repository.CreatePalletRepository
 import `fun`.gladkikh.app.fastpallet8.repository.CreatePalletRepositoryImpl
 import `fun`.gladkikh.app.fastpallet8.repository.SettingsRepository
 import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.box.BoxCreatePalletViewModel
+import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.pallet.PalletCreatePalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.test.TestViewModel
 import `fun`.gladkikh.fastpallet7.model.usecase.testdata.AddTestDataUseCase
 import android.content.Context
@@ -43,6 +44,7 @@ object DependencyModule {
         //****************************************************************************************
         //VIEW MODEL
         viewModel { BoxCreatePalletViewModel(get()) }
+        viewModel { PalletCreatePalletViewModel(get()) }
         viewModel { TestViewModel(get(),get()) }
 
     }

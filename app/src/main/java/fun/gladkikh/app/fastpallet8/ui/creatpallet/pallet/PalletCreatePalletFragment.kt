@@ -1,4 +1,4 @@
-package `fun`.gladkikh.app.fastpallet8.ui.creatpallet.box
+package `fun`.gladkikh.app.fastpallet8.ui.creatpallet.pallet
 
 import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.R
@@ -9,18 +9,28 @@ import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCrea
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseFragment
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
+import `fun`.gladkikh.app.fastpallet8.ui.common.Command.Close
+import `fun`.gladkikh.app.fastpallet8.ui.common.Command.OpenForm
 import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.WrapperGuidCreatePallet
+import `fun`.gladkikh.fastpallet7.ui.base.MyBaseAdapter
+import android.content.Context
+import android.view.View
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.google.gson.GsonBuilder
-import kotlinx.android.synthetic.main.block_box.*
 import kotlinx.android.synthetic.main.block_pallet.*
 import kotlinx.android.synthetic.main.block_product.*
+import kotlinx.android.synthetic.main.list_block.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BoxCreatePalletFragment : BaseFragment() {
 
-    override val layoutRes = R.layout.create_pallet_fragment_box
-    override val viewModel: BoxCreatePalletViewModel by viewModel()
+class PalletCreatePalletFragment : BaseFragment() {
+
+    override val layoutRes = R.layout.create_pallet_fragment_pallet
+    override val viewModel: PalletCreatePalletViewModel by viewModel()
+
+    private lateinit var adapter: Adapter
+
 
     override fun initSubscription() {
         super.initSubscription()
@@ -35,6 +45,10 @@ class BoxCreatePalletFragment : BaseFragment() {
         }
 
 
+        adapter = Adapter(activity as Context)
+        listView.adapter = adapter
+
+
 
         viewModel.getProductLiveData().observe(viewLifecycleOwner, Observer {
             renderProduct(it)
@@ -44,32 +58,41 @@ class BoxCreatePalletFragment : BaseFragment() {
             renderPallet(it)
         })
 
-        viewModel.getBoxLiveData().observe(viewLifecycleOwner, Observer {
-            renderBox(it)
+        viewModel.getListBoxLiveData().observe(viewLifecycleOwner, Observer {
+            renderListBox(it)
         })
+
+        tvCountPallet.setOnClickListener {
+            viewModel.readBarcode("${(10..99).random()}123456789")
+        }
 
         mainActivity.barcodeLiveData.observe(viewLifecycleOwner, Observer {
             viewModel.readBarcode(it)
         })
 
-
-
-        tvCountBox.setOnClickListener {
-            viewModel.readBarcode("${(10..99).random()}123456789")
+        listView.setOnItemClickListener { _, _, i, _ ->
+            viewModel.callKeyDown(position = i)
         }
+
     }
 
+    override fun keyDownListener(keyCode: Int, position: Int?) {
+        viewModel.callKeyDown(keyCode,listView.selectedItemPosition)
+    }
 
-
-
+    private fun renderListBox(list: List<BoxCreatePallet>) {
+        adapter.list = list
+    }
 
     override fun commandListener(command: Command) {
         super.commandListener(command)
         when (command) {
-            is Command.Close -> {
+            is Close -> {
                 navigateHandler.popBackStack()
             }
-
+            is OpenForm -> {
+                openBox(command.data as WrapperGuidCreatePallet)
+            }
         }
     }
 
@@ -90,10 +113,33 @@ class BoxCreatePalletFragment : BaseFragment() {
         tvCountRowPallet.text = pallet?.countRow.toSimpleFormat()
     }
 
-    fun renderBox(box: BoxCreatePallet?) {
-
-        tvDateBox.text = box?.dateChanged.toSimpleDateTime()
-        tvCountBox.text = box?.count.toSimpleFormat()
-        tvCountPlaceBox.text = box?.countBox.toSimpleFormat()
+    private fun openBox(wrapperGuidCreatePalleet: WrapperGuidCreatePallet) {
+        navigateHandler.startCreatePalletBox(wrapperGuidCreatePalleet)
     }
+
+    private class Adapter(mContext: Context) : MyBaseAdapter<BoxCreatePallet>(mContext) {
+        override fun bindView(item: BoxCreatePallet, holder: Any) {
+            holder as ViewHolder
+            holder.tvDateBox.text = item.dateChanged.toSimpleDateTime()
+            holder.tvCountBox.text = item.count.toSimpleFormat()
+            holder.tvCountPlaceBox.text = item.countBox.toSimpleFormat()
+            holder.tvNumberBox.text = item.number.toSimpleFormat()
+
+        }
+
+        override fun getLayout(): Int = R.layout.item_box
+        override fun createViewHolder(view: View): Any =
+            ViewHolder(
+                view
+            )
+    }
+
+    private class ViewHolder(view: View) {
+        var tvDateBox: TextView = view.findViewById(R.id.tvDateBox)
+        var tvCountBox: TextView = view.findViewById(R.id.tvCountBox)
+        var tvCountPlaceBox: TextView = view.findViewById(R.id.tvCountPlaceBox)
+        var tvNumberBox: TextView = view.findViewById(R.id.tvNumberBox)
+    }
+
+
 }

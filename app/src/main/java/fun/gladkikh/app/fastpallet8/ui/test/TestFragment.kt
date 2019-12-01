@@ -2,7 +2,7 @@ package `fun`.gladkikh.app.fastpallet8.ui.test
 
 import `fun`.gladkikh.app.fastpallet8.R
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseFragment
-import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.WrapperGuidCreatePaleet
+import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.WrapperGuidCreatePallet
 import kotlinx.android.synthetic.main.test_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -21,11 +21,20 @@ class TestFragment : BaseFragment() {
         }
         btOpenBox.setOnClickListener {
             navigateHandler.startCreatePalletBox(
-                WrapperGuidCreatePaleet(
+                WrapperGuidCreatePallet(
                     guidDoc = "0",
                     guidProduct = "0_0",
                     guidPallet = "0_0_0",
                     guidBox = "0_0_0_0"
+                )
+            )
+        }
+        btOpenPallet.setOnClickListener {
+            navigateHandler.startCreatePalletPallet(
+                WrapperGuidCreatePallet(
+                    guidDoc = "0",
+                    guidProduct = "0_0",
+                    guidPallet = "0_0_0"
                 )
             )
         }

@@ -17,4 +17,12 @@
         android:id="@+id/settingsFragment"
         android:name="fun.gladkikh.app.fastpallet8.ui.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/palletCreatePalletFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.creatpallet.pallet.PalletCreatePalletFragment"
+        android:label="PalletCreatePalletFragment" />
+    <fragment
+        android:id="@+id/productDialogCreatePalletFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.creatpallet.productdialog.ProductDialogCreatePalletFragment"
+        android:label="ProductDialogCreatePalletFragment" />
 </navigation>

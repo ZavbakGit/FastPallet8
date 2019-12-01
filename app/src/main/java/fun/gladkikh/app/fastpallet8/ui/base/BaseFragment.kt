@@ -48,8 +48,8 @@ abstract class BaseFragment : Fragment() {
         keyDownListener(it)
     }
 
-    open fun keyDownListener(keyCode: Int) {
-
+    open fun keyDownListener(keyCode: Int,position:Int? = null) {
+        viewModel.callKeyDown(keyCode,position)
     }
 
     open fun commandListener(command: Command) {
