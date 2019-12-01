@@ -1,0 +1,2 @@
+include ':app', ':barcode'
+rootProject.name='Fast Pallet 8'

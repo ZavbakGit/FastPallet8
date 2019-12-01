@@ -1,0 +1,34 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="TitleText" />
+
+    <style name="SectionTitleText"/>
+
+
+    <style name="SectionDataText">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/colorTextAccent</item>
+    </style>
+
+    <style name="DataText">
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="DataTextMedium">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+
+    <style name="DataTextLargAccent" parent="DataText">
+        <item name="android:textColor">@color/colorTextAccent</item>
+    </style>
+
+</resources>

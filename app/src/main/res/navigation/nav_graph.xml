@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/testFragment">
+
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.test.TestFragment"
+        android:label="TestFragment" />
+    <fragment
+        android:id="@+id/boxCreatePalletFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.creatpallet.box.BoxCreatePalletFragment"
+        android:label="BoxCreatPalletFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.SettingsFragment"
+        android:label="SettingsFragment" />
+</navigation>
