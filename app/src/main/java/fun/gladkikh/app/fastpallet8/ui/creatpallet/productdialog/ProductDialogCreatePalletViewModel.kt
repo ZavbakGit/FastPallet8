@@ -11,14 +11,12 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-class ProductDialogCreatePalletViewModel(val modelRx: CreatePalletModelRx) : BaseViewModel() {
+class ProductDialogCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseViewModel() {
 
     private val doc = MutableLiveData<CreatePallet>()
     private val product = MutableLiveData<ProductCreatePallet>()
 
-    fun getDocLiveData(): LiveData<CreatePallet> = doc
     fun getProductLiveData(): LiveData<ProductCreatePallet> = product
-
 
     //Все пареметры запросов
     var wrapperGuid: WrapperGuidCreatePallet? = null
@@ -56,10 +54,6 @@ class ProductDialogCreatePalletViewModel(val modelRx: CreatePalletModelRx) : Bas
         )
     }
 
-    val EDIT_START_DIALOG = 1
-    val EDIT_END_DIALOG = 2
-    val EDIT_COFF_DIALOG = 3
-
     //Нажатие клавиш
     override fun callKeyDown(keyCode: Int?, position: Int?) {
         super.callKeyDown(keyCode, position)
@@ -68,7 +62,7 @@ class ProductDialogCreatePalletViewModel(val modelRx: CreatePalletModelRx) : Bas
                 commandChannel.postValue(
                     Command.EditNumberDialog(
                         "Начало",
-                        EDIT_START_DIALOG,
+                        Constants.EDIT_START_DIALOG,
                         false,
                         (product.value!!.weightStartProduct ?: 0).toString()
                     )
@@ -78,7 +72,7 @@ class ProductDialogCreatePalletViewModel(val modelRx: CreatePalletModelRx) : Bas
                 commandChannel.postValue(
                     Command.EditNumberDialog(
                         "Начало",
-                        EDIT_END_DIALOG,
+                        Constants.EDIT_END_DIALOG,
                         false,
                         (product.value!!.weightEndProduct ?: 0).toString()
                     )
@@ -88,7 +82,7 @@ class ProductDialogCreatePalletViewModel(val modelRx: CreatePalletModelRx) : Bas
                 commandChannel.postValue(
                     Command.EditNumberDialog(
                         "Начало",
-                        EDIT_COFF_DIALOG,
+                        Constants.EDIT_COFF_DIALOG,
                         false,
                         (product.value!!.weightCoffProduct ?: 0).toString()
                     )
@@ -97,12 +91,11 @@ class ProductDialogCreatePalletViewModel(val modelRx: CreatePalletModelRx) : Bas
         }
     }
 
-
     //Подтверждение диалога ввода числа
     override fun callBackEditNumberDialog(editNumberDialog: Command.EditNumberDialog) {
         super.callBackEditNumberDialog(editNumberDialog)
         when (editNumberDialog.requestCode) {
-            EDIT_START_DIALOG -> {
+            Constants.EDIT_START_DIALOG -> {
                 val start = editNumberDialog.data?.toIntOrNull()
                 modelRx.saveProduct(product.value!!.copy(weightStartProduct = start), doc.value!!)
                     .subscribe({
@@ -112,7 +105,7 @@ class ProductDialogCreatePalletViewModel(val modelRx: CreatePalletModelRx) : Bas
                     })
 
             }
-            EDIT_END_DIALOG -> {
+            Constants.EDIT_END_DIALOG -> {
                 val end = editNumberDialog.data?.toIntOrNull()
                 modelRx.saveProduct(product.value!!.copy(weightEndProduct = end), doc.value!!)
                     .subscribe({
@@ -122,7 +115,7 @@ class ProductDialogCreatePalletViewModel(val modelRx: CreatePalletModelRx) : Bas
                     })
 
             }
-            EDIT_COFF_DIALOG -> {
+            Constants.EDIT_COFF_DIALOG -> {
                 val coff = editNumberDialog.data?.toFloatOrNull()
                 modelRx.saveProduct(product.value!!.copy(weightCoffProduct = coff), doc.value!!)
                     .subscribe({

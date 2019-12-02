@@ -59,10 +59,6 @@ class BoxCreatePalletFragment : BaseFragment() {
         }
     }
 
-
-
-
-
     override fun commandListener(command: Command) {
         super.commandListener(command)
         when (command) {
@@ -73,7 +69,7 @@ class BoxCreatePalletFragment : BaseFragment() {
         }
     }
 
-    fun renderProduct(product: ProductCreatePallet?) {
+    private fun renderProduct(product: ProductCreatePallet?) {
         tvNameProduct.text = product?.nameProduct ?: ""
         tvCountProduct.text = product?.count.toSimpleFormat()
         tvCountPlaceProduct.text = product?.countBox.toSimpleFormat()
@@ -83,15 +79,14 @@ class BoxCreatePalletFragment : BaseFragment() {
         tvCountPlaceBackProduct.text = product?.countBoxBack.toSimpleFormat()
     }
 
-    fun renderPallet(pallet: PalletCreatePallet?) {
+    private fun renderPallet(pallet: PalletCreatePallet?) {
         tvNumberPallet.text = pallet?.number ?: ""
         tvCountPallet.text = pallet?.count.toSimpleFormat()
         tvCountPlacePallet.text = pallet?.countBox.toSimpleFormat()
         tvCountRowPallet.text = pallet?.countRow.toSimpleFormat()
     }
 
-    fun renderBox(box: BoxCreatePallet?) {
-
+    private fun renderBox(box: BoxCreatePallet?) {
         tvDateBox.text = box?.dateChanged.toSimpleDateTime()
         tvCountBox.text = box?.count.toSimpleFormat()
         tvCountPlaceBox.text = box?.countBox.toSimpleFormat()

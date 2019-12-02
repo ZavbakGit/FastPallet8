@@ -11,10 +11,14 @@ import com.google.gson.GsonBuilder
 
 class NavigateHandler(val navController: NavController) {
 
+    companion object{
+        const val PRODUCT_DIALOG_FORM = 1
+        const val PRODUCT_BOX_FORM = 2
+    }
+
     fun startSettings() {
         navigate(R.id.settingsFragment, null)
     }
-
 
     fun startCreatePalletBox(wrapperGuidCreatePaleet: WrapperGuidCreatePallet) {
         val bundle = Bundle()
@@ -30,7 +34,7 @@ class NavigateHandler(val navController: NavController) {
         navigate(R.id.palletCreatePalletFragment, bundle)
     }
 
-    fun startProductDialogCreatePalletFragment(wrapperGuidCreatePaleet: WrapperGuidCreatePallet) {
+    fun startProductDialogCreatePallet(wrapperGuidCreatePaleet: WrapperGuidCreatePallet) {
         val bundle = Bundle()
         val gson = GsonBuilder().create()
         bundle.putString(Constants.EXTRA_WRAP_GUID, gson.toJson(wrapperGuidCreatePaleet))

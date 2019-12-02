@@ -25,5 +25,27 @@ object Constants {
     val KEY_2 = 9 // 1
     val KEY_3 = 10 // 1
     val KEY_7 = 7 // 0
+
+
+    //Вызов диалога удаления
+    const val CONFIRM_DELETE_DIALOG = 1
+
+    //Вызов диалога ввода мест
+    const val EDIT_PLACE_DIALOG = 2
+
+    //Вызов диалога ввода количества
+    const val EDIT_COUNT_DIALOG = 3
+
+    //Вызов диалога добавления
+    const val ADD_COUNT_DIALOG = 4
+
+    //Свернуть часть формы
+    const val COMMAND_HIDE_FORM = 5
+
+    const val EDIT_START_DIALOG = 6
+    const val EDIT_END_DIALOG = 7
+    const val EDIT_COFF_DIALOG = 8
+
+
 }
 

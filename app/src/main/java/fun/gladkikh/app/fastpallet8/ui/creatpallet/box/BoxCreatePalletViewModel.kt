@@ -7,27 +7,25 @@ import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePall
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseViewModel
-import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.*
 import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.WrapperGuidCreatePallet
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import java.util.*
 
-class BoxCreatePalletViewModel(val modelRx: CreatePalletModelRx) : BaseViewModel() {
+class BoxCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseViewModel() {
 
     private val doc = MutableLiveData<CreatePallet>()
     private val product = MutableLiveData<ProductCreatePallet>()
     private val pallet = MutableLiveData<PalletCreatePallet>()
     private val box = MutableLiveData<BoxCreatePallet>()
 
-    fun getDocLiveData(): LiveData<CreatePallet> = doc
     fun getProductLiveData(): LiveData<ProductCreatePallet> = product
     fun getPalletLiveData(): LiveData<PalletCreatePallet> = pallet
     fun getBoxLiveData(): LiveData<BoxCreatePallet> = box
 
     //Сохраняем через буффер 2 секунды
-    val saveHandlerBox =
+    private val saveHandlerBox =
         SaveHandlerBoxBuffer(compositeDisposable, modelRx, messageErrorChannel) {
             modelRx.setBox(it.guid)
             modelRx.setProduct(product.value!!.guid)
@@ -99,17 +97,6 @@ class BoxCreatePalletViewModel(val modelRx: CreatePalletModelRx) : BaseViewModel
         )
     }
 
-    //Вызов диалога удаления
-    private val CONFIRM_DELETE_DIALOG = 1
-
-    //Вызов диалога ввода мест
-    private val EDIT_PLACE_DIALOG = 2
-
-    //Вызов диалога ввода количества
-    private val EDIT_COUNT_DIALOG = 3
-
-    //Вызов диалога добавления
-    private val ADD_COUNT_DIALOG = 4
 
 
 
@@ -119,9 +106,9 @@ class BoxCreatePalletViewModel(val modelRx: CreatePalletModelRx) : BaseViewModel
         when (keyCode) {
             Constants.KEY_1 -> {
                 commandChannel.postValue(
-                    Command.EditNumberDialog(
+                    EditNumberDialog(
                         "Количество",
-                        EDIT_COUNT_DIALOG,
+                        Constants.EDIT_COUNT_DIALOG,
                         true,
                         box.value!!.count.toString()
                     )
@@ -131,7 +118,7 @@ class BoxCreatePalletViewModel(val modelRx: CreatePalletModelRx) : BaseViewModel
                 commandChannel.postValue(
                     EditNumberDialog(
                         "Мест",
-                        EDIT_PLACE_DIALOG,
+                        Constants.EDIT_PLACE_DIALOG,
                         false,
                         box.value!!.countBox.toString()
                     )
@@ -139,16 +126,16 @@ class BoxCreatePalletViewModel(val modelRx: CreatePalletModelRx) : BaseViewModel
             }
             Constants.KEY_3 -> {
                 commandChannel.postValue(
-                    Command.EditNumberDialog(
+                    EditNumberDialog(
                         "Количество",
-                        ADD_COUNT_DIALOG,
+                        Constants.ADD_COUNT_DIALOG,
                         true,
                         "0"
                     )
                 )
             }
             Constants.KEY_9 -> {
-                commandChannel.postValue(ConfirmDialog("Удаляем!", CONFIRM_DELETE_DIALOG))
+                commandChannel.postValue(ConfirmDialog("Удаляем!", Constants.CONFIRM_DELETE_DIALOG))
             }
         }
     }
@@ -157,7 +144,7 @@ class BoxCreatePalletViewModel(val modelRx: CreatePalletModelRx) : BaseViewModel
     override fun callBackConfirmDialog(confirmDialog: ConfirmDialog) {
         super.callBackConfirmDialog(confirmDialog)
         when (confirmDialog.requestCode) {
-            CONFIRM_DELETE_DIALOG -> {
+            Constants.CONFIRM_DELETE_DIALOG -> {
                 modelRx.dellBox(box.value!!, doc.value!!)
                     .subscribe({
                         commandChannel.postValue(Close)
@@ -172,7 +159,7 @@ class BoxCreatePalletViewModel(val modelRx: CreatePalletModelRx) : BaseViewModel
     override fun callBackEditNumberDialog(editNumberDialog: EditNumberDialog) {
         super.callBackEditNumberDialog(editNumberDialog)
         when (editNumberDialog.requestCode) {
-            EDIT_PLACE_DIALOG -> {
+            Constants.EDIT_PLACE_DIALOG -> {
                 val place = editNumberDialog.data?.toIntOrNull()
                 if (place == null) {
                     messageErrorChannel.postValue("Не верное число!")
@@ -186,7 +173,7 @@ class BoxCreatePalletViewModel(val modelRx: CreatePalletModelRx) : BaseViewModel
                         })
                 }
             }
-            EDIT_COUNT_DIALOG -> {
+            Constants.EDIT_COUNT_DIALOG -> {
                 val count = editNumberDialog.data?.toFloatOrNull()
                 if (count == null) {
                     messageErrorChannel.postValue("Не верное число!")
@@ -200,7 +187,7 @@ class BoxCreatePalletViewModel(val modelRx: CreatePalletModelRx) : BaseViewModel
                         })
                 }
             }
-            ADD_COUNT_DIALOG -> {
+            Constants.ADD_COUNT_DIALOG -> {
                 val count = editNumberDialog.data?.toFloatOrNull() ?: 0f
                 if (count == 0f) {
                     messageErrorChannel.postValue("Не верное число!")

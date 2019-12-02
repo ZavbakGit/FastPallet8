@@ -14,11 +14,10 @@ class SaveHandlerBoxBuffer(compositeDisposable: CompositeDisposable,
                            private val messageError:MutableLiveData<String>,
                            private val doAfterSaveBuffer:(lastBox:BoxCreatePallet) ->Unit) {
 
-
     private val publishSubjectSaveBuffer = PublishSubject.create<BoxCreatePallet>()
 
+    //Документ устанавливаем потом
     var doc:CreatePallet? = null
-
 
     init {
         compositeDisposable.add(
@@ -42,9 +41,6 @@ class SaveHandlerBoxBuffer(compositeDisposable: CompositeDisposable,
                 .subscribe()
         )
     }
-
-
-
 
     fun saveBuffer(box: BoxCreatePallet) {
         publishSubjectSaveBuffer.onNext(box)

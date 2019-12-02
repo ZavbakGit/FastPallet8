@@ -50,7 +50,6 @@ class ProductDialogCreatePalletFragment : BaseFragment() {
 
     }
 
-
     override fun commandListener(command: Command) {
         super.commandListener(command)
         when (command) {
@@ -60,7 +59,7 @@ class ProductDialogCreatePalletFragment : BaseFragment() {
         }
     }
 
-    fun renderProduct(product: ProductCreatePallet?) {
+    private fun renderProduct(product: ProductCreatePallet?) {
         tvNameProductDialog.text = product?.nameProduct ?: ""
 
         val barcode = product?.barcode ?: ""
@@ -82,6 +81,5 @@ class ProductDialogCreatePalletFragment : BaseFragment() {
         )
 
         tvWeightProductDialog.text = weight.toSimpleFormat()
-
     }
 }

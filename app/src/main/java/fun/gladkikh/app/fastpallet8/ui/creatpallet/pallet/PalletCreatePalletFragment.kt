@@ -9,17 +9,19 @@ import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCrea
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseFragment
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
-import `fun`.gladkikh.app.fastpallet8.ui.common.Command.Close
-import `fun`.gladkikh.app.fastpallet8.ui.common.Command.OpenForm
+import `fun`.gladkikh.app.fastpallet8.ui.common.Command.*
 import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.WrapperGuidCreatePallet
+import `fun`.gladkikh.app.fastpallet8.ui.navigate.NavigateHandler
 import `fun`.gladkikh.fastpallet7.ui.base.MyBaseAdapter
 import android.content.Context
 import android.view.View
+import android.view.View.*
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.block_pallet.*
 import kotlinx.android.synthetic.main.block_product.*
+import kotlinx.android.synthetic.main.create_pallet_fragment_pallet.*
 import kotlinx.android.synthetic.main.list_block.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -30,7 +32,6 @@ class PalletCreatePalletFragment : BaseFragment() {
     override val viewModel: PalletCreatePalletViewModel by viewModel()
 
     private lateinit var adapter: Adapter
-
 
     override fun initSubscription() {
         super.initSubscription()
@@ -47,8 +48,6 @@ class PalletCreatePalletFragment : BaseFragment() {
 
         adapter = Adapter(activity as Context)
         listView.adapter = adapter
-
-
 
         viewModel.getProductLiveData().observe(viewLifecycleOwner, Observer {
             renderProduct(it)
@@ -87,16 +86,34 @@ class PalletCreatePalletFragment : BaseFragment() {
     override fun commandListener(command: Command) {
         super.commandListener(command)
         when (command) {
+            is AnyCommand ->{
+                if (command.code == Constants.COMMAND_HIDE_FORM){
+                    if (frameLayoutProduct.visibility == GONE) {
+                        frameLayoutProduct.visibility = VISIBLE
+                    } else {
+                        frameLayoutProduct.visibility = GONE
+                    }
+                }
+            }
             is Close -> {
                 navigateHandler.popBackStack()
             }
             is OpenForm -> {
-                openBox(command.data as WrapperGuidCreatePallet)
+                when(command.code){
+                    NavigateHandler.PRODUCT_BOX_FORM ->{
+                        navigateHandler.
+                            startCreatePalletBox(command.data as WrapperGuidCreatePallet)
+                    }
+                    NavigateHandler.PRODUCT_DIALOG_FORM->{
+                        navigateHandler.
+                            startProductDialogCreatePallet(command.data as WrapperGuidCreatePallet)
+                    }
+                }
             }
         }
     }
 
-    fun renderProduct(product: ProductCreatePallet?) {
+    private fun renderProduct(product: ProductCreatePallet?) {
         tvNameProduct.text = product?.nameProduct ?: ""
         tvCountProduct.text = product?.count.toSimpleFormat()
         tvCountPlaceProduct.text = product?.countBox.toSimpleFormat()
@@ -106,15 +123,11 @@ class PalletCreatePalletFragment : BaseFragment() {
         tvCountPlaceBackProduct.text = product?.countBoxBack.toSimpleFormat()
     }
 
-    fun renderPallet(pallet: PalletCreatePallet?) {
+    private fun renderPallet(pallet: PalletCreatePallet?) {
         tvNumberPallet.text = pallet?.number ?: ""
         tvCountPallet.text = pallet?.count.toSimpleFormat()
         tvCountPlacePallet.text = pallet?.countBox.toSimpleFormat()
         tvCountRowPallet.text = pallet?.countRow.toSimpleFormat()
-    }
-
-    private fun openBox(wrapperGuidCreatePalleet: WrapperGuidCreatePallet) {
-        navigateHandler.startCreatePalletBox(wrapperGuidCreatePalleet)
     }
 
     private class Adapter(mContext: Context) : MyBaseAdapter<BoxCreatePallet>(mContext) {
@@ -140,6 +153,5 @@ class PalletCreatePalletFragment : BaseFragment() {
         var tvCountPlaceBox: TextView = view.findViewById(R.id.tvCountPlaceBox)
         var tvNumberBox: TextView = view.findViewById(R.id.tvNumberBox)
     }
-
 
 }
