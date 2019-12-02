@@ -20,12 +20,12 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
     private val doc = MutableLiveData<CreatePallet>()
     private val product = MutableLiveData<ProductCreatePallet>()
     private val pallet = MutableLiveData<PalletCreatePallet>()
-    private val boxList = MutableLiveData<List<BoxCreatePallet>>()
+    private val listBox = MutableLiveData<List<BoxCreatePallet>>()
 
 
     fun getProductLiveData(): LiveData<ProductCreatePallet> = product
     fun getPalletLiveData(): LiveData<PalletCreatePallet> = pallet
-    fun getListBoxLiveData(): LiveData<List<BoxCreatePallet>> = boxList
+    fun getListBoxLiveData(): LiveData<List<BoxCreatePallet>> = listBox
 
     //Все пареметры запросов
     var wrapperGuid: WrapperGuidCreatePallet? = null
@@ -81,7 +81,7 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
                     if (it.error == null) {
                         val size = it.data!!.size
                         it.data.mapIndexed { index, boxCreatePallet ->
-                            boxCreatePallet.number = size - index
+                            boxCreatePallet.numberView = size - index
                             return@mapIndexed boxCreatePallet
                         }
                     }
@@ -92,7 +92,7 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
                     if (it.error != null) {
                         messageErrorChannel.postValue(it.error.message)
                     } else {
-                        boxList.postValue(it.data)
+                        listBox.postValue(it.data)
                     }
                 }, {
                     messageErrorChannel.postValue(it.message)
@@ -110,7 +110,7 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
                     commandChannel.postValue(
                         OpenForm(
                             code = NavigateHandler.PRODUCT_BOX_FORM,
-                            data = wrapperGuid!!.copy(guidBox = boxList.value!![position].guid)
+                            data = wrapperGuid!!.copy(guidBox = listBox.value!![position].guid)
                         )
                     )
                 }
@@ -160,7 +160,7 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
         when (confirmDialog.requestCode) {
             Constants.CONFIRM_DELETE_DIALOG -> {
                 val position = confirmDialog.data as Int
-                modelRx.dellBox(boxList.value!![position], doc.value!!)
+                modelRx.dellBox(listBox.value!![position], doc.value!!)
                     .subscribe({
                         wrapperGuid = wrapperGuid!!.copy()
                     }, {

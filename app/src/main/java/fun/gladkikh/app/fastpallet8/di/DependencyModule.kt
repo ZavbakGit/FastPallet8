@@ -11,6 +11,7 @@ import `fun`.gladkikh.app.fastpallet8.repository.CreatePalletRepositoryImpl
 import `fun`.gladkikh.app.fastpallet8.repository.SettingsRepository
 import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.box.BoxCreatePalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.pallet.PalletCreatePalletViewModel
+import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.product.ProductCreatePalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.productdialog.ProductDialogCreatePalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.test.TestViewModel
 import `fun`.gladkikh.fastpallet7.model.usecase.testdata.AddTestDataUseCase
@@ -47,6 +48,7 @@ object DependencyModule {
         viewModel { BoxCreatePalletViewModel(get()) }
         viewModel { PalletCreatePalletViewModel(get()) }
         viewModel { ProductDialogCreatePalletViewModel(get()) }
+        viewModel { ProductCreatePalletViewModel(get()) }
         viewModel { TestViewModel(get(),get()) }
 
     }

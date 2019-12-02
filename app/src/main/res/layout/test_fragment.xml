@@ -28,6 +28,12 @@
         android:text="Open pallet 0_0_0" />
 
     <Button
+        android:id="@+id/btOpenProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OPEN PRODUCT 0_0" />
+
+    <Button
         android:id="@+id/btRecalc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

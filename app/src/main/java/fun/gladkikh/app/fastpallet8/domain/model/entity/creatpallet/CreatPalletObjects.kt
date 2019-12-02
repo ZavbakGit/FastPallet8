@@ -44,7 +44,9 @@ data class ProductCreatePallet(
     var countPallet: Int?, //Количество паллет
 
     var dateChanged: Date?,
-    var isLastLoad: Boolean?
+    var isLastLoad: Boolean?,
+
+    var numberView: Int? = null
 )
 
 data class PalletCreatePallet(
@@ -60,7 +62,9 @@ data class PalletCreatePallet(
 
     var count: Float?, //Количество
     var countBox: Int?, //Количество мест
-    var countRow: Int?  //Количество строк
+    var countRow: Int?,  //Количество строк
+
+    var numberView: Int? = null
 )
 
 data class BoxCreatePallet(
@@ -75,5 +79,5 @@ data class BoxCreatePallet(
     /**
      * Порядковый номер заполнится в списке
      */
-    var number: Int? = null
+    var numberView: Int? = null
 )
