@@ -19,6 +19,14 @@ class NavigateHandler(val navController: NavController) {
     fun startSettings() {
         navigate(R.id.settingsFragment, null)
     }
+
+    fun startCreatePalletDoc(wrapperGuidCreatePaleet: WrapperGuidCreatePallet) {
+        val bundle = Bundle()
+        val gson = GsonBuilder().create()
+        bundle.putString(Constants.EXTRA_WRAP_GUID, gson.toJson(wrapperGuidCreatePaleet))
+        navigate(R.id.docCreatePalletFragment, bundle)
+    }
+
     fun startCreatePalletProduct(wrapperGuidCreatePaleet: WrapperGuidCreatePallet) {
         val bundle = Bundle()
         val gson = GsonBuilder().create()

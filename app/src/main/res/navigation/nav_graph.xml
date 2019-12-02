@@ -29,4 +29,8 @@
         android:id="@+id/productCreatePalletFragment"
         android:name="fun.gladkikh.app.fastpallet8.ui.creatpallet.product.ProductCreatePalletFragment"
         android:label="ProductCreatePalletFragment" />
+    <fragment
+        android:id="@+id/docCreatePalletFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.creatpallet.doc.DocCreatePalletFragment"
+        android:label="DocCreatePalletFragment" />
 </navigation>

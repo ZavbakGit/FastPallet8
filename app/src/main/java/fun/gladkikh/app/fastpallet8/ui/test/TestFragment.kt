@@ -49,6 +49,15 @@ class TestFragment : BaseFragment() {
             )
         }
 
+
+        btOpenDoc.setOnClickListener {
+            navigateHandler.startCreatePalletDoc(
+                WrapperGuidCreatePallet(
+                    guidDoc = "0"
+                )
+            )
+        }
+
         btSettings.setOnClickListener {
             navigateHandler.startSettings()
         }

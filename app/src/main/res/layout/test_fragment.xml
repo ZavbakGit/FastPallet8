@@ -34,6 +34,12 @@
         android:text="OPEN PRODUCT 0_0" />
 
     <Button
+        android:id="@+id/btOpenDoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OPEN DOC 0" />
+
+    <Button
         android:id="@+id/btRecalc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
