@@ -11,11 +11,6 @@ import com.google.gson.GsonBuilder
 
 class NavigateHandler(val navController: NavController) {
 
-    companion object{
-        const val PRODUCT_DIALOG_FORM = 1
-        const val PRODUCT_BOX_FORM = 2
-    }
-
     fun startSettings() {
         navigate(R.id.settingsFragment, null)
     }

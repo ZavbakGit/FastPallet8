@@ -92,7 +92,17 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: CreatePallet
             .onErrorReturn {
                 DataWrapper(error = it)
             }
+    }
 
+
+    override fun getPalletByNumber(numberPallet: String):Flowable<DataWrapper<PalletCreatePallet>> {
+      return  Flowable.just(numberPallet)
+            .map {
+                return@map DataWrapper(data = createPalletUpdateDao.getPalletByNumber(it).toObject())
+            }
+            .onErrorReturn {
+                DataWrapper(error = it)
+            }
 
     }
 
@@ -110,6 +120,8 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: CreatePallet
             }
 
     }
+
+
 
     override fun getBox(): Flowable<DataWrapper<BoxCreatePallet>> {
         return guidBoxPublishSubject

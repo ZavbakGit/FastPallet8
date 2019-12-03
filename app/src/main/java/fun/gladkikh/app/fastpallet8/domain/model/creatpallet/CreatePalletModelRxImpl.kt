@@ -114,6 +114,10 @@ class CreatePalletModelRxImpl(
         }
     }
 
+    override fun getPalletByNumber(numberPallet: String): Flowable<DataWrapper<PalletCreatePallet>> {
+       return repository.getPalletByNumber(numberPallet)
+    }
+
     override fun getBoxByBarcode(
         barcode: String, doc: CreatePallet, pallet: PalletCreatePallet
         , product: ProductCreatePallet

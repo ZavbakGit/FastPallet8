@@ -18,6 +18,7 @@ interface CreatePalletRepository {
 
     fun getPallet(): Flowable<DataWrapper<PalletCreatePallet>>
     fun getListBox(): Flowable<DataWrapper<List<BoxCreatePallet>>>
+    fun getPalletByNumber(numberPallet:String): Flowable<DataWrapper<PalletCreatePallet>>
     fun getBox(): Flowable<DataWrapper<BoxCreatePallet>>
 
     fun setDoc(guid:String?)
@@ -37,7 +38,11 @@ interface CreatePalletRepository {
     fun saveBox(box:BoxCreatePallet):Completable
     fun dellBox(box:BoxCreatePallet):Completable
 
+
+
     fun recalcPallet()
     fun recalcProduct()
+
+
 
 }

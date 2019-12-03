@@ -37,9 +37,13 @@ interface CreatePalletModelRx {
 
     fun saveBox(box: BoxCreatePallet,doc:CreatePallet): Completable
     fun dellBox(box: BoxCreatePallet,doc:CreatePallet): Completable
+
+    fun getPalletByNumber(numberPallet: String):Flowable<DataWrapper<PalletCreatePallet>>
+
     fun getBoxByBarcode(barcode:String, doc: CreatePallet,
                         pallet: PalletCreatePallet,
                         product: ProductCreatePallet)
             : DataWrapper<BoxCreatePallet>
+
 
 }

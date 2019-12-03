@@ -143,6 +143,10 @@ interface CreatePalletUpdateDao {
 
     @Query("SELECT * FROM PalletCreatePalletDb WHERE guidProduct = :guidProduct")
     fun getListPalletByGuidProduct(guidProduct: String): List<PalletCreatePalletDb>
+
+    @Query("SELECT * FROM PalletCreatePalletDb WHERE number = :numberPallet")
+    fun getPalletByNumber(numberPallet:String): PalletCreatePalletDb
+
     //endregion
 
     //region function for Product

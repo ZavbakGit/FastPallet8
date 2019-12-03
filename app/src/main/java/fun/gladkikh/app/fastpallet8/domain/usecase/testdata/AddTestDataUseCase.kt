@@ -1,17 +1,19 @@
-package `fun`.gladkikh.fastpallet7.model.usecase.testdata
+package `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata
 
 
 import `fun`.gladkikh.app.fastpallet8.common.toSimpleDate
+import `fun`.gladkikh.app.fastpallet8.db.dao.CreatePalletUpdateDao
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.BoxCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
+import `fun`.gladkikh.app.fastpallet8.map.toDb
 import `fun`.gladkikh.app.fastpallet8.repository.CreatePalletRepository
 
 import java.util.*
 
-class AddTestDataUseCase(private val createPalletRepositoryUpdate: CreatePalletRepository) {
+class AddTestDataUseCase(private val dao: CreatePalletUpdateDao) {
 
     fun save() {
 
@@ -35,21 +37,20 @@ class AddTestDataUseCase(private val createPalletRepositoryUpdate: CreatePalletR
 
 
         listDocuments.forEach { doc ->
-            createPalletRepositoryUpdate.saveDoc(doc).subscribe()
+            dao.insertOrUpdate(doc.toDb())
             val listProduct = getListProduct(doc.guid)
 
             listProduct.forEach { prod ->
-                createPalletRepositoryUpdate.saveProduct(prod).subscribe()
+                dao.insertOrUpdate(prod.toDb())
 
                 val listPallet = getListPallets(prod.guid)
 
                 listPallet.forEach { pall ->
-                    createPalletRepositoryUpdate.savePallet(pall).subscribe()
-
+                    dao.insertOrUpdate(pall.toDb())
                     val listBox = getListBox(pall.guid)
                     listBox.forEach {
-                        createPalletRepositoryUpdate.saveBox(it).subscribe()
-                        println(it)
+                        dao.insertOrUpdate(it.toDb())
+                        println(it.guid)
                     }
                 }
             }

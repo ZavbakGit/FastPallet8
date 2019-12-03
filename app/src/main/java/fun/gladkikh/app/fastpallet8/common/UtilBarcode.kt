@@ -44,7 +44,7 @@ fun isPallet(barcode: String): Boolean {
 fun getNumberDocByBarCode(barcode: String): String {
     //<pal>021400000007</pal>
     if (!isPallet(barcode)) {
-        throw Throwable("Не паллета!")
+        throw Throwable("Не верный штрихкод!")
     }
 
     val strCode = barcode.replace("<pal>", "").replace("</pal>", "")

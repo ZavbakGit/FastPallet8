@@ -15,7 +15,7 @@ import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.pallet.PalletCreatePalletVi
 import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.product.ProductCreatePalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.productdialog.ProductDialogCreatePalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.test.TestViewModel
-import `fun`.gladkikh.fastpallet7.model.usecase.testdata.AddTestDataUseCase
+import `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata.AddTestDataUseCase
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase

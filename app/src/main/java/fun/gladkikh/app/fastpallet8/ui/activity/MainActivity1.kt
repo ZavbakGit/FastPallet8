@@ -4,7 +4,7 @@ import `fun`.gladkikh.app.fastpallet8.R
 import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePaletModelImpl
 import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModel
 import `fun`.gladkikh.app.fastpallet8.repository.CreatePalletRepository
-import `fun`.gladkikh.fastpallet7.model.usecase.testdata.AddTestDataUseCase
+import `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata.AddTestDataUseCase
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer

@@ -8,6 +8,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCre
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseFragment
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.WrapperGuidCreatePallet
+import `fun`.gladkikh.app.fastpallet8.ui.navigate.NavigateHandler
 import `fun`.gladkikh.fastpallet7.ui.base.MyBaseAdapter
 import android.content.Context
 import android.view.View
@@ -71,6 +72,19 @@ class DocCreatePalletFragment : BaseFragment() {
 
     override fun commandListener(command: Command) {
         super.commandListener(command)
+        when (command) {
+            is Command.Close -> {
+                navigateHandler.popBackStack()
+            }
+            is Command.OpenForm -> {
+                when(command.code){
+                    Constants.OPEN_PRODUCT_FORM ->{
+                        navigateHandler.
+                            startCreatePalletProduct(command.data as WrapperGuidCreatePallet)
+                    }
+                }
+            }
+        }
     }
 
     private fun renderDoc(doc: CreatePallet?) {

@@ -109,7 +109,7 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
                 if (position != null && position != -1) {
                     commandChannel.postValue(
                         OpenForm(
-                            code = NavigateHandler.PRODUCT_BOX_FORM,
+                            code = Constants.OPEN_BOX_FORM,
                             data = wrapperGuid!!.copy(guidBox = listBox.value!![position].guid)
                         )
                     )
@@ -125,7 +125,7 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
             Constants.KEY_4 -> {
                 commandChannel.postValue(
                     OpenForm(
-                        code = NavigateHandler.PRODUCT_DIALOG_FORM,
+                        code = Constants.OPEN_PRODUCT_DIALOG_FORM,
                         data = wrapperGuid!!
                     )
                 )

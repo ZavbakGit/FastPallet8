@@ -100,11 +100,11 @@ class PalletCreatePalletFragment : BaseFragment() {
             }
             is OpenForm -> {
                 when(command.code){
-                    NavigateHandler.PRODUCT_BOX_FORM ->{
+                    Constants.OPEN_BOX_FORM ->{
                         navigateHandler.
                             startCreatePalletBox(command.data as WrapperGuidCreatePallet)
                     }
-                    NavigateHandler.PRODUCT_DIALOG_FORM->{
+                    Constants.OPEN_PRODUCT_DIALOG_FORM->{
                         navigateHandler.
                             startProductDialogCreatePallet(command.data as WrapperGuidCreatePallet)
                     }

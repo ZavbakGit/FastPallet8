@@ -27,6 +27,11 @@ object Constants {
     val KEY_7 = 7 // 0
 
 
+    const val OPEN_PRODUCT_DIALOG_FORM = 1
+    const val OPEN_BOX_FORM = 2
+    const val OPEN_PRODUCT_FORM = 3
+
+
     //Вызов диалога удаления
     const val CONFIRM_DELETE_DIALOG = 1
 
@@ -45,6 +50,8 @@ object Constants {
     const val EDIT_START_DIALOG = 6
     const val EDIT_END_DIALOG = 7
     const val EDIT_COFF_DIALOG = 8
+
+
 
 
 }

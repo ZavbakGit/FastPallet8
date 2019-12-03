@@ -1,10 +1,12 @@
 package `fun`.gladkikh.app.fastpallet8.ui.creatpallet.doc
 
+import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModelRx
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseViewModel
+import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.ConfirmDialog
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.EditNumberDialog
 import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.WrapperGuidCreatePallet
@@ -70,8 +72,22 @@ class DocCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseV
     //Нажатие клавиш
     override fun callKeyDown(keyCode: Int?, position: Int?) {
         super.callKeyDown(keyCode, position)
+        when (keyCode) {
+            null -> {
+                //Открываем Box
+                if (position != null && position != -1) {
+                    commandChannel.postValue(
+                        Command.OpenForm(
+                            code = Constants.OPEN_PRODUCT_FORM,
+                            data = wrapperGuid!!.copy(guidProduct = listProduct.value!![position].guid)
+                        )
+                    )
+                }
+            }
+        }
 
     }
+
 
     //Подтверждение удаления
     override fun callBackConfirmDialog(confirmDialog: ConfirmDialog) {
@@ -88,4 +104,5 @@ class DocCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseV
     @SuppressLint("CheckResult")
     fun readBarcode(barcode: String) {
     }
+
 }
