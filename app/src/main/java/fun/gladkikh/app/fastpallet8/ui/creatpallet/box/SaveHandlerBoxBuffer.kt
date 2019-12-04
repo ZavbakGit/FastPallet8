@@ -23,7 +23,7 @@ class SaveHandlerBoxBuffer(compositeDisposable: CompositeDisposable,
         compositeDisposable.add(
             publishSubjectSaveBuffer
                 .toFlowable(BackpressureStrategy.BUFFER)
-                .buffer(2000, TimeUnit.MILLISECONDS)
+                .buffer(1000, TimeUnit.MILLISECONDS)
                 .doOnNext {listBox->
                     listBox.forEachIndexed { index, boxCreatePallet ->
                         modelRx.saveBox(boxCreatePallet,doc!!)

@@ -54,7 +54,8 @@ class ProductCreatePalletFragment : BaseFragment() {
         })
 
         tvCountProduct.setOnClickListener {
-            viewModel.readBarcode("${(10..99).random()}123456789")
+            //viewModel.readBarcode("<pal>0214${(10..99).random()}</pal>")
+            viewModel.readBarcode("<pal>0214${84}</pal>")
         }
 
         mainActivity.barcodeLiveData.observe(viewLifecycleOwner, Observer {

@@ -36,6 +36,7 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
             field = value
         }
 
+
     init {
         compositeDisposable.add(
             modelRx.getDoc()
@@ -213,7 +214,10 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
             modelRx.saveBox(dataWrapper.data!!, doc.value!!)
                 .subscribe({
                     commandChannel.postValue(
-                        OpenForm(data = wrapperGuid!!.copy(guidBox = dataWrapper.data.guid))
+                        OpenForm(
+                            code = Constants.OPEN_BOX_FORM,
+                            data = wrapperGuid!!.copy(guidBox = dataWrapper.data.guid)
+                        )
                     )
                 }, {
                     messageErrorChannel.postValue(it.message)

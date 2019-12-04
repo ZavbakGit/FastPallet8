@@ -18,8 +18,19 @@ class ProductCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : B
     private val product = MutableLiveData<ProductCreatePallet>()
     private val listPallet = MutableLiveData<List<PalletCreatePallet>>()
 
+
+
     fun getProductLiveData(): LiveData<ProductCreatePallet> = product
     fun getListPalletLiveData(): LiveData<List<PalletCreatePallet>> = listPallet
+
+    private val saveHandlerPallet = SaveHandlerPallet(
+        compositeDisposable = compositeDisposable,
+        messageError = messageErrorChannel,
+        modelRx = modelRx
+    ){
+        modelRx.setProduct(it.guidProduct)
+    }
+
 
     //Все пареметры запросов
     var wrapperGuid: WrapperGuidCreatePallet? = null
@@ -37,6 +48,7 @@ class ProductCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : B
                         messageErrorChannel.postValue(it.error.message)
                     } else {
                         doc.postValue(it.data)
+                        saveHandlerPallet.doc = it.data
                     }
                 }, {
                     messageErrorChannel.postValue(it.message)
@@ -49,6 +61,7 @@ class ProductCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : B
                         messageErrorChannel.postValue(it.error.message)
                     } else {
                         product.postValue(it.data)
+                        saveHandlerPallet.product = it.data
                     }
                 }, {
                     messageErrorChannel.postValue(it.message)
@@ -100,5 +113,6 @@ class ProductCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : B
 
     @SuppressLint("CheckResult")
     fun readBarcode(barcode: String) {
+        saveHandlerPallet.save(barcode)
     }
 }

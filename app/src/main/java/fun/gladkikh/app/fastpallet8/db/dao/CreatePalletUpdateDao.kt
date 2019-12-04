@@ -141,7 +141,8 @@ interface CreatePalletUpdateDao {
     @Query("SELECT * FROM PalletCreatePalletDb WHERE guid = :guid")
     fun getPalletByGuid(guid: String): PalletCreatePalletDb
 
-    @Query("SELECT * FROM PalletCreatePalletDb WHERE guidProduct = :guidProduct")
+    @Query("SELECT * FROM PalletCreatePalletDb WHERE guidProduct = :guidProduct" +
+            "  ORDER BY dateChanged DESC")
     fun getListPalletByGuidProduct(guidProduct: String): List<PalletCreatePalletDb>
 
     @Query("SELECT * FROM PalletCreatePalletDb WHERE number = :numberPallet")

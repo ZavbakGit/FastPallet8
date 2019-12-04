@@ -1,4 +1,4 @@
-package `fun`.gladkikh.app.fastpallet8.ui.creatpallet.pallet
+package `fun`.gladkikh.app.fastpallet8.ui.creatpallet.product
 
 import `fun`.gladkikh.app.fastpallet8.common.getNumberDocByBarCode
 import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModelRx
@@ -10,6 +10,7 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.Flowables
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.*
 
@@ -29,50 +30,52 @@ class SaveHandlerPallet(
     init {
         compositeDisposable.add(
             publishSubjectBarcode
+                .observeOn(Schedulers.io())
                 .toFlowable(BackpressureStrategy.BUFFER)
                 .map {
                     //Вытаскиваем номер
-                    getNumberDocByBarCode(it)
-                }
-                .flatMap {
 
-                    //Ищем паллету во всех документах
-                    val numberFlow = Flowable.just(it)
-                    val dataWrapperPalletSearchFlow = modelRx.getPalletByNumber(it)
-
-                    return@flatMap Flowables.zip(
-                        numberFlow,
-                        dataWrapperPalletSearchFlow
-                    ) { number, data ->
-                        number to data
-                    }
-                }
-                .flatMap {
-                    //Если нашли, то нельзя
-                    if (it.second.error != null) {
-                        return@flatMap Flowable.error<Throwable>(Throwable("Паллета уже используется!"))
-                    } else {
-                        return@flatMap Flowable.just(it)
-                    }
-                }
-                .map { number ->
-                    //Создаем паллету
                     return@map PalletCreatePallet(
                         guid = UUID.randomUUID().toString(),
                         guidProduct = product!!.guid,
-                        barcode = null,
+                        barcode = it,
                         count = null,
                         countBox = null,
                         countRow = null,
                         dateChanged = Date(),
                         nameProduct = product!!.nameProduct,
-                        number = number as String,
+                        number = getNumberDocByBarCode(it),
                         numberView = null,
                         sclad = null,
                         state = null
                     )
+
+
+                }
+                .flatMap {
+
+                    //Ищем паллету во всех документах
+                    val palletFlow= Flowable.just(it)
+                    val dataWrapperPalletSearchFlow = modelRx.getPalletByNumber(it.number!!)
+
+                    return@flatMap Flowables.zip(
+                        palletFlow,
+                        dataWrapperPalletSearchFlow
+                    ) { pallet, data ->
+                        pallet to data
+                    }
+                }
+                .filter{
+                    //Если нашли, то нельзя
+                    if (it.first != null) {
+                        messageError.postValue("Паллета уже используется! ${it.first.number}")
+                        return@filter false
+                    }else{
+                        return@filter true
+                    }
                 }
                 .doOnNext {
+                    it as PalletCreatePallet
                     //Записываем
                     modelRx.savePallet(it, doc!!)
                         .doFinally {
@@ -83,7 +86,11 @@ class SaveHandlerPallet(
                             messageError.postValue(throwable.message)
                         })
                 }
-                .subscribe()
+                .subscribe({
+
+                }, {
+                    messageError.postValue(it.message)
+                })
         )
     }
 
