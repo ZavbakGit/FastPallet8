@@ -2,6 +2,7 @@ package `fun`.gladkikh.app.fastpallet8.ui.creatpallet.pallet
 
 import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModelRx
+
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.BoxCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
@@ -9,7 +10,6 @@ import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCre
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.*
 import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.WrapperGuidCreatePallet
-import `fun`.gladkikh.app.fastpallet8.ui.navigate.NavigateHandler
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

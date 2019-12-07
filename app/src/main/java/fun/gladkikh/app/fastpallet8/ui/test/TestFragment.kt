@@ -19,6 +19,11 @@ class TestFragment : BaseFragment() {
         btRecalc.setOnClickListener {
             viewModel.recalc()
         }
+
+        btListDocument.setOnClickListener {
+            navigateHandler.startListDocument()
+        }
+
         btOpenBox.setOnClickListener {
             navigateHandler.startCreatePalletBox(
                 WrapperGuidCreatePallet(

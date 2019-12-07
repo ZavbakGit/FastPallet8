@@ -1,6 +1,6 @@
 package `fun`.gladkikh.app.fastpallet8.repository
 
-import `fun`.gladkikh.app.fastpallet8.db.dao.CreatePalletUpdateDao
+import `fun`.gladkikh.app.fastpallet8.db.dao.DocumentDao
 import `fun`.gladkikh.app.fastpallet8.map.toDb
 import `fun`.gladkikh.app.fastpallet8.map.toObject
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
@@ -17,7 +17,7 @@ import io.reactivex.subjects.PublishSubject
 /**
  * Класс общается с db и выдает уже объекты
  */
-class CreatePalletRepositoryImpl(private val createPalletUpdateDao: CreatePalletUpdateDao) :
+class CreatePalletRepositoryImpl(private val createPalletUpdateDao: DocumentDao) :
     CreatePalletRepository {
 
     private val guidDocPublishSubject = PublishSubject.create<String>()
@@ -31,7 +31,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: CreatePallet
             .observeOn(Schedulers.io())
             .toFlowable(BackpressureStrategy.BUFFER)
             .map {
-                return@map DataWrapper(data = createPalletUpdateDao.getDocByGuid(it).toObject())
+                return@map DataWrapper(data = createPalletUpdateDao.getDocByGuid(it)!!.toObject())
             }
             .onErrorReturn {
                 DataWrapper(error = it)

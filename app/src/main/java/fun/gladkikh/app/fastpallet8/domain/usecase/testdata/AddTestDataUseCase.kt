@@ -2,18 +2,17 @@ package `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata
 
 
 import `fun`.gladkikh.app.fastpallet8.common.toSimpleDate
-import `fun`.gladkikh.app.fastpallet8.db.dao.CreatePalletUpdateDao
+import `fun`.gladkikh.app.fastpallet8.db.dao.DocumentDao
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.BoxCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.map.toDb
-import `fun`.gladkikh.app.fastpallet8.repository.CreatePalletRepository
 
 import java.util.*
 
-class AddTestDataUseCase(private val dao: CreatePalletUpdateDao) {
+class AddTestDataUseCase(private val dao: DocumentDao) {
 
     fun save() {
 
@@ -60,7 +59,7 @@ class AddTestDataUseCase(private val dao: CreatePalletUpdateDao) {
     }
 
     private fun getListProduct(guidDoc: String): List<ProductCreatePallet> {
-        return (0..9).map {
+        return (0..10).map {
             ProductCreatePallet(
                 guid = guidDoc + "_" + it,
                 guidDoc = guidDoc,
@@ -88,7 +87,7 @@ class AddTestDataUseCase(private val dao: CreatePalletUpdateDao) {
     }
 
     private fun getListPallets(guidProduct: String): List<PalletCreatePallet> {
-        return (0..9).map {
+        return (0..100).map {
             PalletCreatePallet(
                 guid = guidProduct + "_" + it,
                 guidProduct = guidProduct,
@@ -106,7 +105,7 @@ class AddTestDataUseCase(private val dao: CreatePalletUpdateDao) {
     }
 
     private fun getListBox(guidPallet: String): List<BoxCreatePallet> {
-        return (0..99).map {
+        return (0..100).map {
             BoxCreatePallet(
                 guid = guidPallet + "_" + it,
                 guidPallet = guidPallet,

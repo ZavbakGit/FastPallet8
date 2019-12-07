@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/testFragment">
+    app:startDestination="@id/documentListFragment">
 
     <fragment
         android:id="@+id/testFragment"
@@ -33,4 +33,8 @@
         android:id="@+id/docCreatePalletFragment"
         android:name="fun.gladkikh.app.fastpallet8.ui.creatpallet.doc.DocCreatePalletFragment"
         android:label="DocCreatePalletFragment" />
+    <fragment
+        android:id="@+id/documentListFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.documentlist.DocumentListFragment"
+        android:label="DocumentListFragment" />
 </navigation>

@@ -1,5 +1,6 @@
 package `fun`.gladkikh.app.fastpallet8.ui.creatpallet.box
 
+
 import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModelRx
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.BoxCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet

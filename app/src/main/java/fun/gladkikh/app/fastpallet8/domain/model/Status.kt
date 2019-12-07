@@ -3,7 +3,7 @@ package `fun`.gladkikh.app.fastpallet8.domain.model
 
 enum class Status(val id: Int, val fullName: String) {
     NEW(1, "Новый"), READY(2, "Подготовлен"),
-    LOADED(3, "Выгружен"), UNLOADED(4, "Загружен");
+    LOADED(3, "Загружен"), UNLOADED(4, "Выгружен");
 
     companion object {
         fun getStatusById(id: Int?): Status? {
@@ -16,7 +16,7 @@ enum class Status(val id: Int, val fullName: String) {
             }
         }
 
-        fun getStatusByString(str: String): Status {
+        fun getStatusByString(str: String?): Status {
             return when {
                 str.equals("Новый", true) -> NEW
                 str.equals("Готов к выгрузке", true) -> READY

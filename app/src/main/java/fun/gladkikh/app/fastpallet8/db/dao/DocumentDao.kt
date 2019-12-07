@@ -1,16 +1,15 @@
 package `fun`.gladkikh.app.fastpallet8.db.dao
 
 
-import `fun`.gladkikh.app.fastpallet8.db.intity.BoxCreatePalletDb
-import `fun`.gladkikh.app.fastpallet8.db.intity.CreatePalletDb
-import `fun`.gladkikh.app.fastpallet8.db.intity.PalletCreatePalletDb
-import `fun`.gladkikh.app.fastpallet8.db.intity.ProductCreatePalletDb
+import `fun`.gladkikh.app.fastpallet8.db.intity.*
+import `fun`.gladkikh.app.fastpallet8.map.toDocument
 
 import androidx.room.*
+import io.reactivex.Flowable
 import java.math.BigDecimal
 
 @Dao
-interface CreatePalletUpdateDao {
+interface DocumentDao {
 
     //region function for Box
     //******************************************************************************************
@@ -84,8 +83,10 @@ interface CreatePalletUpdateDao {
     @Query("SELECT * FROM BoxCreatePalletDb WHERE guid = :guid")
     fun getBoxByGuid(guid: String): BoxCreatePalletDb
 
-    @Query("SELECT * FROM BoxCreatePalletDb WHERE guidPallet = :guidPallet " +
-            "  ORDER BY dateChanged DESC")
+    @Query(
+        "SELECT * FROM BoxCreatePalletDb WHERE guidPallet = :guidPallet " +
+                "  ORDER BY dateChanged DESC"
+    )
     fun getListBoxByGuidPallet(guidPallet: String): List<BoxCreatePalletDb>
 
     //endregion
@@ -102,7 +103,7 @@ interface CreatePalletUpdateDao {
     fun insertOrUpdate(entity: PalletCreatePalletDb) {
         if (insertIgnore(entity) == -1L) {
             update(entity)
-        }else{
+        } else {
             val product = getProductByGuid(entity.guidProduct)
             product.countPallet = (product.countPallet ?: 0) + 1
             insertOrUpdate(product)
@@ -141,12 +142,14 @@ interface CreatePalletUpdateDao {
     @Query("SELECT * FROM PalletCreatePalletDb WHERE guid = :guid")
     fun getPalletByGuid(guid: String): PalletCreatePalletDb
 
-    @Query("SELECT * FROM PalletCreatePalletDb WHERE guidProduct = :guidProduct" +
-            "  ORDER BY dateChanged DESC")
+    @Query(
+        "SELECT * FROM PalletCreatePalletDb WHERE guidProduct = :guidProduct" +
+                "  ORDER BY dateChanged DESC"
+    )
     fun getListPalletByGuidProduct(guidProduct: String): List<PalletCreatePalletDb>
 
     @Query("SELECT * FROM PalletCreatePalletDb WHERE number = :numberPallet")
-    fun getPalletByNumber(numberPallet:String): PalletCreatePalletDb
+    fun getPalletByNumber(numberPallet: String): PalletCreatePalletDb
 
     //endregion
 
@@ -202,18 +205,80 @@ interface CreatePalletUpdateDao {
         if (insertIgnore(entity) == -1L) {
             update(entity)
         }
+        insertOrUpdate(entity.toDocument())
+    }
+
+    @Transaction
+    fun deleteTrigger(entity: CreatePalletDb) {
+        val doc = entity.toDocument()
+        delete(entity)
+        delete(doc)
     }
 
     @Delete
     fun delete(entity: CreatePalletDb)
 
     @Query("SELECT * FROM CreatePalletDb WHERE guid = :guid")
-    fun getDocByGuid(guid: String): CreatePalletDb
+    fun getDocByGuid(guid: String): CreatePalletDb?
 
     @Query("SELECT * FROM CreatePalletDb WHERE guidServer = :guidServer")
-    fun getDocByGuidServer(guidServer: String): CreatePalletDb
+    fun getDocByGuidServer(guidServer: String): CreatePalletDb?
     //endregion
 
+    //region function for Document
+    //******************************************************************************************
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertIgnore(entity: ItemListDocumentDb): Long
+
+    @Update
+    fun update(entity: ItemListDocumentDb)
+
+    @Transaction
+    fun insertOrUpdate(entity: ItemListDocumentDb) {
+        if (insertIgnore(entity) == -1L) {
+            update(entity)
+        }
+    }
+
+    @Delete
+    fun delete(entity: ItemListDocumentDb)
+
+    @Query("SELECT * FROM ItemListDocumentDb WHERE guid = :guid")
+    fun getDocumentByGuid(guid: String): ItemListDocumentDb
+
+    @Query("SELECT * FROM ItemListDocumentDb WHERE guidServer = :guidServer")
+    fun getDocumentByGuidServer(guidServer: String): ItemListDocumentDb
+
+
+    @Query("SELECT * FROM ItemListDocumentDb")
+    fun getListDocument(): Flowable<List<ItemListDocumentDb>>
+
+    //endregion
+
+    //region function for Save Creat Pallet
+    //******************************************************************************************
+    @Transaction
+    fun saveCreatePalletFromServer(
+        doc: CreatePalletDb,
+        listSave: List<ProductCreatePalletDb>,
+        lisDell: List<ProductCreatePalletDb>
+    ) {
+        insertOrUpdate(doc)
+        lisDell.forEach {
+            delete(it)
+        }
+
+        listSave.forEach {
+            insertOrUpdate(it)
+        }
+
+    }
+
+
+    //endregion
+
+
+    //region function for Recalc
     @Query(
         "UPDATE PalletCreatePalletDb " +
                 "   SET countRow = ( " +
@@ -270,5 +335,7 @@ interface CreatePalletUpdateDao {
                 "       ); "
     )
     fun reCalcProduct()
+    //endregion
+
 
 }

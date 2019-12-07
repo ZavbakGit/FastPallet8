@@ -1,12 +1,13 @@
 package `fun`.gladkikh.app.fastpallet8.ui.creatpallet.product
 
+
+import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModelRx
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseViewModel
-import `fun`.gladkikh.app.fastpallet8.ui.common.Command.ConfirmDialog
-import `fun`.gladkikh.app.fastpallet8.ui.common.Command.EditNumberDialog
+import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.WrapperGuidCreatePallet
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
@@ -19,7 +20,6 @@ class ProductCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : B
     private val listPallet = MutableLiveData<List<PalletCreatePallet>>()
 
 
-
     fun getProductLiveData(): LiveData<ProductCreatePallet> = product
     fun getListPalletLiveData(): LiveData<List<PalletCreatePallet>> = listPallet
 
@@ -27,7 +27,7 @@ class ProductCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : B
         compositeDisposable = compositeDisposable,
         messageError = messageErrorChannel,
         modelRx = modelRx
-    ){
+    ) {
         modelRx.setProduct(it.guidProduct)
     }
 
@@ -96,20 +96,22 @@ class ProductCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : B
     //Нажатие клавиш
     override fun callKeyDown(keyCode: Int?, position: Int?) {
         super.callKeyDown(keyCode, position)
+        when (keyCode) {
+            null -> {
+                //Открываем палету
+                if (position != null && position != -1) {
+                    commandChannel.postValue(
+                        Command.OpenForm(
+                            code = Constants.OPEN_PALLET_FORM,
+                            data = wrapperGuid!!.copy(guidPallet = listPallet.value!![position].guid)
+                        )
+                    )
+                }
+            }
 
+        }
     }
 
-    //Подтверждение удаления
-    override fun callBackConfirmDialog(confirmDialog: ConfirmDialog) {
-        super.callBackConfirmDialog(confirmDialog)
-
-    }
-
-    //Подтверждение диалога ввода числа
-    override fun callBackEditNumberDialog(editNumberDialog: EditNumberDialog) {
-        super.callBackEditNumberDialog(editNumberDialog)
-
-    }
 
     @SuppressLint("CheckResult")
     fun readBarcode(barcode: String) {

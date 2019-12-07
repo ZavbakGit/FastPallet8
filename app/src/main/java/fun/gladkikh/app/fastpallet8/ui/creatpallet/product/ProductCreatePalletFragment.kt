@@ -2,7 +2,6 @@ package `fun`.gladkikh.app.fastpallet8.ui.creatpallet.product
 
 import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.R
-import `fun`.gladkikh.app.fastpallet8.common.toSimpleDateTime
 import `fun`.gladkikh.app.fastpallet8.common.toSimpleFormat
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
@@ -36,7 +35,10 @@ class ProductCreatePalletFragment : BaseFragment() {
             val gson = GsonBuilder().create()
             val strJson = arguments!!.get(Constants.EXTRA_WRAP_GUID) as String
             viewModel.wrapperGuid =
-                gson.fromJson(strJson, WrapperGuidCreatePallet::class.java) as WrapperGuidCreatePallet
+                gson.fromJson(
+                    strJson,
+                    WrapperGuidCreatePallet::class.java
+                ) as WrapperGuidCreatePallet
         }
 
 
@@ -54,8 +56,8 @@ class ProductCreatePalletFragment : BaseFragment() {
         })
 
         tvCountProduct.setOnClickListener {
-            //viewModel.readBarcode("<pal>0214${(10..99).random()}</pal>")
-            viewModel.readBarcode("<pal>0214${84}</pal>")
+            viewModel.readBarcode("<pal>0214${(10..99).random()}</pal>")
+            //viewModel.readBarcode("<pal>0214${84}</pal>")
         }
 
         mainActivity.barcodeLiveData.observe(viewLifecycleOwner, Observer {
@@ -69,7 +71,7 @@ class ProductCreatePalletFragment : BaseFragment() {
     }
 
     override fun keyDownListener(keyCode: Int, position: Int?) {
-        viewModel.callKeyDown(keyCode,listView.selectedItemPosition)
+        viewModel.callKeyDown(keyCode, listView.selectedItemPosition)
     }
 
     private fun renderList(list: List<PalletCreatePallet>) {
@@ -78,7 +80,18 @@ class ProductCreatePalletFragment : BaseFragment() {
 
     override fun commandListener(command: Command) {
         super.commandListener(command)
-
+        when (command) {
+            is Command.Close -> {
+                navigateHandler.popBackStack()
+            }
+            is Command.OpenForm -> {
+                when (command.code) {
+                    Constants.OPEN_PALLET_FORM -> {
+                        navigateHandler.startCreatePalletPallet(command.data as WrapperGuidCreatePallet)
+                    }
+                }
+            }
+        }
     }
 
     private fun renderProduct(product: ProductCreatePallet?) {
@@ -90,7 +103,6 @@ class ProductCreatePalletFragment : BaseFragment() {
         tvCountBackProduct.text = product?.countBack.toSimpleFormat()
         tvCountPlaceBackProduct.text = product?.countBoxBack.toSimpleFormat()
     }
-
 
 
     private class Adapter(mContext: Context) : MyBaseAdapter<PalletCreatePallet>(mContext) {

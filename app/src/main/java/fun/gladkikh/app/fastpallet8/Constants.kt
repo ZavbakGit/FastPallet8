@@ -26,10 +26,17 @@ object Constants {
     val KEY_3 = 10 // 1
     val KEY_7 = 7 // 0
 
+    const val OPEN_DOC_CREATE_PALLET = 1
+    const val OPEN_PRODUCT_FORM = 2
+    /**
+     * Редактируем продукт шаблон
+     */
+    const val OPEN_PRODUCT_DIALOG_FORM = 3
+    const val OPEN_PALLET_FORM = 4
 
-    const val OPEN_PRODUCT_DIALOG_FORM = 1
-    const val OPEN_BOX_FORM = 2
-    const val OPEN_PRODUCT_FORM = 3
+    const val OPEN_BOX_FORM = 4
+
+
 
 
     //Вызов диалога удаления
@@ -50,6 +57,8 @@ object Constants {
     const val EDIT_START_DIALOG = 6
     const val EDIT_END_DIALOG = 7
     const val EDIT_COFF_DIALOG = 8
+
+    const val COMMAND_START_MENU = 9
 
 
 

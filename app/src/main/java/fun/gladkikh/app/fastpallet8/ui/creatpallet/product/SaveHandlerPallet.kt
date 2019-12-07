@@ -2,6 +2,7 @@ package `fun`.gladkikh.app.fastpallet8.ui.creatpallet.product
 
 import `fun`.gladkikh.app.fastpallet8.common.getNumberDocByBarCode
 import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModelRx
+
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
@@ -67,7 +68,7 @@ class SaveHandlerPallet(
                 }
                 .filter{
                     //Если нашли, то нельзя
-                    if (it.first != null) {
+                    if (it.second.data != null) {
                         messageError.postValue("Паллета уже используется! ${it.first.number}")
                         return@filter false
                     }else{
@@ -75,12 +76,12 @@ class SaveHandlerPallet(
                     }
                 }
                 .doOnNext {
-                    it as PalletCreatePallet
+                    it.first as PalletCreatePallet
                     //Записываем
-                    modelRx.savePallet(it, doc!!)
+                    modelRx.savePallet(it.first, doc!!)
                         .doFinally {
                             //Выполняем в конце
-                            doAfterSave(it)
+                            doAfterSave(it.first)
                         }
                         .subscribe({}, { throwable ->
                             messageError.postValue(throwable.message)

@@ -15,6 +15,11 @@ class NavigateHandler(val navController: NavController) {
         navigate(R.id.settingsFragment, null)
     }
 
+    fun startListDocument() {
+        val bundle = Bundle()
+        navigate(R.id.documentListFragment, bundle)
+    }
+
     fun startCreatePalletDoc(wrapperGuidCreatePaleet: WrapperGuidCreatePallet) {
         val bundle = Bundle()
         val gson = GsonBuilder().create()

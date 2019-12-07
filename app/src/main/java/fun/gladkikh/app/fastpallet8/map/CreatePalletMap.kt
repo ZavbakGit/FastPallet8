@@ -1,5 +1,7 @@
 package `fun`.gladkikh.app.fastpallet8.map
 
+import `fun`.gladkikh.app.fastpallet8.common.getFloatByParseStr
+import `fun`.gladkikh.app.fastpallet8.common.getIntByParseStr
 import `fun`.gladkikh.app.fastpallet8.db.intity.BoxCreatePalletDb
 import `fun`.gladkikh.app.fastpallet8.db.intity.CreatePalletDb
 import `fun`.gladkikh.app.fastpallet8.db.intity.PalletCreatePalletDb
@@ -9,6 +11,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCre
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.BoxCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
+import `fun`.gladkikh.app.fastpallet8.network.intity.DocResponse
 import java.util.*
 
 fun CreatePalletDb.toObject(): CreatePallet {
@@ -145,5 +148,7 @@ fun BoxCreatePallet.toDb(): BoxCreatePalletDb {
         guidPallet = guidPallet
     )
 }
+
+
 
 

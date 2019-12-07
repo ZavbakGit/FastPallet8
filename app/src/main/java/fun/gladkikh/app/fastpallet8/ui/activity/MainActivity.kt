@@ -37,6 +37,12 @@ class MainActivity : BaseActivity() {
         navigateHandler =
             NavigateHandler(Navigation.findNavController(this, R.id.nav_host_fragment))
 
+        navigateHandler.navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            if (destination.id == R.id.documentListFragment) {
+               refreshSettingApp()
+            }
+        }
+
         refreshSettingApp()
     }
 

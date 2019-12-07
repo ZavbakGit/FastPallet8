@@ -18,7 +18,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
             "Будь внимателен!",
             Toast.LENGTH_SHORT
         ).show()
-
+        settingRepositoryUpdate.refresh()
         return true
     }
 

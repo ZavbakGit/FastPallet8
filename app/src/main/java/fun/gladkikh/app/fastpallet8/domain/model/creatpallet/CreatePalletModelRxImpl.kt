@@ -3,6 +3,7 @@ package `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet
 import `fun`.gladkikh.app.fastpallet8.common.getWeightByBarcode
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
+
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.BoxCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet

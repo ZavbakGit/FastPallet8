@@ -34,7 +34,7 @@ fun Int?.toSimpleFormat(): String {
 
 fun Date.toSimpleDate(): String {
     return if (this == null) {
-        "0.0"
+        ""
     } else {
         val format = SimpleDateFormat("dd.MM.yyyy")
         format.format(this)

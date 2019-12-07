@@ -19,7 +19,7 @@ class SettingsRepository(private val context: Context) {
 
 
         settingApp = SettingApp(
-            host = sharedPref.getString(host, "http://172.31.255.150/rmmt/hs/api/"),
+            host = sharedPref.getString(host, "http://172.31.255.139:45250/RMMT/hs/api/"),
             code = sharedPref.getString(code, "333"),
             login = sharedPref.getString(login, "Администратор"),
             pass = sharedPref.getString(pass, ""),
