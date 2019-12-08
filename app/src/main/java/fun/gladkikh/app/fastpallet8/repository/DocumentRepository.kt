@@ -11,7 +11,8 @@ import io.reactivex.Flowable
 
 interface DocumentRepository {
     fun getListDocument(): Flowable<List<ItemListDocument>>
-    fun save(document: Any): Completable
+    fun save(document: Any)
+    fun delete(document: Any)
     fun saveCreatePalletFromServer(
         doc: CreatePallet,
         listSave: List<ProductCreatePallet>,

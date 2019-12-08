@@ -8,5 +8,6 @@ interface DocumentModelRx {
     fun getListDocument(): Flowable<List<ItemListDocument>>
     fun loadDocuments():Completable
     fun sendDocument(itemListDocument: ItemListDocument):Completable
+    fun deleteDocument(itemListDocument: ItemListDocument):Completable
 
 }

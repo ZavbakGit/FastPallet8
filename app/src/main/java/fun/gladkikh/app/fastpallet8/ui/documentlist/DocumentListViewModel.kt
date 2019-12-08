@@ -35,31 +35,7 @@ class DocumentListViewModel(val model: DocumentModelRx) : BaseViewModel() {
             null -> {
                 //Открываем Документ
                 if (position != null && position != -1) {
-                    val document = listDocument.value!![position]
-                    when (document.type) {
-                        Type.CREATE_PALLET -> {
-                            commandChannel.postValue(
-                                Command.OpenForm(
-                                    code = Constants.OPEN_DOC_CREATE_PALLET,
-                                    data = WrapperGuidCreatePallet(guidDoc = document.guid)
-                                )
-                            )
-
-                        }
-                        else -> {
-                        }
-                    }
-                }
-            }
-            Constants.KEY_5 -> {
-                if ((position != null && position != -1)) {
-                    model.sendDocument(listDocument.value!![position])
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({
-                            messageChannel.postValue("Отправили!")
-                        }, {
-                            messageErrorChannel.postValue(it.message)
-                        })
+                    openDocument(position)
                 }
             }
             Constants.KEY_1 -> {
@@ -69,8 +45,86 @@ class DocumentListViewModel(val model: DocumentModelRx) : BaseViewModel() {
                     )
                 )
             }
+            Constants.KEY_5 -> {
+                if ((position != null && position != -1)) {
+                    commandChannel.postValue(
+                        Command.ConfirmDialog(
+                            "Отправляем!",
+                            Constants.CONFIRM_SEND_DIALOG,
+                            position
+                        )
+                    )
+                }
+            }
+            Constants.KEY_9 -> {
+                if ((position != null && position != -1)) {
+                    commandChannel.postValue(
+                        Command.ConfirmDialog(
+                            "Удалить!",
+                            Constants.CONFIRM_DELETE_DIALOG,
+                            position
+                        )
+                    )
+                }
+            }
         }
     }
+
+    //Подтверждение удаления
+    override fun callBackConfirmDialog(confirmDialog: Command.ConfirmDialog) {
+        super.callBackConfirmDialog(confirmDialog)
+        when (confirmDialog.requestCode) {
+            Constants.CONFIRM_SEND_DIALOG -> {
+                val position = confirmDialog.data as Int
+                sendDocument(position)
+            }
+            Constants.CONFIRM_DELETE_DIALOG -> {
+                val position = confirmDialog.data as Int
+                deleteDocument(position)
+            }
+        }
+    }
+
+
+    @SuppressLint("CheckResult")
+    private fun deleteDocument(position: Int){
+        model.deleteDocument(listDocument.value!![position])
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                messageChannel.postValue("Удалили!")
+            }, {
+                messageErrorChannel.postValue(it.message)
+            })
+    }
+
+    private fun openDocument(position: Int) {
+        val document = listDocument.value!![position]
+        when (document.type) {
+            Type.CREATE_PALLET -> {
+                commandChannel.postValue(
+                    Command.OpenForm(
+                        code = Constants.OPEN_DOC_CREATE_PALLET,
+                        data = WrapperGuidCreatePallet(guidDoc = document.guid)
+                    )
+                )
+
+            }
+            else -> {
+            }
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun sendDocument(position: Int) {
+        model.sendDocument(listDocument.value!![position])
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                messageChannel.postValue("Отправили!")
+            }, {
+                messageErrorChannel.postValue(it.message)
+            })
+    }
+
 
     @SuppressLint("CheckResult")
     fun loadDocuments() {

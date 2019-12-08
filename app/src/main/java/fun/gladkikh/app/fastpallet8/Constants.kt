@@ -60,6 +60,8 @@ object Constants {
 
     const val COMMAND_START_MENU = 9
 
+    const val CONFIRM_SEND_DIALOG = 10
+
 
 
 

@@ -13,7 +13,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 
 
-class DocumentRepositoryImpl(val dao: DocumentDao) : DocumentRepository {
+class DocumentRepositoryImpl(private val dao: DocumentDao) : DocumentRepository {
     override fun getListDocument(): Flowable<List<ItemListDocument>> {
         return dao.getListDocument()
             .map {
@@ -23,15 +23,24 @@ class DocumentRepositoryImpl(val dao: DocumentDao) : DocumentRepository {
             }
     }
 
-    override fun save(document: Any): Completable {
-        return when (document) {
+    override fun save(document: Any) {
+        when (document) {
             is CreatePallet -> {
-                Completable.fromAction {
-                    dao.insertOrUpdate(document.toDb())
-                }
+                dao.insertOrUpdate(document.toDb())
             }
             else -> {
-                return Completable.error { Throwable("Неизвестный тип документа") }
+                throw Throwable("Неизвестный тип документа")
+            }
+        }
+    }
+
+    override fun delete(document: Any) {
+        when (document) {
+            is CreatePallet -> {
+                dao.deleteTrigger(document.toDb())
+            }
+            else -> {
+                throw Throwable("Неизвестный тип документа")
             }
         }
     }

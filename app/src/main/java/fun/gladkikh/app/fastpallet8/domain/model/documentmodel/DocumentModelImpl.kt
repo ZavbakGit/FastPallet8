@@ -1,8 +1,6 @@
 package `fun`.gladkikh.app.fastpallet8.domain.model.documentmodel
 
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.ItemListDocument
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.creatpallet.SendCreatePalletUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.documents.LoadDocumentsUseCase
 import `fun`.gladkikh.app.fastpallet8.repository.DocumentRepository
@@ -35,6 +33,22 @@ class DocumentModelImpl(
                     .subscribeOn(Schedulers.io())
             }
         }
+    }
+
+    override fun deleteDocument(itemListDocument: ItemListDocument): Completable {
+        return when (itemListDocument.type) {
+            Type.CREATE_PALLET -> {
+                Completable.fromAction {
+                    val doc = repository.getCreatePalletByGuid(itemListDocument.guid)
+                    repository.delete(doc!!)
+                }
+            }
+            else -> {
+                Completable.error(Throwable("Неизвестный документ!"))
+                    .subscribeOn(Schedulers.io())
+            }
+        }
+
     }
 
 

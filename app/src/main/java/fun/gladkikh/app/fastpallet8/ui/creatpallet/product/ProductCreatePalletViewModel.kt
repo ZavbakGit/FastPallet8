@@ -108,7 +108,33 @@ class ProductCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : B
                     )
                 }
             }
+            Constants.KEY_9 -> {
+                if (position != -1) {
+                    commandChannel.postValue(
+                        Command.ConfirmDialog(
+                            "Удаляем!",
+                            Constants.CONFIRM_DELETE_DIALOG,
+                            position
+                        )
+                    )
+                }
+            }
 
+        }
+    }
+
+    override fun callBackConfirmDialog(confirmDialog: Command.ConfirmDialog) {
+        super.callBackConfirmDialog(confirmDialog)
+        when (confirmDialog.requestCode) {
+            Constants.CONFIRM_DELETE_DIALOG -> {
+                val position = confirmDialog.data as Int
+                modelRx.dellPallet(listPallet.value!![position], doc.value!!)
+                    .subscribe({
+                        wrapperGuid = wrapperGuid!!.copy()
+                    }, {
+                        messageErrorChannel.postValue(it.message)
+                    })
+            }
         }
     }
 
