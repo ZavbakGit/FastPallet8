@@ -1,6 +1,6 @@
 package `fun`.gladkikh.app.fastpallet8.domain.usecase.recalcdb
 
-import `fun`.gladkikh.app.fastpallet8.repository.CreatePalletRepository
+import `fun`.gladkikh.app.fastpallet8.repository.creatpallet.CreatePalletRepository
 
 
 class RecalcDbUseCase(private val createPalletRepositoryUpdate: CreatePalletRepository) {

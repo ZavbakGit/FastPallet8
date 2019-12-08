@@ -1,7 +1,7 @@
 package `fun`.gladkikh.app.fastpallet8.ui.activity
 
 import `fun`.gladkikh.app.fastpallet8.R
-import `fun`.gladkikh.app.fastpallet8.repository.SettingsRepository
+import `fun`.gladkikh.app.fastpallet8.repository.setting.SettingsRepository
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseActivity
 import `fun`.gladkikh.app.fastpallet8.ui.navigate.NavigateHandler
 

@@ -16,6 +16,14 @@
         <item
             android:id="@+id/menuSettings"
             android:title="Настройка" />
+        <item
+            android:id="@+id/menuTestDataCreatePallet"
+            android:title="Тестовые данные Создание паллет" />
+
+        <item
+            android:id="@+id/menuTestDataAction"
+            android:title="Тестовые данные Реализация" />
+
     </group>
 
 </menu>

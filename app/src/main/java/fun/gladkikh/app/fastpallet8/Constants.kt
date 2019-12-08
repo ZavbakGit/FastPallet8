@@ -26,16 +26,23 @@ object Constants {
     val KEY_3 = 10 // 1
     val KEY_7 = 7 // 0
 
-    const val OPEN_DOC_CREATE_PALLET = 1
-    const val OPEN_PRODUCT_FORM = 2
+    const val OPEN_DOC_CREATE_PALLET_FORM = 1
+    const val OPEN_PRODUCT_CREATE_PALLET_FORM = 2
     /**
      * Редактируем продукт шаблон
      */
-    const val OPEN_PRODUCT_DIALOG_FORM = 3
-    const val OPEN_PALLET_FORM = 4
+    const val OPEN_PRODUCT_CREATE_PALLET_DIALOG_FORM = 3
+    const val OPEN_PALLET_CREATE_PALLET_FORM = 4
+    const val OPEN_BOX_CREATE_PALLET_FORM = 4
 
-    const val OPEN_BOX_FORM = 4
-
+    const val OPEN_DOC_ACTION_FORM = 5
+    const val OPEN_PRODUCT_ACTION_FORM = 6
+    /**
+     * Редактируем продукт шаблон
+     */
+    const val OPEN_PRODUCT_ACTION_DIALOG_FORM = 7
+    const val OPEN_PALLET_ACTION_FORM = 8
+    const val OPEN_BOX_ACTION_FORM = 9
 
 
 
@@ -61,9 +68,5 @@ object Constants {
     const val COMMAND_START_MENU = 9
 
     const val CONFIRM_SEND_DIALOG = 10
-
-
-
-
 }
 

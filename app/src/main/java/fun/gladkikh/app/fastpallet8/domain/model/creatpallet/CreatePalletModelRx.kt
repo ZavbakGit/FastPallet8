@@ -26,23 +26,24 @@ interface CreatePalletModelRx {
     fun setPallet(guid:String?)
     fun setBox(guid:String?)
 
-    fun saveDoc(doc:CreatePallet):Completable
-    fun dellDoc(doc:CreatePallet):Completable
+    fun saveDoc(doc: CreatePallet):Completable
+    fun dellDoc(doc: CreatePallet):Completable
 
-    fun saveProduct(product:ProductCreatePallet,doc:CreatePallet):Completable
-    fun dellProduct(product:ProductCreatePallet,doc:CreatePallet):Completable
+    fun saveProduct(product: ProductCreatePallet, doc: CreatePallet):Completable
+    fun dellProduct(product: ProductCreatePallet, doc: CreatePallet):Completable
 
-    fun savePallet(pallet:PalletCreatePallet,doc:CreatePallet):Completable
-    fun dellPallet(pallet:PalletCreatePallet,doc:CreatePallet):Completable
+    fun savePallet(pallet: PalletCreatePallet, doc: CreatePallet):Completable
+    fun dellPallet(pallet: PalletCreatePallet, doc: CreatePallet):Completable
 
-    fun saveBox(box: BoxCreatePallet,doc:CreatePallet): Completable
-    fun dellBox(box: BoxCreatePallet,doc:CreatePallet): Completable
+    fun saveBox(box: BoxCreatePallet, doc: CreatePallet): Completable
+    fun dellBox(box: BoxCreatePallet, doc: CreatePallet): Completable
 
     fun getPalletByNumber(numberPallet: String):Flowable<DataWrapper<PalletCreatePallet>>
 
     fun getBoxByBarcode(barcode:String, doc: CreatePallet,
                         pallet: PalletCreatePallet,
-                        product: ProductCreatePallet)
+                        product: ProductCreatePallet
+    )
             : DataWrapper<BoxCreatePallet>
 
 

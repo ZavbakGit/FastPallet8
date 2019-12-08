@@ -11,7 +11,7 @@
         android:label="TestFragment" />
     <fragment
         android:id="@+id/boxCreatePalletFragment"
-        android:name="fun.gladkikh.app.fastpallet8.ui.creatpallet.box.BoxCreatePalletFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.screen.creatpallet.box.BoxCreatePalletFragment"
         android:label="BoxCreatPalletFragment" />
     <fragment
         android:id="@+id/settingsFragment"
@@ -19,22 +19,38 @@
         android:label="SettingsFragment" />
     <fragment
         android:id="@+id/palletCreatePalletFragment"
-        android:name="fun.gladkikh.app.fastpallet8.ui.creatpallet.pallet.PalletCreatePalletFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.screen.creatpallet.pallet.PalletCreatePalletFragment"
         android:label="PalletCreatePalletFragment" />
     <fragment
         android:id="@+id/productDialogCreatePalletFragment"
-        android:name="fun.gladkikh.app.fastpallet8.ui.creatpallet.productdialog.ProductDialogCreatePalletFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.screen.creatpallet.productdialog.ProductDialogCreatePalletFragment"
         android:label="ProductDialogCreatePalletFragment" />
     <fragment
         android:id="@+id/productCreatePalletFragment"
-        android:name="fun.gladkikh.app.fastpallet8.ui.creatpallet.product.ProductCreatePalletFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.screen.creatpallet.product.ProductCreatePalletFragment"
         android:label="ProductCreatePalletFragment" />
     <fragment
         android:id="@+id/docCreatePalletFragment"
-        android:name="fun.gladkikh.app.fastpallet8.ui.creatpallet.doc.DocCreatePalletFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.screen.creatpallet.doc.DocCreatePalletFragment"
         android:label="DocCreatePalletFragment" />
     <fragment
         android:id="@+id/documentListFragment"
-        android:name="fun.gladkikh.app.fastpallet8.ui.documentlist.DocumentListFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.screen.documentlist.DocumentListFragment"
         android:label="DocumentListFragment" />
+    <fragment
+        android:id="@+id/docActionFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.screen.action.doc.DocActionFragment"
+        android:label="DocActionFragment" />
+    <fragment
+        android:id="@+id/productActionFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.screen.action.product.ProductActionFragment"
+        android:label="ProductActionFragment" />
+    <fragment
+        android:id="@+id/productDialogActionFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.screen.action.productdialog.ProductDialogActionFragment"
+        android:label="ProductDialogActionFragment" />
+    <fragment
+        android:id="@+id/boxActionFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.screen.action.box.BoxActionFragment"
+        android:label="BoxActionFragment" />
 </navigation>

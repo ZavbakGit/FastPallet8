@@ -10,13 +10,11 @@ import `fun`.gladkikh.app.fastpallet8.network.intity.old.metaobj.BoxServer
 import `fun`.gladkikh.app.fastpallet8.network.intity.old.metaobj.CreatePalletServer
 import `fun`.gladkikh.app.fastpallet8.network.intity.old.metaobj.PalletServer
 import `fun`.gladkikh.app.fastpallet8.network.intity.old.metaobj.ProductServer
-import `fun`.gladkikh.app.fastpallet8.repository.DocumentRepository
-import `fun`.gladkikh.app.fastpallet8.repository.SettingsRepository
-import `fun`.gladkikh.fastpallet7.model.Type
+import `fun`.gladkikh.app.fastpallet8.repository.document.DocumentRepository
+import `fun`.gladkikh.app.fastpallet8.repository.setting.SettingsRepository
+import `fun`.gladkikh.app.fastpallet8.domain.model.Type
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 
 class SendCreatePalletUseCase(
     private val repository: DocumentRepository,

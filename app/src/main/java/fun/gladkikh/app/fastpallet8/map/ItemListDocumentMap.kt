@@ -1,12 +1,11 @@
 package `fun`.gladkikh.app.fastpallet8.map
 
+import `fun`.gladkikh.app.fastpallet8.db.intity.ActionDb
 import `fun`.gladkikh.app.fastpallet8.db.intity.CreatePalletDb
 import `fun`.gladkikh.app.fastpallet8.db.intity.ItemListDocumentDb
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.ItemListDocument
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.document.Document
-import `fun`.gladkikh.app.fastpallet8.network.intity.DocResponse
-import `fun`.gladkikh.fastpallet7.model.Type
+import `fun`.gladkikh.app.fastpallet8.domain.model.Type
 import java.util.*
 
 
@@ -20,7 +19,22 @@ fun CreatePalletDb.toDocument(): ItemListDocumentDb {
         description = this.description,
         guidServer = this.guidServer,
         status = this.status,
-        type = 1,
+        type = 1, //CreatePallet
+        dataChanged = this.dateChanged
+    )
+}
+
+fun ActionDb.toDocument(): ItemListDocumentDb {
+    return ItemListDocumentDb(
+        guid = this.guid,
+        isLastLoad = this.isLastLoad,
+        number = this.number,
+        barcode = this.barcode,
+        date = this.date,
+        description = this.description,
+        guidServer = this.guidServer,
+        status = this.status,
+        type = 3, //Action
         dataChanged = this.dateChanged
     )
 }
@@ -40,6 +54,9 @@ fun ItemListDocumentDb.toOject(): ItemListDocument {
         isLastLoad = this.isLastLoad
     )
 }
+
+
+
 
 
 

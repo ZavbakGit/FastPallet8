@@ -1,17 +1,17 @@
 package `fun`.gladkikh.app.fastpallet8.map
 
-import `fun`.gladkikh.app.fastpallet8.common.getFloatByParseStr
-import `fun`.gladkikh.app.fastpallet8.common.getIntByParseStr
 import `fun`.gladkikh.app.fastpallet8.db.intity.BoxCreatePalletDb
 import `fun`.gladkikh.app.fastpallet8.db.intity.CreatePalletDb
 import `fun`.gladkikh.app.fastpallet8.db.intity.PalletCreatePalletDb
 import `fun`.gladkikh.app.fastpallet8.db.intity.ProductCreatePalletDb
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
+
+
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.BoxCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
-import `fun`.gladkikh.app.fastpallet8.network.intity.DocResponse
+import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
+
 import java.util.*
 
 fun CreatePalletDb.toObject(): CreatePallet {

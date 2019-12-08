@@ -1,6 +1,6 @@
 package `fun`.gladkikh.app.fastpallet8.ui
 import `fun`.gladkikh.app.fastpallet8.R
-import `fun`.gladkikh.app.fastpallet8.repository.SettingsRepository
+import `fun`.gladkikh.app.fastpallet8.repository.setting.SettingsRepository
 import `fun`.gladkikh.app.fastpallet8.ui.activity.MainActivity
 import android.os.Bundle
 import android.widget.Toast

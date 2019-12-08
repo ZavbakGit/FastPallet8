@@ -1,10 +1,10 @@
 package `fun`.gladkikh.app.fastpallet8.ui.activity
 
 import `fun`.gladkikh.app.fastpallet8.R
-import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePaletModelImpl
-import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModel
-import `fun`.gladkikh.app.fastpallet8.repository.CreatePalletRepository
-import `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata.AddTestDataUseCase
+import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.old.CreatePaletModelImpl
+import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.old.CreatePalletModel
+import `fun`.gladkikh.app.fastpallet8.repository.creatpallet.CreatePalletRepository
+import `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata.AddTestDataCreatePalletUseCase
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -14,9 +14,12 @@ import org.koin.android.ext.android.inject
 class MainActivity1 : AppCompatActivity() {
 
     val repository: CreatePalletRepository by inject()
-    val addUseCase: AddTestDataUseCase by inject()
+    val addUseCase: AddTestDataCreatePalletUseCase by inject()
 
-    val model: CreatePalletModel = CreatePaletModelImpl(repository)
+    val model: CreatePalletModel =
+        CreatePaletModelImpl(
+            repository
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

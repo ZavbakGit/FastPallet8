@@ -6,7 +6,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.network.intity.DocResponse
-import `fun`.gladkikh.app.fastpallet8.repository.DocumentRepository
+import `fun`.gladkikh.app.fastpallet8.repository.document.DocumentRepository
 import java.util.*
 
 class SaveLoadedCreatePalletUseCase(private val repository: DocumentRepository) {

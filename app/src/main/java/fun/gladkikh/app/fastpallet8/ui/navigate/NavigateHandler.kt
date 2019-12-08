@@ -2,7 +2,8 @@ package `fun`.gladkikh.app.fastpallet8.ui.navigate
 
 import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.R
-import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.WrapperGuidCreatePallet
+import `fun`.gladkikh.app.fastpallet8.ui.screen.action.WrapperGuidAction
+import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet
 
 import android.os.Bundle
 import androidx.annotation.IdRes
@@ -19,6 +20,38 @@ class NavigateHandler(val navController: NavController) {
         val bundle = Bundle()
         navigate(R.id.documentListFragment, bundle)
     }
+
+    fun startActionBox(wrapper: WrapperGuidAction) {
+        val bundle = Bundle()
+        val gson = GsonBuilder().create()
+        bundle.putString(Constants.EXTRA_WRAP_GUID, gson.toJson(wrapper))
+        navigate(R.id.boxActionFragment, bundle)
+    }
+
+    fun startActionProductDialog(wrapper: WrapperGuidAction) {
+        val bundle = Bundle()
+        val gson = GsonBuilder().create()
+        bundle.putString(Constants.EXTRA_WRAP_GUID, gson.toJson(wrapper))
+        navigate(R.id.productDialogActionFragment, bundle)
+    }
+
+
+    fun startActionProduct(wrapper: WrapperGuidAction) {
+        val bundle = Bundle()
+        val gson = GsonBuilder().create()
+        bundle.putString(Constants.EXTRA_WRAP_GUID, gson.toJson(wrapper))
+        navigate(R.id.productActionFragment, bundle)
+    }
+
+
+    fun startActionDoc(wrapper: WrapperGuidAction) {
+        val bundle = Bundle()
+        val gson = GsonBuilder().create()
+        bundle.putString(Constants.EXTRA_WRAP_GUID, gson.toJson(wrapper))
+        navigate(R.id.docActionFragment, bundle)
+    }
+
+
 
     fun startCreatePalletDoc(wrapperGuidCreatePaleet: WrapperGuidCreatePallet) {
         val bundle = Bundle()

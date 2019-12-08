@@ -1,7 +1,7 @@
 package `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet
 
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
-import `fun`.gladkikh.fastpallet7.model.Type
+import `fun`.gladkikh.app.fastpallet8.domain.model.Type
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.document.Document
 import java.util.*
 

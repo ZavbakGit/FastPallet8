@@ -1,12 +1,11 @@
 package `fun`.gladkikh.app.fastpallet8.domain.usecase.documents
 
 
-import `fun`.gladkikh.app.fastpallet8.domain.usecase.creatpallet.SaveLoadedCreatePalletUseCase
 import `fun`.gladkikh.app.fastpallet8.network.ApiFactory
 import `fun`.gladkikh.app.fastpallet8.network.intity.DocResponse
 import `fun`.gladkikh.app.fastpallet8.network.intity.GetListDocsRequest
 import `fun`.gladkikh.app.fastpallet8.network.intity.ListDocResponse
-import `fun`.gladkikh.app.fastpallet8.repository.SettingsRepository
+import `fun`.gladkikh.app.fastpallet8.repository.setting.SettingsRepository
 import io.reactivex.Single
 
 /**

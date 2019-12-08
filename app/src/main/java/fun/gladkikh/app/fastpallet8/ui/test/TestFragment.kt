@@ -2,7 +2,7 @@ package `fun`.gladkikh.app.fastpallet8.ui.test
 
 import `fun`.gladkikh.app.fastpallet8.R
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseFragment
-import `fun`.gladkikh.app.fastpallet8.ui.creatpallet.WrapperGuidCreatePallet
+import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet
 import kotlinx.android.synthetic.main.test_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

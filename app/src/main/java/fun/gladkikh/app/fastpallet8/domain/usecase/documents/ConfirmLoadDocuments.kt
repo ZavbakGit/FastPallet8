@@ -7,7 +7,7 @@ import `fun`.gladkikh.app.fastpallet8.network.intity.ConfirmDocumentsLoadRequest
 import `fun`.gladkikh.app.fastpallet8.network.intity.ConfirmResponse
 import `fun`.gladkikh.app.fastpallet8.network.intity.DocConfirm
 import `fun`.gladkikh.app.fastpallet8.network.intity.DocResponse
-import `fun`.gladkikh.fastpallet7.model.Type
+import `fun`.gladkikh.app.fastpallet8.domain.model.Type
 import io.reactivex.Single
 
 
