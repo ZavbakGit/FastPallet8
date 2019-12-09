@@ -45,7 +45,7 @@ interface ActionModelRx {
     )
             : DataWrapper<BoxAction>
 
-    fun getInfoPalletFromServer(listNumberPallet:List<String>):Completable
+    fun loadInfoPalletFromServer(doc:Action):Completable
 
 
 }

@@ -6,11 +6,10 @@ import `fun`.gladkikh.app.fastpallet8.map.toObject
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.*
 
-import `fun`.gladkikh.app.fastpallet8.repository.creatpallet.CreatePalletRepository
-import android.annotation.SuppressLint
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 
@@ -43,7 +42,7 @@ class ActionRepositoryImpl(private val dao: MainDao) : ActionRepository {
             .observeOn(Schedulers.io())
             .toFlowable(BackpressureStrategy.BUFFER)
             .map {
-                DataWrapper(data = dao.getProductActionListByGuidDoc(it).map { productDb ->
+                DataWrapper(data = dao.getListProductActionByGuidDoc(it).map { productDb ->
                     productDb.toObject()
                 })
             }
@@ -52,8 +51,6 @@ class ActionRepositoryImpl(private val dao: MainDao) : ActionRepository {
             }
 
     }
-
-
 
     override fun getProduct(): Flowable<DataWrapper<ProductAction>> {
         return guidProductPublishSubject
@@ -84,18 +81,18 @@ class ActionRepositoryImpl(private val dao: MainDao) : ActionRepository {
     }
 
 
-   override fun getWraperListBoxListPallet(): Flowable<DataWrapper<WraperListBoxListPallet>> {
-       return guidProductPublishSubject
+    override fun getWraperListBoxListPallet(): Flowable<DataWrapper<WraperListBoxListPallet>> {
+        return guidProductPublishSubject
             .observeOn(Schedulers.io())
             .toFlowable(BackpressureStrategy.BUFFER)
 
             .map {
 
-                val listBox = dao.getListBoxByGuidProduct(it).map {boxDb->
+                val listBox = dao.getListBoxByGuidProduct(it).map { boxDb ->
                     boxDb.toObject()
                 }
 
-                val listPallet = dao.getListPalletActionByGuidProduct(it).map {boxDb->
+                val listPallet = dao.getListPalletActionByGuidProduct(it).map { boxDb ->
                     boxDb.toObject()
                 }
 
@@ -105,7 +102,7 @@ class ActionRepositoryImpl(private val dao: MainDao) : ActionRepository {
                     listPallet = listPallet
                 )
 
-                DataWrapper(data =data)
+                DataWrapper(data = data)
             }
             .onErrorReturn {
                 DataWrapper(error = it)
@@ -126,15 +123,31 @@ class ActionRepositoryImpl(private val dao: MainDao) : ActionRepository {
     }
 
 
-    override fun getPalletByNumber(numberPallet: String,guidProduct:String): Flowable<DataWrapper<PalletAction>> {
+    override fun getPalletByNumber(
+        numberPallet: String,
+        guidProduct: String
+    ): Flowable<DataWrapper<PalletAction>> {
         return Flowable.just(numberPallet)
             .map {
-                return@map DataWrapper(data = dao.getPalletActionByNumber(it,guidProduct).toObject())
+                return@map DataWrapper(
+                    data = dao.getPalletActionByNumber(
+                        it,
+                        guidProduct
+                    ).toObject()
+                )
             }
             .onErrorReturn {
                 DataWrapper(error = it)
             }
 
+    }
+
+    override fun getListProductByGuidDoc(guidDoc: String): List<ProductAction> {
+        return dao.getListProductActionByGuidDoc(guidDoc).map { it.toObject()}
+    }
+
+    override fun getListPalletByGuidProduct(guidProduct: String): List<PalletAction> {
+        return dao.getListPalletActionByGuidProduct(guidProduct).map { it.toObject()}
     }
 
     override fun getListBox(): Flowable<DataWrapper<List<BoxAction>>> {
@@ -221,6 +234,10 @@ class ActionRepositoryImpl(private val dao: MainDao) : ActionRepository {
             .doOnNext {
                 dao.insertOrUpdate(it.toDb())
             }.ignoreElements()
+    }
+
+    override fun savePalletToBase(pallet: PalletAction){
+        dao.insertOrUpdate(pallet.toDb())
     }
 
     override fun dellPallet(pallet: PalletAction): Completable {

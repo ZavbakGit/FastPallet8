@@ -274,7 +274,7 @@ class ProductActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel
             .value?.filter { it.type == PALLET }?.map { it.pallet!!.number!! }?: listOf()
 
         if (!list.isNullOrEmpty()){
-            modelRx.getInfoPalletFromServer(list)
+            modelRx.loadInfoPalletFromServer(doc.value!!)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe({

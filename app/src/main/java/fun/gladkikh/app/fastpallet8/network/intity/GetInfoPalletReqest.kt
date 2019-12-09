@@ -21,6 +21,7 @@ class Item(
     var PaletWeight:String? = null,
     var PaletPlacesCount:String? = null,
     var nameProduct:String? = null,
+    var guidProduct:String? = null,
 
     var barcode: String? = null,
     var weightStartProduct: String? = null,

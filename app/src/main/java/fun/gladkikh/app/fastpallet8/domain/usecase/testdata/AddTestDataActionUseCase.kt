@@ -42,7 +42,7 @@ class AddTestDataActionUseCase (private val dao: MainDao) {
 
                 val listPallet = getListPallets(prod.guid)
                 listPallet.forEach { pall ->
-                    dao.insertOrUpdate(pall.toDb())
+                    //dao.insertOrUpdate(pall.toDb())
                     Thread.sleep(100)
                 }
 

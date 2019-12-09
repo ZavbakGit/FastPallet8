@@ -58,13 +58,15 @@ class MainActivity : BaseActivity() {
         barcodeHelper?.getBarcodeLiveData()?.observe(this, barcodeObserver)
     }
 
-    fun showMessage(text: CharSequence) {
-        Snackbar.make(root, text, Snackbar.LENGTH_LONG)
+    fun showMessage(text: CharSequence?) {
+
+
+        Snackbar.make(root, text?:"", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
     }
 
-    fun showErrorMessage(text: CharSequence) {
-        Snackbar.make(root, text, Snackbar.LENGTH_LONG)
+    fun showErrorMessage(text: CharSequence?) {
+        Snackbar.make(root, text?:"", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
     }
 

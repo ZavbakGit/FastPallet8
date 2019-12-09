@@ -4,6 +4,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
 import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.*
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 interface ActionRepository {
 
@@ -37,4 +38,7 @@ interface ActionRepository {
     fun dellBox(box:BoxAction):Completable
 
 
+    fun getListProductByGuidDoc(guidDoc: String): List<ProductAction>
+    fun getListPalletByGuidProduct(guidProduct: String): List<PalletAction>
+    fun savePalletToBase(pallet: PalletAction)
 }

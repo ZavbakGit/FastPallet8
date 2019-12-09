@@ -182,7 +182,7 @@ interface ActionDao {
     fun getProductActionByGuidServer(guidProductBack: String): ProductActionDb
 
     @Query("SELECT * FROM ProductActionDb WHERE guidDoc = :guidDoc")
-    fun getProductActionListByGuidDoc(guidDoc: String): List<ProductActionDb>
+    fun getListProductActionByGuidDoc(guidDoc: String): List<ProductActionDb>
 
 
     //endregion

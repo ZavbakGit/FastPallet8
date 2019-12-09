@@ -40,7 +40,8 @@ class GetInfoPalletUseCase(
                         countBox = it.PaletPlacesCount?.getIntByParseStr(),
                         sclad = it.PaletStore,
                         state = it.PaletState,
-                        nameProduct = it.nameProduct
+                        nameProduct = it.nameProduct,
+                        guidProduct = it.guidProduct
                     )
                 }
             }

@@ -4,6 +4,7 @@ data class InfoPallet(
     var code:String?,
     var guid:String?,
     var nameProduct:String?,
+    var guidProduct:String?,
     var state:String?,
     var sclad:String?,
     var count:Float?,

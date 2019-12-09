@@ -11,6 +11,7 @@ import `fun`.gladkikh.app.fastpallet8.repository.action.ActionRepository
 
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import java.util.*
 
 
@@ -158,11 +159,47 @@ class ActionModelRxImpl(
         return DataWrapper(data = box)
     }
 
-    override fun getInfoPalletFromServer(listNumberPallet: List<String>): Completable {
-        return getInfoPalletUseCase.get(listNumberPallet)
+    private fun getListPalletFromDoc(guidDoc: String): List<PalletAction> {
+        return repository.getListProductByGuidDoc(guidDoc)
+            .flatMap {
+                repository.getListPalletByGuidProduct(it.guid)
+            }
+    }
+
+    override fun loadInfoPalletFromServer(doc: Action): Completable {
+        return Single.just(doc.guid)
             .map {
-                it
-            }.ignoreElement()
+                //Выбираем все паллеты по документу
+                getListPalletFromDoc(it)
+            }
+            .flatMap {
+                val list = it
+                    .map { pallet ->
+                        pallet.number!!
+                    }
+                //Отправляем запрос
+                return@flatMap getInfoPalletUseCase.get(list)
+            }
+            .map { listInfo ->
+                //Изменяем паллеты
+                getListPalletFromDoc(doc.guid)
+                    .map { pallet ->
+                        val info = listInfo.find { it.code == pallet.number }
+
+                        if (info != null) {
+                            return@map pallet.copy(countBox = info.countBox, count = info.count)
+                        } else {
+                            return@map pallet
+                        }
+                    }
+            }
+            .doOnSuccess {
+                //Сохраняем
+                it.forEach { pallet ->
+                    repository.savePalletToBase(pallet)
+                }
+            }
+            .ignoreElement()
     }
 
 }
