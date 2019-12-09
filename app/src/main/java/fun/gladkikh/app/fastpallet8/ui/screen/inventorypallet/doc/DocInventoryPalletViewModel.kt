@@ -1,38 +1,30 @@
-package `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.pallet
+package `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.doc
 
 import `fun`.gladkikh.app.fastpallet8.Constants
-import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModelRx
 
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.BoxCreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.BoxInventoryPallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.InventoryPallet
+import `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet.InventoryPalletModelRx
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.*
-import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet
+
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import java.util.*
 
-class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseViewModel() {
+class DocInventoryPalletViewModel(private val modelRx: InventoryPalletModelRx) : BaseViewModel() {
 
-    private val doc = MutableLiveData<CreatePallet>()
-    private val product = MutableLiveData<ProductCreatePallet>()
-    private val pallet = MutableLiveData<PalletCreatePallet>()
-    private val listBox = MutableLiveData<List<BoxCreatePallet>>()
+    private val doc = MutableLiveData<InventoryPallet>()
+    private val listBox = MutableLiveData<List<BoxInventoryPallet>>()
 
-
-    fun getProductLiveData(): LiveData<ProductCreatePallet> = product
-    fun getPalletLiveData(): LiveData<PalletCreatePallet> = pallet
-    fun getListBoxLiveData(): LiveData<List<BoxCreatePallet>> = listBox
+    fun getListBoxLiveData(): LiveData<List<BoxInventoryPallet>> = listBox
+    fun getDocLiveData(): LiveData<InventoryPallet> = doc
 
     //Все пареметры запросов
-    var wrapperGuid: WrapperGuidCreatePallet? = null
+    var wrapperGuid: WrapperGuidInventoryPallet? = null
         set(value) {
             modelRx.setDoc(value?.guidDoc)
-            modelRx.setProduct(value?.guidProduct)
-            modelRx.setPallet(value?.guidPallet)
             field = value
         }
 
@@ -50,40 +42,16 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
                     messageErrorChannel.postValue(it.message)
                 })
         )
-        compositeDisposable.add(
-            modelRx.getProduct()
-                .subscribe({
-                    if (it.error != null) {
-                        messageErrorChannel.postValue(it.error.message)
-                    } else {
-                        product.postValue(it.data)
-                    }
-                }, {
-                    messageErrorChannel.postValue(it.message)
-                })
-        )
 
-        compositeDisposable.add(
-            modelRx.getPallet()
-                .subscribe({
-                    if (it.error != null) {
-                        messageErrorChannel.postValue(it.error.message)
-                    } else {
-                        pallet.postValue(it.data)
-                    }
-                }, {
-                    messageErrorChannel.postValue(it.message)
-                })
-        )
 
         compositeDisposable.add(
             modelRx.getListBox()
                 .map {
                     if (it.error == null) {
                         val size = it.data!!.size
-                        it.data.mapIndexed { index, boxCreatePallet ->
-                            boxCreatePallet.numberView = size - index
-                            return@mapIndexed boxCreatePallet
+                        it.data.mapIndexed { index, boxInventoryPallet ->
+                            boxInventoryPallet.numberView = size - index
+                            return@mapIndexed boxInventoryPallet
                         }
                     }
 
@@ -110,23 +78,17 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
                 if (position != null && position != -1) {
                     commandChannel.postValue(
                         OpenForm(
-                            code = Constants.OPEN_BOX_CREATE_PALLET_FORM,
+                            code = Constants.OPEN_BOX_INVENTORY_PALLET_FORM,
                             data = wrapperGuid!!.copy(guidBox = listBox.value!![position].guid)
                         )
                     )
                 }
             }
-            Constants.KEY_5 -> {
-                commandChannel.postValue(
-                    AnyCommand(
-                        code = Constants.COMMAND_HIDE_FORM
-                    )
-                )
-            }
+
             Constants.KEY_4 -> {
                 commandChannel.postValue(
                     OpenForm(
-                        code = Constants.OPEN_PRODUCT_CREATE_PALLET_DIALOG_FORM,
+                        code = Constants.OPEN_PRODUCT_INVENTORY_PALLET_DIALOG_FORM,
                         data = wrapperGuid!!
                     )
                 )
@@ -180,9 +142,9 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
                 if (count == 0f) {
                     messageErrorChannel.postValue("Не верное число!")
                 } else {
-                    val box = BoxCreatePallet(
+                    val box = BoxInventoryPallet(
                         guid = UUID.randomUUID().toString(),
-                        guidPallet = pallet.value!!.guid,
+                        guidDoc = doc.value!!.guid,
                         barcode = "",
                         countBox = 1,
                         count = count,
@@ -203,9 +165,7 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
     fun readBarcode(barcode: String) {
         val dataWrapper = modelRx.getBoxByBarcode(
             barcode = barcode,
-            doc = doc.value!!,
-            product = product.value!!,
-            pallet = pallet.value!!
+            doc = doc.value!!
         )
 
         if (dataWrapper.error != null) {
@@ -215,7 +175,7 @@ class PalletCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : Ba
                 .subscribe({
                     commandChannel.postValue(
                         OpenForm(
-                            code = Constants.OPEN_BOX_CREATE_PALLET_FORM,
+                            code = Constants.OPEN_BOX_INVENTORY_PALLET_FORM,
                             data = wrapperGuid!!.copy(guidBox = dataWrapper.data.guid)
                         )
                     )

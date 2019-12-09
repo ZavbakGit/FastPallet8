@@ -1,12 +1,13 @@
 package `fun`.gladkikh.app.fastpallet8.domain.model.documentmodel
 
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.ItemListDocument
+import `fun`.gladkikh.app.fastpallet8.domain.entity.ItemListDocument
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.creatpallet.SendCreatePalletUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.documents.LoadDocumentsUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata.AddTestDataActionUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata.AddTestDataCreatePalletUseCase
 import `fun`.gladkikh.app.fastpallet8.repository.document.DocumentRepository
 import `fun`.gladkikh.app.fastpallet8.domain.model.Type
+import `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata.AddTestDataInventoryPalletUseCase
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
@@ -18,6 +19,7 @@ class DocumentModelImpl(
     , private val sendCreatePalletUseCase: SendCreatePalletUseCase
     , private val addTestDataCreatePalletUseCase: AddTestDataCreatePalletUseCase
     , private val addTestDataActionUseCase: AddTestDataActionUseCase
+    , private val addTestDataInventoryPalletUseCase: AddTestDataInventoryPalletUseCase
 ) : DocumentModelRx {
     override fun getListDocument(): Flowable<List<ItemListDocument>> {
         return repository.getListDocument()
@@ -64,6 +66,12 @@ class DocumentModelImpl(
     override fun addTestDataAction(): Completable {
         return Completable.fromCallable {
             addTestDataActionUseCase.save()
+        }
+    }
+
+    override fun addTestDataInventoryPallet(): Completable {
+        return Completable.fromCallable {
+            addTestDataInventoryPalletUseCase.save()
         }
     }
 

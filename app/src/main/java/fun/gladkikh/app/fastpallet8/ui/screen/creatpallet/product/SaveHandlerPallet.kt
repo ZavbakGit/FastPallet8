@@ -3,9 +3,9 @@ package `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.product
 import `fun`.gladkikh.app.fastpallet8.common.getNumberDocByBarCode
 import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModelRx
 
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.CreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.PalletCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable

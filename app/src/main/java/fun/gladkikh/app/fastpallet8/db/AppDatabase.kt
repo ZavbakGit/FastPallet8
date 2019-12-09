@@ -18,11 +18,13 @@ import androidx.room.RoomDatabase
         , ProductActionDb::class
         , PalletActionDb::class
         , BoxActionDb::class
+        , InventoryPalletDb::class
+        , BoxInventoryPalletDb::class
     ]
     , version = 1
     , exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun getCreatePalletUpdateDao(): MainDao
+    abstract fun getMainDao(): MainDao
 }
 

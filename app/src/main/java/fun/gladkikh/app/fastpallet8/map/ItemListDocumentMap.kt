@@ -2,12 +2,29 @@ package `fun`.gladkikh.app.fastpallet8.map
 
 import `fun`.gladkikh.app.fastpallet8.db.intity.ActionDb
 import `fun`.gladkikh.app.fastpallet8.db.intity.CreatePalletDb
+import `fun`.gladkikh.app.fastpallet8.db.intity.InventoryPalletDb
 import `fun`.gladkikh.app.fastpallet8.db.intity.ItemListDocumentDb
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.ItemListDocument
+import `fun`.gladkikh.app.fastpallet8.domain.entity.ItemListDocument
 import `fun`.gladkikh.app.fastpallet8.domain.model.Type
 import java.util.*
 
+
+
+fun InventoryPalletDb.toDocument(): ItemListDocumentDb {
+    return ItemListDocumentDb(
+        guid = this.guid,
+        isLastLoad = this.isLastLoad,
+        number = this.number,
+        barcode = this.barcode,
+        date = this.date,
+        description = this.description,
+        guidServer = this.guidServer,
+        status = this.status,
+        type = 2, //Action
+        dataChanged = this.dateChanged
+    )
+}
 
 fun CreatePalletDb.toDocument(): ItemListDocumentDb {
     return ItemListDocumentDb(

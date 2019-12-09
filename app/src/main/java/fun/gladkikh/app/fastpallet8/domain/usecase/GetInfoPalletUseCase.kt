@@ -2,7 +2,7 @@ package `fun`.gladkikh.app.fastpallet8.domain.usecase
 
 import `fun`.gladkikh.app.fastpallet8.common.getFloatByParseStr
 import `fun`.gladkikh.app.fastpallet8.common.getIntByParseStr
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.InfoPallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.InfoPallet
 import `fun`.gladkikh.app.fastpallet8.network.ApiFactory
 import `fun`.gladkikh.app.fastpallet8.network.intity.GetInfoPalletReqest
 import `fun`.gladkikh.app.fastpallet8.network.intity.GetInfoPalletResponse

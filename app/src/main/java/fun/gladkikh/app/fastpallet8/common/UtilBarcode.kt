@@ -1,7 +1,7 @@
 package `fun`.gladkikh.app.fastpallet8.common
 
 
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 
 import io.reactivex.Flowable
 import java.math.BigDecimal

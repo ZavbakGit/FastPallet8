@@ -5,10 +5,10 @@ import `fun`.gladkikh.app.fastpallet8.db.intity.BoxActionDb
 import `fun`.gladkikh.app.fastpallet8.db.intity.PalletActionDb
 import `fun`.gladkikh.app.fastpallet8.db.intity.ProductActionDb
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.Action
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.BoxAction
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.PalletAction
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.ProductAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.Action
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.BoxAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.PalletAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
 import java.util.*
 
 fun ActionDb.toObject(): Action {

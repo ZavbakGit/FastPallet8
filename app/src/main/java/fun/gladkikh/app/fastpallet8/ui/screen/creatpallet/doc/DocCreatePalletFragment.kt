@@ -3,8 +3,8 @@ package `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.doc
 import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.R
 import `fun`.gladkikh.app.fastpallet8.common.toSimpleFormat
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.CreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseFragment
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet

@@ -1,10 +1,10 @@
 package `fun`.gladkikh.app.fastpallet8.repository.document
 
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.ItemListDocument
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.BoxCreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.ItemListDocument
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.BoxCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.CreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.PalletCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 import io.reactivex.Flowable
 
 

@@ -24,6 +24,10 @@
             android:id="@+id/menuTestDataAction"
             android:title="Тестовые данные Реализация" />
 
+        <item
+            android:id="@+id/menuTestDataInventoryPallet"
+            android:title="Тестовые данные Инвентаризация паллеты" />
+
     </group>
 
 </menu>

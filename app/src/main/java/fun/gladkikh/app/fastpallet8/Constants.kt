@@ -44,6 +44,10 @@ object Constants {
     const val OPEN_PALLET_ACTION_FORM = 8
     const val OPEN_BOX_ACTION_FORM = 9
 
+    const val OPEN_DOC_INVENTORY_PALLET_FORM = 10
+    const val OPEN_PRODUCT_INVENTORY_PALLET_DIALOG_FORM = 11
+    const val OPEN_BOX_INVENTORY_PALLET_FORM = 12
+
 
 
     //Вызов диалога удаления

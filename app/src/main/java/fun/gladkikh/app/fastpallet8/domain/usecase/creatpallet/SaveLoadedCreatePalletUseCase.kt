@@ -3,8 +3,8 @@ package `fun`.gladkikh.app.fastpallet8.domain.usecase.creatpallet
 import `fun`.gladkikh.app.fastpallet8.common.getFloatByParseStr
 import `fun`.gladkikh.app.fastpallet8.common.getIntByParseStr
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.CreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.network.intity.DocResponse
 import `fun`.gladkikh.app.fastpallet8.repository.document.DocumentRepository
 import java.util.*

@@ -4,12 +4,11 @@ import `fun`.gladkikh.app.fastpallet8.db.dao.MainDao
 import `fun`.gladkikh.app.fastpallet8.map.toDb
 import `fun`.gladkikh.app.fastpallet8.map.toObject
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.*
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.*
 
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 

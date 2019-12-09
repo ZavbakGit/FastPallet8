@@ -9,6 +9,8 @@ import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModel
 import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModelRxImpl
 import `fun`.gladkikh.app.fastpallet8.domain.model.documentmodel.DocumentModelImpl
 import `fun`.gladkikh.app.fastpallet8.domain.model.documentmodel.DocumentModelRx
+import `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet.InventoryPalletModelRx
+import `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet.InventoryPalletModelRxImpl
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.GetInfoPalletUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.creatpallet.SaveLoadedCreatePalletUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.creatpallet.SendCreatePalletUseCase
@@ -16,6 +18,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.usecase.documents.LoadDocumentsUseC
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.recalcdb.RecalcDbUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata.AddTestDataActionUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata.AddTestDataCreatePalletUseCase
+import `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata.AddTestDataInventoryPalletUseCase
 import `fun`.gladkikh.app.fastpallet8.network.ApiFactory
 import `fun`.gladkikh.app.fastpallet8.repository.action.ActionRepository
 import `fun`.gladkikh.app.fastpallet8.repository.action.ActionRepositoryImpl
@@ -23,6 +26,8 @@ import `fun`.gladkikh.app.fastpallet8.repository.creatpallet.CreatePalletReposit
 import `fun`.gladkikh.app.fastpallet8.repository.creatpallet.CreatePalletRepositoryImpl
 import `fun`.gladkikh.app.fastpallet8.repository.document.DocumentRepository
 import `fun`.gladkikh.app.fastpallet8.repository.document.DocumentRepositoryImpl
+import `fun`.gladkikh.app.fastpallet8.repository.inventorypallet.InventoryPalletRepository
+import `fun`.gladkikh.app.fastpallet8.repository.inventorypallet.InventoryPalletRepositoryImpl
 import `fun`.gladkikh.app.fastpallet8.repository.setting.SettingsRepository
 import `fun`.gladkikh.app.fastpallet8.ui.screen.action.box.BoxActionViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.screen.action.doc.DocActionViewModel
@@ -30,10 +35,12 @@ import `fun`.gladkikh.app.fastpallet8.ui.screen.action.product.ProductActionView
 import `fun`.gladkikh.app.fastpallet8.ui.screen.action.productdialog.ProductDialogActionViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.box.BoxCreatePalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.doc.DocCreatePalletViewModel
-import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.pallet.PalletCreatePalletViewModel
+import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.pallet.PalletCreatePalletDocViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.product.ProductCreatePalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.productdialog.ProductDialogCreatePalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.screen.documentlist.DocumentListViewModel
+import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.box.BoxInventoryPalletViewModel
+import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.doc.DocInventoryPalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.test.TestViewModel
 import android.content.Context
 import androidx.room.Room
@@ -53,17 +60,15 @@ object DependencyModule {
         single { getCreatePalletUpdateDao(get()) }
         //****************************************************************************************
         //REPOSITORY
+        single { getInventoryPalletRepository(get()) }
         single { getActionRepositoryImpl(get()) }
         single { getCreatePalletRepository(get()) }
-        single {
-            SettingsRepository(
-                get()
-            )
-        }
+        single { SettingsRepository(get()) }
         single { getDocumentRepository(get()) }
 
         //****************************************************************************************
         //USE CASE
+        single { AddTestDataInventoryPalletUseCase(get()) }
         single { AddTestDataCreatePalletUseCase(get()) }
         single { AddTestDataActionUseCase(get()) }
         single { RecalcDbUseCase(get()) }
@@ -77,14 +82,15 @@ object DependencyModule {
 
         //****************************************************************************************
         //MODEL
-        single { getActionModelRx(get(),get()) }
+        single { getInventoryPalletModelRx(get()) }
+        single { getActionModelRx(get(), get()) }
         single { getCreatePalletModelRx(get()) }
-        single { getDocumentModelRx(get(), get(), get(), get(),get()) }
+        single { getDocumentModelRx(get(), get(), get(), get(), get(),get()) }
         //****************************************************************************************
         //VIEW MODEL
         viewModel { DocumentListViewModel(get()) }
         viewModel { BoxCreatePalletViewModel(get()) }
-        viewModel { PalletCreatePalletViewModel(get()) }
+        viewModel { PalletCreatePalletDocViewModel(get()) }
         viewModel { ProductDialogCreatePalletViewModel(get()) }
         viewModel { ProductCreatePalletViewModel(get()) }
         viewModel { DocCreatePalletViewModel(get()) }
@@ -94,6 +100,10 @@ object DependencyModule {
         viewModel { ProductActionViewModel(get()) }
         viewModel { ProductDialogActionViewModel(get()) }
         viewModel { BoxActionViewModel(get()) }
+
+
+        viewModel { DocInventoryPalletViewModel(get()) }
+        viewModel { BoxInventoryPalletViewModel(get()) }
 
 
         viewModel { TestViewModel(get(), get()) }
@@ -106,10 +116,14 @@ object DependencyModule {
 
     //DAO
     private fun getCreatePalletUpdateDao(database: AppDatabase): MainDao {
-        return database.getCreatePalletUpdateDao()
+        return database.getMainDao()
     }
 
     //REPOSITORY
+    private fun getInventoryPalletRepository(dao: MainDao): InventoryPalletRepository {
+        return InventoryPalletRepositoryImpl(dao)
+    }
+
     private fun getActionRepositoryImpl(dao: MainDao): ActionRepository {
         return ActionRepositoryImpl(
             dao
@@ -130,13 +144,21 @@ object DependencyModule {
     }
 
     //MODEL
+    private fun getInventoryPalletModelRx(repository: InventoryPalletRepository): InventoryPalletModelRx {
+        return InventoryPalletModelRxImpl(repository)
+    }
+
+    private fun getActionModelRx(
+        repository: ActionRepository,
+        getInfoPalletUseCase: GetInfoPalletUseCase
+    ): ActionModelRx {
+        return ActionModelRxImpl(repository, getInfoPalletUseCase)
+    }
+
     private fun getCreatePalletModelRx(repository: CreatePalletRepository): CreatePalletModelRx {
         return CreatePalletModelRxImpl(repository)
     }
 
-    private fun getActionModelRx(repository: ActionRepository,getInfoPalletUseCase: GetInfoPalletUseCase): ActionModelRx {
-        return ActionModelRxImpl(repository,getInfoPalletUseCase)
-    }
 
     private fun getDocumentModelRx(
         repository: DocumentRepository
@@ -144,13 +166,15 @@ object DependencyModule {
         , sendCreatePalletUseCase: SendCreatePalletUseCase
         , addTestDataUseCaseCreatePallet: AddTestDataCreatePalletUseCase
         , addTestDataActionUseCase: AddTestDataActionUseCase
+        , addTestDataInventoryPalletUseCase: AddTestDataInventoryPalletUseCase
     ): DocumentModelRx {
         return DocumentModelImpl(
             repository,
             loadDocumentsUseCase,
             sendCreatePalletUseCase,
             addTestDataUseCaseCreatePallet,
-            addTestDataActionUseCase
+            addTestDataActionUseCase,
+            addTestDataInventoryPalletUseCase
         )
     }
 

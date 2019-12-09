@@ -2,12 +2,13 @@ package `fun`.gladkikh.app.fastpallet8.ui.screen.documentlist
 
 import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.domain.model.documentmodel.DocumentModelRx
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.ItemListDocument
+import `fun`.gladkikh.app.fastpallet8.domain.entity.ItemListDocument
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.Type
 import `fun`.gladkikh.app.fastpallet8.ui.screen.action.WrapperGuidAction
+import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.doc.WrapperGuidInventoryPallet
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -119,6 +120,18 @@ class DocumentListViewModel(val model: DocumentModelRx) : BaseViewModel() {
                 )
 
             }
+            Type.INVENTORY_PALLET -> {
+                commandChannel.postValue(
+                    Command.OpenForm(
+                        code = Constants.OPEN_DOC_INVENTORY_PALLET_FORM,
+                        data = WrapperGuidInventoryPallet(
+                            guidDoc = document.guid
+                        )
+                    )
+                )
+
+            }
+
             else -> {
             }
         }
@@ -161,6 +174,17 @@ class DocumentListViewModel(val model: DocumentModelRx) : BaseViewModel() {
     @SuppressLint("CheckResult")
     fun addTestDataAction() {
         model.addTestDataAction()
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                messageChannel.postValue("Загрузили!")
+            }, {
+                messageErrorChannel.postValue(it.message)
+            })
+    }
+
+    @SuppressLint("CheckResult")
+    fun addTestDataInventoryPallet() {
+        model.addTestDataInventoryPallet()
             .subscribeOn(Schedulers.io())
             .subscribe({
                 messageChannel.postValue("Загрузили!")

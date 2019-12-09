@@ -6,7 +6,7 @@ import `fun`.gladkikh.app.fastpallet8.network.util.intity.ReqestObj
 import `fun`.gladkikh.app.fastpallet8.network.util.intity.ResponseModel
 import `fun`.gladkikh.app.fastpallet8.network.util.intity.ResponseObj
 import `fun`.gladkikh.app.fastpallet8.Constants
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.SettingApp
+import `fun`.gladkikh.app.fastpallet8.domain.entity.SettingApp
 import `fun`.gladkikh.app.fastpallet8.network.util.AutorithationUtil
 import `fun`.gladkikh.app.fastpallet8.repository.setting.SettingsRepository
 import android.annotation.SuppressLint

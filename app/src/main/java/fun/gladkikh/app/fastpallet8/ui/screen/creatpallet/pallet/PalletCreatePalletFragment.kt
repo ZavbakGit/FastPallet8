@@ -4,9 +4,9 @@ import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.R
 import `fun`.gladkikh.app.fastpallet8.common.toSimpleDateTime
 import `fun`.gladkikh.app.fastpallet8.common.toSimpleFormat
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.BoxCreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.BoxCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.PalletCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseFragment
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.*
@@ -28,7 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class PalletCreatePalletFragment : BaseFragment() {
 
     override val layoutRes = R.layout.create_pallet_fragment_pallet
-    override val viewModel: PalletCreatePalletViewModel by viewModel()
+    override val viewModel: PalletCreatePalletDocViewModel by viewModel()
 
     private lateinit var adapter: Adapter
 

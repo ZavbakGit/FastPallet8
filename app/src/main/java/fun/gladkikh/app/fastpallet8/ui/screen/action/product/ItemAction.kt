@@ -1,7 +1,7 @@
 package `fun`.gladkikh.app.fastpallet8.ui.screen.action.product
 
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.BoxAction
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.PalletAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.BoxAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.PalletAction
 
 data class ItemAction(
     val type: TYPE_ITEM_ACTION

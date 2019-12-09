@@ -3,8 +3,7 @@ package `fun`.gladkikh.app.fastpallet8.ui.screen.action.product
 import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.R
 import `fun`.gladkikh.app.fastpallet8.common.toSimpleFormat
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.PalletAction
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.ProductAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseFragment
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.screen.action.WrapperGuidAction
@@ -14,7 +13,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.google.gson.GsonBuilder
-import kotlinx.android.synthetic.main.block_pallet.*
 import kotlinx.android.synthetic.main.block_product.*
 import kotlinx.android.synthetic.main.list_block.*
 import org.koin.androidx.viewmodel.ext.android.viewModel

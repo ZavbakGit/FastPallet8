@@ -1,7 +1,7 @@
 package `fun`.gladkikh.app.fastpallet8.domain.model.action
 
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.*
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.*
 
 import io.reactivex.Completable
 import io.reactivex.Flowable

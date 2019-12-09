@@ -2,8 +2,8 @@ package `fun`.gladkikh.app.fastpallet8.ui.screen.action.box
 
 
 import `fun`.gladkikh.app.fastpallet8.domain.model.action.ActionModelRx
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.Action
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.action.BoxAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.Action
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.BoxAction
 
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.BackpressureStrategy

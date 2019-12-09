@@ -1,16 +1,31 @@
 package `fun`.gladkikh.app.fastpallet8.db.dao
 
 
-import `fun`.gladkikh.app.fastpallet8.db.intity.ActionDb
-import `fun`.gladkikh.app.fastpallet8.db.intity.CreatePalletDb
-import `fun`.gladkikh.app.fastpallet8.db.intity.ProductActionDb
-import `fun`.gladkikh.app.fastpallet8.db.intity.ProductCreatePalletDb
+import `fun`.gladkikh.app.fastpallet8.db.intity.*
 import `fun`.gladkikh.app.fastpallet8.map.toDocument
 import androidx.room.Dao
 import androidx.room.Transaction
 
 @Dao
-interface MainDao:DocumentDao,CreatPalletDao,ActionDao {
+interface MainDao:DocumentDao,CreatPalletDao,ActionDao,InventoryPalletDao {
+
+    //region function InventoryPallet
+    //******************************************************************************************
+    @Transaction
+    fun insertOrUpdate(entity: InventoryPalletDb) {
+        if (insertIgnore(entity) == -1L) {
+            update(entity)
+        }
+        insertOrUpdate(entity.toDocument())
+    }
+
+    @Transaction
+    fun deleteTrigger(entity: InventoryPalletDb) {
+        val doc = entity.toDocument()
+        delete(entity)
+        delete(doc)
+    }
+    //endregion
 
 
     //region function Action

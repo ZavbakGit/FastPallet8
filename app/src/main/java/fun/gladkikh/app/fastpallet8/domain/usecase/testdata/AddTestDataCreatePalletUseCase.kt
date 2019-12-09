@@ -4,10 +4,10 @@ package `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata
 import `fun`.gladkikh.app.fastpallet8.common.toSimpleDate
 import `fun`.gladkikh.app.fastpallet8.db.dao.MainDao
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.BoxCreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.BoxCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.CreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.PalletCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.map.toDb
 
 import java.util.*
@@ -21,7 +21,7 @@ class AddTestDataCreatePalletUseCase(private val dao: MainDao) {
         val listDocuments =
             (0..5).map {
                 CreatePallet(
-                    guid = it.toString(),
+                    guid = it.toString()+"c",
                     status = Status.LOADED,
                     number = it.toString(),
                     guidServer = it.toString(),

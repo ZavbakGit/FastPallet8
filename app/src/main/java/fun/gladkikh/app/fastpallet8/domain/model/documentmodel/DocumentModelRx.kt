@@ -1,6 +1,6 @@
 package `fun`.gladkikh.app.fastpallet8.domain.model.documentmodel
 
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.ItemListDocument
+import `fun`.gladkikh.app.fastpallet8.domain.entity.ItemListDocument
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
@@ -11,5 +11,6 @@ interface DocumentModelRx {
     fun deleteDocument(itemListDocument: ItemListDocument):Completable
     fun addTestDataCreatePallet():Completable
     fun addTestDataAction():Completable
+    fun addTestDataInventoryPallet():Completable
 
 }

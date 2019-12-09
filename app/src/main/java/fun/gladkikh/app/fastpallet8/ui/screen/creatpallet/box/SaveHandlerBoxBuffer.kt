@@ -2,8 +2,8 @@ package `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.box
 
 
 import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModelRx
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.BoxCreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.BoxCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.CreatePallet
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.BackpressureStrategy
 import io.reactivex.disposables.CompositeDisposable

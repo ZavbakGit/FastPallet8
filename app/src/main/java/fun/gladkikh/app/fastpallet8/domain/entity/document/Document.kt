@@ -1,4 +1,4 @@
-package `fun`.gladkikh.app.fastpallet8.domain.model.entity.document
+package `fun`.gladkikh.app.fastpallet8.domain.entity.document
 
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.domain.model.Type

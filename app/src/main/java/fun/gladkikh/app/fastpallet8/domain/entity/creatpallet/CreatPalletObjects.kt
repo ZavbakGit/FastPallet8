@@ -1,12 +1,12 @@
-package `fun`.gladkikh.app.fastpallet8.domain.model.entity.action
+package `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet
 
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.domain.model.Type
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.document.Document
+import `fun`.gladkikh.app.fastpallet8.domain.entity.document.Document
 import java.util.*
 
 
-data class Action(
+data class CreatePallet(
     override val guid: String,
     override val number: String?,
     override val date: Date?,
@@ -16,9 +16,9 @@ data class Action(
     override var isLastLoad: Boolean?,
     override var description: String?,
     override var barcode: String?
-) : Document(Type.ACTION_PALLET)
+) : Document(Type.CREATE_PALLET)
 
-data class ProductAction(
+data class ProductCreatePallet(
     val guid: String,
     val guidDoc: String,
     var number: String?,
@@ -49,7 +49,7 @@ data class ProductAction(
     var numberView: Int? = null
 )
 
-data class PalletAction(
+data class PalletCreatePallet(
     val guid: String,
     var guidProduct: String,
     var number: String?,
@@ -67,9 +67,9 @@ data class PalletAction(
     var numberView: Int? = null
 )
 
-data class BoxAction(
+data class BoxCreatePallet(
     val guid: String,
-    var guidProduct: String,
+    var guidPallet: String,
     var barcode: String?,
 
     var count: Float?, //Количество

@@ -1,4 +1,4 @@
-package `fun`.gladkikh.app.fastpallet8.domain.model.entity
+package `fun`.gladkikh.app.fastpallet8.domain.entity
 
 
 data class SettingApp(

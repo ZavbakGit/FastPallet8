@@ -4,10 +4,10 @@ import `fun`.gladkikh.app.fastpallet8.db.dao.MainDao
 import `fun`.gladkikh.app.fastpallet8.map.toDb
 import `fun`.gladkikh.app.fastpallet8.map.toObject
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.BoxCreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.CreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.PalletCreatePallet
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.creatpallet.ProductCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.BoxCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.CreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.PalletCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -17,7 +17,7 @@ import io.reactivex.subjects.PublishSubject
 /**
  * Класс общается с db и выдает уже объекты
  */
-class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
+class CreatePalletRepositoryImpl(private val dao: MainDao) :
     CreatePalletRepository {
 
     private val guidDocPublishSubject = PublishSubject.create<String>()
@@ -31,7 +31,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
             .observeOn(Schedulers.io())
             .toFlowable(BackpressureStrategy.BUFFER)
             .map {
-                return@map DataWrapper(data = createPalletUpdateDao.getDocByGuid(it)!!.toObject())
+                return@map DataWrapper(data = dao.getDocByGuid(it)!!.toObject())
             }
             .onErrorReturn {
                 DataWrapper(error = it)
@@ -44,7 +44,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
             .observeOn(Schedulers.io())
             .toFlowable(BackpressureStrategy.BUFFER)
             .map {
-                DataWrapper(data = createPalletUpdateDao.getProductListByGuidDoc(it).map { productDb ->
+                DataWrapper(data = dao.getProductListByGuidDoc(it).map { productDb ->
                     productDb.toObject()
                 })
             }
@@ -59,7 +59,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
             .observeOn(Schedulers.io())
             .toFlowable(BackpressureStrategy.BUFFER)
             .map {
-                return@map DataWrapper(data = createPalletUpdateDao.getProductByGuid(it).toObject())
+                return@map DataWrapper(data = dao.getProductByGuid(it).toObject())
             }
             .onErrorReturn {
                 DataWrapper(error = it)
@@ -73,7 +73,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
             .toFlowable(BackpressureStrategy.BUFFER)
 
             .map {
-                DataWrapper(data = createPalletUpdateDao.getListPalletByGuidProduct(it).map { productDb ->
+                DataWrapper(data = dao.getListPalletByGuidProduct(it).map { productDb ->
                     productDb.toObject()
                 })
             }
@@ -87,7 +87,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
             .observeOn(Schedulers.io())
             .toFlowable(BackpressureStrategy.BUFFER)
             .map {
-                return@map DataWrapper(data = createPalletUpdateDao.getPalletByGuid(it).toObject())
+                return@map DataWrapper(data = dao.getPalletByGuid(it).toObject())
             }
             .onErrorReturn {
                 DataWrapper(error = it)
@@ -98,7 +98,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
     override fun getPalletByNumber(numberPallet: String):Flowable<DataWrapper<PalletCreatePallet>> {
       return  Flowable.just(numberPallet)
             .map {
-                return@map DataWrapper(data = createPalletUpdateDao.getPalletByNumber(it).toObject())
+                return@map DataWrapper(data = dao.getPalletByNumber(it).toObject())
             }
             .onErrorReturn {
                 DataWrapper(error = it)
@@ -111,7 +111,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
             .observeOn(Schedulers.io())
             .toFlowable(BackpressureStrategy.BUFFER)
             .map {
-                DataWrapper(data = createPalletUpdateDao.getListBoxByGuidPallet(it).map { productDb ->
+                DataWrapper(data = dao.getListBoxByGuidPallet(it).map { productDb ->
                     productDb.toObject()
                 })
             }
@@ -128,7 +128,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
             .observeOn(Schedulers.io())
             .toFlowable(BackpressureStrategy.BUFFER)
             .map {
-                return@map DataWrapper(data = createPalletUpdateDao.getBoxByGuid(it).toObject())
+                return@map DataWrapper(data = dao.getBoxByGuid(it).toObject())
             }
             .onErrorReturn {
                 DataWrapper(error = it)
@@ -155,7 +155,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
         return Flowable.just(doc)
             .observeOn(Schedulers.io())
             .doOnNext {
-                createPalletUpdateDao.insertOrUpdate(it.toDb())
+                dao.insertOrUpdate(it.toDb())
             }.ignoreElements()
     }
 
@@ -163,7 +163,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
         return Flowable.just(doc)
             .observeOn(Schedulers.io())
             .doOnNext {
-                createPalletUpdateDao.delete(it.toDb())
+                dao.delete(it.toDb())
             }.ignoreElements()
     }
 
@@ -171,7 +171,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
         return Flowable.just(product)
             .observeOn(Schedulers.io())
             .doOnNext {
-                createPalletUpdateDao.insertOrUpdate(it.toDb())
+                dao.insertOrUpdate(it.toDb())
             }.ignoreElements()
     }
 
@@ -180,7 +180,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
         return Flowable.just(doc)
             .observeOn(Schedulers.io())
             .doOnNext {
-                createPalletUpdateDao.delete(it.toDb())
+                dao.delete(it.toDb())
             }
             .ignoreElements()
     }
@@ -189,7 +189,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
         return Flowable.just(pallet)
             .observeOn(Schedulers.io())
             .doOnNext {
-                createPalletUpdateDao.insertOrUpdate(it.toDb())
+                dao.insertOrUpdate(it.toDb())
             }.ignoreElements()
     }
 
@@ -197,7 +197,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
         return Flowable.just(pallet)
             .observeOn(Schedulers.io())
             .doOnNext {
-                createPalletUpdateDao.deleteTrigger(it.toDb())
+                dao.deleteTrigger(it.toDb())
             }.ignoreElements()
     }
 
@@ -206,7 +206,7 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
         return Flowable.just(box)
             .observeOn(Schedulers.io())
             .doOnNext {
-                createPalletUpdateDao.insertOrUpdate(it.toDb())
+                dao.insertOrUpdate(it.toDb())
             }.ignoreElements()
     }
 
@@ -214,10 +214,10 @@ class CreatePalletRepositoryImpl(private val createPalletUpdateDao: MainDao) :
         return Flowable.just(box)
             .observeOn(Schedulers.io())
             .doOnNext {
-                createPalletUpdateDao.deleteTrigger(it.toDb())
+                dao.deleteTrigger(it.toDb())
             }.ignoreElements()
     }
 
-    override fun recalcPallet() = createPalletUpdateDao.recalcPallet()
-    override fun recalcProduct() = createPalletUpdateDao.reCalcProduct()
+    override fun recalcPallet() = dao.recalcPallet()
+    override fun recalcProduct() = dao.reCalcProduct()
 }

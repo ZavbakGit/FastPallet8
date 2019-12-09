@@ -2,12 +2,13 @@ package `fun`.gladkikh.app.fastpallet8.ui.screen.documentlist
 
 import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.R
-import `fun`.gladkikh.app.fastpallet8.domain.model.entity.ItemListDocument
+import `fun`.gladkikh.app.fastpallet8.domain.entity.ItemListDocument
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseFragment
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.*
 import `fun`.gladkikh.app.fastpallet8.ui.screen.action.WrapperGuidAction
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet
+import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.doc.WrapperGuidInventoryPallet
 import `fun`.gladkikh.fastpallet7.ui.base.MyBaseAdapter
 import android.content.Context
 import android.view.View
@@ -78,6 +79,10 @@ class DocumentListFragment : BaseFragment() {
             Constants.OPEN_DOC_ACTION_FORM ->{
                 navigateHandler.startActionDoc(openForm.data as WrapperGuidAction)
             }
+            Constants.OPEN_DOC_INVENTORY_PALLET_FORM->{
+                navigateHandler.startInventoryPallet(openForm.data as WrapperGuidInventoryPallet)
+            }
+
         }
     }
 
@@ -112,6 +117,11 @@ class DocumentListFragment : BaseFragment() {
                         viewModel.addTestDataAction()
                         true
                     }
+                    R.id.menuTestDataInventoryPallet ->{
+                        viewModel.addTestDataInventoryPallet()
+                        true
+                    }
+
 
                     else -> false
                 }

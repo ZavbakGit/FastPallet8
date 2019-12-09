@@ -53,4 +53,12 @@
         android:id="@+id/boxActionFragment"
         android:name="fun.gladkikh.app.fastpallet8.ui.screen.action.box.BoxActionFragment"
         android:label="BoxActionFragment" />
+    <fragment
+        android:id="@+id/docInventoryPalletFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.screen.inventorypallet.doc.DocInventoryPalletFragment"
+        android:label="DocInventoryPalletFragment" />
+    <fragment
+        android:id="@+id/boxInventoryPalletFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.screen.inventorypallet.box.BoxInventoryPalletFragment"
+        android:label="BoxInventoryPalletFragment" />
 </navigation>
