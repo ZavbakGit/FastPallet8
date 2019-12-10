@@ -82,10 +82,10 @@ object DependencyModule {
 
         //****************************************************************************************
         //MODEL
-        single { getInventoryPalletModelRx(get()) }
+        single { getInventoryPalletModelRx(get(),get()) }
         single { getActionModelRx(get(), get()) }
         single { getCreatePalletModelRx(get()) }
-        single { getDocumentModelRx(get(), get(), get(), get(), get(),get()) }
+        single { getDocumentModelRx(get(), get(), get(), get(), get(), get()) }
         //****************************************************************************************
         //VIEW MODEL
         viewModel { DocumentListViewModel(get()) }
@@ -144,8 +144,11 @@ object DependencyModule {
     }
 
     //MODEL
-    private fun getInventoryPalletModelRx(repository: InventoryPalletRepository): InventoryPalletModelRx {
-        return InventoryPalletModelRxImpl(repository)
+    private fun getInventoryPalletModelRx(
+        repository: InventoryPalletRepository
+        , getInfoPalletUseCase: GetInfoPalletUseCase
+    ): InventoryPalletModelRx {
+        return InventoryPalletModelRxImpl(repository,getInfoPalletUseCase)
     }
 
     private fun getActionModelRx(

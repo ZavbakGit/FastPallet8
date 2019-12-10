@@ -1,6 +1,7 @@
 package `fun`.gladkikh.app.fastpallet8.repository.inventorypallet
 
 import `fun`.gladkikh.app.fastpallet8.db.dao.MainDao
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.PalletAction
 import `fun`.gladkikh.app.fastpallet8.map.toDb
 import `fun`.gladkikh.app.fastpallet8.map.toObject
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
@@ -103,6 +104,10 @@ class InventoryPalletRepositoryImpl(private val dao: MainDao) : InventoryPalletR
             .doOnNext {
                 dao.deleteTrigger(it.toDb())
             }.ignoreElements()
+    }
+
+    override fun savePalletToBase(doc: InventoryPallet){
+        dao.insertOrUpdate(doc.toDb())
     }
 
 

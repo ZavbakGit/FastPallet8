@@ -117,7 +117,7 @@ class DocInventoryPalletFragment : BaseFragment() {
 
 
     private fun renderDoc(doc: InventoryPallet?) {
-        tvNumberPallet.text = doc?.numberPallet ?: ""
+        tvNumberPallet.text = (doc?.numberPallet ?: "") +"\n"+ (doc?.nameProduct?:"")
         tvCountPallet.text = doc?.count.toSimpleFormat()
         tvCountPlacePallet.text = doc?.countBox.toSimpleFormat()
         tvCountRowPallet.text = doc?.countRow.toSimpleFormat()

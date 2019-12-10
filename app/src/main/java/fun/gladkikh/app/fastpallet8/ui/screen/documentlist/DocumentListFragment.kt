@@ -109,6 +109,11 @@ class DocumentListFragment : BaseFragment() {
 
                         true
                     }
+                    R.id.addInventoryPallet -> {
+                        viewModel.addNewInventoryPallet()
+
+                        true
+                    }
                     R.id.menuTestDataCreatePallet->{
                         viewModel.addTestDataCreatePallet()
                         true
@@ -121,6 +126,7 @@ class DocumentListFragment : BaseFragment() {
                         viewModel.addTestDataInventoryPallet()
                         true
                     }
+
 
 
                     else -> false

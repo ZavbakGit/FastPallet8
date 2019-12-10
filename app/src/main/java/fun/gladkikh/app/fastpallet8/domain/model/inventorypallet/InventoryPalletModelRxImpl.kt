@@ -1,20 +1,25 @@
 package `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet
 
+import `fun`.gladkikh.app.fastpallet8.common.getFloatByParseStr
+import `fun`.gladkikh.app.fastpallet8.common.getIntByParseStr
 import `fun`.gladkikh.app.fastpallet8.common.getWeightByBarcode
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.BoxInventoryPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.InventoryPallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
+import `fun`.gladkikh.app.fastpallet8.domain.usecase.GetInfoPalletUseCase
 import `fun`.gladkikh.app.fastpallet8.repository.inventorypallet.InventoryPalletRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import java.util.*
 
 class InventoryPalletModelRxImpl(
     val repository: InventoryPalletRepository
+    , private val getInfoPalletUseCase: GetInfoPalletUseCase
 ) : InventoryPalletModelRx {
 
-    private fun checkEditDocByStatus(status: Status?): Boolean {
+    override fun checkEditDocByStatus(status: Status?): Boolean {
         return status in listOf(Status.LOADED, Status.NEW)
     }
 
@@ -85,6 +90,47 @@ class InventoryPalletModelRxImpl(
     override fun saveDoc(doc: InventoryPallet) = repository.saveDoc(doc)
 
     override fun dellDoc(doc: InventoryPallet) = repository.dellDoc(doc)
+
+    override fun loadInfoPalletFromServer(doc: InventoryPallet): Completable {
+        return Single.just(doc)
+            .flatMap {
+                if (!checkEditDocByStatus(doc.status)){
+                    return@flatMap Single.error<Throwable>(Throwable("Нельзя редактировать документ!"))
+                }
+
+                if (it.numberPallet == null) {
+                    return@flatMap Single.error<Throwable>(Throwable("Пустая паллета!"))
+                }
+                Single.just(listOf(it.numberPallet))
+            }
+            .map {
+                it as List<String>
+            }
+            .flatMap {
+
+                //Отправляем запрос
+                return@flatMap getInfoPalletUseCase.get(it)
+            }
+            .map { listInfo ->
+                //Изменяем паллеты
+
+                val info = listInfo.first()
+
+                return@map doc.copy(
+                    nameProduct = info.nameProduct,
+                    barcode = info.barcode,
+                    weightStartProduct = info.weightStartProduct?.getIntByParseStr(),
+                    weightEndProduct = info.weightEndProduct?.getIntByParseStr(),
+                    weightCoffProduct = info.weightCoffProduct?.getFloatByParseStr()
+
+                )
+
+            }
+            .doOnSuccess {
+                repository.savePalletToBase(it)
+            }
+            .ignoreElement()
+    }
 
 
 }

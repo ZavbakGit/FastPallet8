@@ -1,6 +1,7 @@
 package `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.doc
 
 import `fun`.gladkikh.app.fastpallet8.Constants
+import `fun`.gladkikh.app.fastpallet8.common.isPallet
 
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.BoxInventoryPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.InventoryPallet
@@ -11,6 +12,7 @@ import `fun`.gladkikh.app.fastpallet8.ui.common.Command.*
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 class DocInventoryPalletViewModel(private val modelRx: InventoryPalletModelRx) : BaseViewModel() {
@@ -28,6 +30,14 @@ class DocInventoryPalletViewModel(private val modelRx: InventoryPalletModelRx) :
             field = value
         }
 
+    private val saveHandlerPallet = SaveHandlerPalletInventoryPallet(
+        compositeDisposable = compositeDisposable,
+        messageError = messageErrorChannel,
+        modelRx = modelRx
+    ) {
+        modelRx.setDoc(it.guid)
+    }
+
 
     init {
         compositeDisposable.add(
@@ -37,6 +47,7 @@ class DocInventoryPalletViewModel(private val modelRx: InventoryPalletModelRx) :
                         messageErrorChannel.postValue(it.error.message)
                     } else {
                         doc.postValue(it.data)
+                        saveHandlerPallet.doc = it.data
                     }
                 }, {
                     messageErrorChannel.postValue(it.message)
@@ -84,7 +95,9 @@ class DocInventoryPalletViewModel(private val modelRx: InventoryPalletModelRx) :
                     )
                 }
             }
-
+            Constants.KEY_5 -> {
+               loadInfoPallet()
+            }
             Constants.KEY_4 -> {
                 commandChannel.postValue(
                     OpenForm(
@@ -161,8 +174,29 @@ class DocInventoryPalletViewModel(private val modelRx: InventoryPalletModelRx) :
         }
     }
 
-    @SuppressLint("CheckResult")
+
     fun readBarcode(barcode: String) {
+        if (isPallet(barcode)) {
+            saveHandlerPallet.save(barcode)
+        } else {
+            saveBoxBybarcode(barcode)
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    fun loadInfoPallet(){
+        modelRx.loadInfoPalletFromServer(doc.value!!)
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribe({
+                wrapperGuid = wrapperGuid!!.copy()
+            }, {
+                messageErrorChannel.postValue(it.message)
+            })
+    }
+
+    @SuppressLint("CheckResult")
+    private fun saveBoxBybarcode(barcode:String){
         val dataWrapper = modelRx.getBoxByBarcode(
             barcode = barcode,
             doc = doc.value!!
@@ -172,6 +206,7 @@ class DocInventoryPalletViewModel(private val modelRx: InventoryPalletModelRx) :
             messageErrorChannel.postValue(dataWrapper.error.message)
         } else {
             modelRx.saveBox(dataWrapper.data!!, doc.value!!)
+                .observeOn(Schedulers.io())
                 .subscribe({
                     commandChannel.postValue(
                         OpenForm(
@@ -183,6 +218,5 @@ class DocInventoryPalletViewModel(private val modelRx: InventoryPalletModelRx) :
                     messageErrorChannel.postValue(it.message)
                 })
         }
-
     }
 }

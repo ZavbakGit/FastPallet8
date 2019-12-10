@@ -3,6 +3,7 @@ package `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.BoxInventoryPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.InventoryPallet
+import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
@@ -22,4 +23,7 @@ interface InventoryPalletModelRx {
 
     fun getBoxByBarcode(barcode:String, doc: InventoryPallet)
             : DataWrapper<BoxInventoryPallet>
+
+    fun checkEditDocByStatus(status: Status?): Boolean
+    fun loadInfoPalletFromServer(doc: InventoryPallet): Completable
 }

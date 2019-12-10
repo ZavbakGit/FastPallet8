@@ -8,5 +8,10 @@ data class InfoPallet(
     var state:String?,
     var sclad:String?,
     var count:Float?,
-    var countBox:Int?
+    var countBox:Int?,
+
+    var barcode: String? = null,
+    var weightStartProduct: String? = null,
+    var weightEndProduct: String? = null,
+    var weightCoffProduct:String? = null
 )

@@ -9,6 +9,9 @@ interface DocumentModelRx {
     fun loadDocuments():Completable
     fun sendDocument(itemListDocument: ItemListDocument):Completable
     fun deleteDocument(itemListDocument: ItemListDocument):Completable
+    fun addNewInventoryPallet():Completable
+
+
     fun addTestDataCreatePallet():Completable
     fun addTestDataAction():Completable
     fun addTestDataInventoryPallet():Completable

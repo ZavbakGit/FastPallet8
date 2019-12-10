@@ -161,6 +161,17 @@ class DocumentListViewModel(val model: DocumentModelRx) : BaseViewModel() {
     }
 
     @SuppressLint("CheckResult")
+    fun addNewInventoryPallet() {
+        model.addNewInventoryPallet()
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                messageChannel.postValue("Загрузили!")
+            }, {
+                messageErrorChannel.postValue(it.message)
+            })
+    }
+
+    @SuppressLint("CheckResult")
     fun addTestDataCreatePallet() {
         model.addTestDataCreatePallet()
             .subscribeOn(Schedulers.io())

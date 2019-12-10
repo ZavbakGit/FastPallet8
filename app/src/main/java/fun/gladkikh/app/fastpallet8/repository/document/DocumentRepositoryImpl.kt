@@ -6,6 +6,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.BoxCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.CreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.PalletCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.InventoryPallet
 import `fun`.gladkikh.app.fastpallet8.map.toDb
 import `fun`.gladkikh.app.fastpallet8.map.toObject
 import `fun`.gladkikh.app.fastpallet8.map.toOject
@@ -26,6 +27,9 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
     override fun save(document: Any) {
         when (document) {
             is CreatePallet -> {
+                dao.insertOrUpdate(document.toDb())
+            }
+            is InventoryPallet->{
                 dao.insertOrUpdate(document.toDb())
             }
             else -> {

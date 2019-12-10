@@ -1,6 +1,9 @@
 package `fun`.gladkikh.app.fastpallet8.domain.model.documentmodel
 
+import `fun`.gladkikh.app.fastpallet8.common.toSimpleDate
 import `fun`.gladkikh.app.fastpallet8.domain.entity.ItemListDocument
+import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.InventoryPallet
+import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.creatpallet.SendCreatePalletUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.documents.LoadDocumentsUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata.AddTestDataActionUseCase
@@ -11,6 +14,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata.AddTestDataInvento
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 
 class DocumentModelImpl(
@@ -55,6 +59,38 @@ class DocumentModelImpl(
             }
         }
 
+    }
+
+    override fun addNewInventoryPallet(): Completable {
+
+        val date = Date()
+
+        val doc = InventoryPallet(
+            guid = UUID.randomUUID().toString(),
+            numberPallet = null,
+            barcodePallet = null,
+            countRow = 0,
+            nameProduct = null,
+            countBox = null,
+            count = null,
+            guidBackProduct = null,
+            weightBarcode = null,
+            weightCoffProduct = 0f,
+            weightEndProduct = 0,
+            weightStartProduct = 0,
+            status = Status.NEW,
+            barcode = null,
+            date = date,
+            number = null,
+            dateChanged = date,
+            isLastLoad = false,
+            guidServer = null,
+            description = "Инвентаризация паллеты от ${date.toSimpleDate()}"
+        )
+
+      return  Completable.fromAction {
+            repository.save(doc)
+        }
     }
 
     override fun addTestDataCreatePallet(): Completable {
