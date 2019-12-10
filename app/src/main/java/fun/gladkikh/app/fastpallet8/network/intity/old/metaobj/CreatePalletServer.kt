@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
 import java.util.*
 
 
-class CreatePalletServer(
+data class CreatePalletServer(
     var guid: String? = null,
     var guidServer: String? = null,
     var type: Type = Type.CREATE_PALLET,

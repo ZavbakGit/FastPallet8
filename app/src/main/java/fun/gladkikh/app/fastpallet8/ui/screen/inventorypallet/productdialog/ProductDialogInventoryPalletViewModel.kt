@@ -1,33 +1,24 @@
-package `fun`.gladkikh.app.fastpallet8.ui.screen.action.productdialog
+package `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.productdialog
 
 import `fun`.gladkikh.app.fastpallet8.Constants
-import `fun`.gladkikh.app.fastpallet8.domain.model.action.ActionModelRx
-
-import `fun`.gladkikh.app.fastpallet8.domain.entity.action.Action
-import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
-
-
+import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.InventoryPallet
+import `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet.InventoryPalletModelRx
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
-import `fun`.gladkikh.app.fastpallet8.ui.screen.action.WrapperGuidAction
-
+import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.WrapperGuidInventoryPallet
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-class ProductDialogActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel() {
+class ProductDialogInventoryPalletViewModel(private val modelRx: InventoryPalletModelRx) : BaseViewModel() {
 
-    private val doc = MutableLiveData<Action>()
-    private val product = MutableLiveData<ProductAction>()
-
-    fun getProductLiveData(): LiveData<ProductAction> = product
+    private val doc = MutableLiveData<InventoryPallet>()
+    fun getDocLiveData(): LiveData<InventoryPallet> = doc
 
     //Все пареметры запросов
-    var wrapperGuid: WrapperGuidAction? = null
+    var wrapperGuid: WrapperGuidInventoryPallet? = null
         set(value) {
             modelRx.setDoc(value?.guidDoc)
-            modelRx.setProduct(value?.guidProduct)
-            modelRx.setPallet(value?.guidPallet)
             field = value
         }
 
@@ -39,18 +30,6 @@ class ProductDialogActionViewModel(private val modelRx: ActionModelRx) : BaseVie
                         messageErrorChannel.postValue(it.error.message)
                     } else {
                         doc.postValue(it.data)
-                    }
-                }, {
-                    messageErrorChannel.postValue(it.message)
-                })
-        )
-        compositeDisposable.add(
-            modelRx.getProduct()
-                .subscribe({
-                    if (it.error != null) {
-                        messageErrorChannel.postValue(it.error.message)
-                    } else {
-                        product.postValue(it.data)
                     }
                 }, {
                     messageErrorChannel.postValue(it.message)
@@ -68,7 +47,7 @@ class ProductDialogActionViewModel(private val modelRx: ActionModelRx) : BaseVie
                         "Начало",
                         Constants.EDIT_START_DIALOG,
                         false,
-                        (product.value!!.weightStartProduct ?: 0).toString()
+                        (doc.value!!.weightStartProduct ?: 0).toString()
                     )
                 )
             }
@@ -78,7 +57,7 @@ class ProductDialogActionViewModel(private val modelRx: ActionModelRx) : BaseVie
                         "Конец",
                         Constants.EDIT_END_DIALOG,
                         false,
-                        (product.value!!.weightEndProduct ?: 0).toString()
+                        (doc.value!!.weightEndProduct ?: 0).toString()
                     )
                 )
             }
@@ -87,8 +66,8 @@ class ProductDialogActionViewModel(private val modelRx: ActionModelRx) : BaseVie
                     Command.EditNumberDialog(
                         "Коэффицент",
                         Constants.EDIT_COFF_DIALOG,
-                        false,
-                        (product.value!!.weightCoffProduct ?: 0).toString()
+                        true,
+                        (doc.value!!.weightCoffProduct ?: 0).toString()
                     )
                 )
             }
@@ -101,7 +80,7 @@ class ProductDialogActionViewModel(private val modelRx: ActionModelRx) : BaseVie
         when (editNumberDialog.requestCode) {
             Constants.EDIT_START_DIALOG -> {
                 val start = editNumberDialog.data?.toIntOrNull()
-                modelRx.saveProduct(product.value!!.copy(weightStartProduct = start), doc.value!!)
+                modelRx.saveDoc(doc.value!!.copy(weightStartProduct = start))
                     .subscribe({
                         wrapperGuid = wrapperGuid!!.copy()
                     }, {
@@ -111,7 +90,7 @@ class ProductDialogActionViewModel(private val modelRx: ActionModelRx) : BaseVie
             }
             Constants.EDIT_END_DIALOG -> {
                 val end = editNumberDialog.data?.toIntOrNull()
-                modelRx.saveProduct(product.value!!.copy(weightEndProduct = end), doc.value!!)
+                modelRx.saveDoc(doc.value!!.copy(weightEndProduct = end))
                     .subscribe({
                         wrapperGuid = wrapperGuid!!.copy()
                     }, {
@@ -121,7 +100,7 @@ class ProductDialogActionViewModel(private val modelRx: ActionModelRx) : BaseVie
             }
             Constants.EDIT_COFF_DIALOG -> {
                 val coff = editNumberDialog.data?.toFloatOrNull()
-                modelRx.saveProduct(product.value!!.copy(weightCoffProduct = coff), doc.value!!)
+                modelRx.saveDoc(doc.value!!.copy(weightCoffProduct = coff))
                     .subscribe({
                         wrapperGuid = wrapperGuid!!.copy()
                     }, {
@@ -133,7 +112,7 @@ class ProductDialogActionViewModel(private val modelRx: ActionModelRx) : BaseVie
 
     @SuppressLint("CheckResult")
     fun readBarcode(barcode: String) {
-        modelRx.saveProduct(product.value!!.copy(barcode = barcode), doc.value!!)
+        modelRx.saveDoc(doc.value!!.copy(barcode = barcode))
             .subscribe({
                 wrapperGuid = wrapperGuid!!.copy()
             }, {

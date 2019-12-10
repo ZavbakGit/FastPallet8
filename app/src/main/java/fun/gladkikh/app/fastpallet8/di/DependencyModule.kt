@@ -41,6 +41,7 @@ import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.productdialog.Produc
 import `fun`.gladkikh.app.fastpallet8.ui.screen.documentlist.DocumentListViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.box.BoxInventoryPalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.doc.DocInventoryPalletViewModel
+import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.productdialog.ProductDialogInventoryPalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.test.TestViewModel
 import android.content.Context
 import androidx.room.Room
@@ -104,6 +105,7 @@ object DependencyModule {
 
         viewModel { DocInventoryPalletViewModel(get()) }
         viewModel { BoxInventoryPalletViewModel(get()) }
+        viewModel { ProductDialogInventoryPalletViewModel(get()) }
 
 
         viewModel { TestViewModel(get(), get()) }

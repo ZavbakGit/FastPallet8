@@ -8,7 +8,7 @@ import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.*
 import `fun`.gladkikh.app.fastpallet8.ui.screen.action.WrapperGuidAction
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet
-import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.doc.WrapperGuidInventoryPallet
+import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.WrapperGuidInventoryPallet
 import `fun`.gladkikh.fastpallet7.ui.base.MyBaseAdapter
 import android.content.Context
 import android.view.View

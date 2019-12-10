@@ -8,7 +8,7 @@ import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.Type
 import `fun`.gladkikh.app.fastpallet8.ui.screen.action.WrapperGuidAction
-import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.doc.WrapperGuidInventoryPallet
+import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.WrapperGuidInventoryPallet
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

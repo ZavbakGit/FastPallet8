@@ -4,7 +4,7 @@ import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.R
 import `fun`.gladkikh.app.fastpallet8.ui.screen.action.WrapperGuidAction
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet
-import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.doc.WrapperGuidInventoryPallet
+import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.WrapperGuidInventoryPallet
 
 import android.os.Bundle
 import androidx.annotation.IdRes
@@ -21,6 +21,14 @@ class NavigateHandler(val navController: NavController) {
         val bundle = Bundle()
         navigate(R.id.documentListFragment, bundle)
     }
+
+    fun startInventoryPalletProductDialog(wrapper: WrapperGuidInventoryPallet) {
+        val bundle = Bundle()
+        val gson = GsonBuilder().create()
+        bundle.putString(Constants.EXTRA_WRAP_GUID, gson.toJson(wrapper))
+        navigate(R.id.productDialogInventoryPalletFragment, bundle)
+    }
+
 
     fun startInventoryPalletBox(wrapper: WrapperGuidInventoryPallet) {
         val bundle = Bundle()

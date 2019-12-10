@@ -9,7 +9,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet.InventoryPall
 
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.*
-import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.doc.WrapperGuidInventoryPallet
+import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.WrapperGuidInventoryPallet
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -2,10 +2,15 @@ package `fun`.gladkikh.app.fastpallet8.repository.document
 
 import `fun`.gladkikh.app.fastpallet8.db.dao.MainDao
 import `fun`.gladkikh.app.fastpallet8.domain.entity.ItemListDocument
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.Action
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.BoxAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.PalletAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.BoxCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.CreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.PalletCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.BoxInventoryPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.InventoryPallet
 import `fun`.gladkikh.app.fastpallet8.map.toDb
 import `fun`.gladkikh.app.fastpallet8.map.toObject
@@ -88,4 +93,39 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
             it.toObject()
         }
     }
+
+    override fun getInventoryPalletByGuid(guidDoc: String): InventoryPallet? {
+        val doc = dao.getDocInventoryPalletByGuid(guidDoc)
+        return doc!!.toObject()
+    }
+
+    override fun getListBoxInventoryPallet(guidDoc: String): List<BoxInventoryPallet> {
+        return dao.getListBoxByGuidDoc(guidDoc).map {
+            it.toObject()
+        }
+    }
+
+    override fun getActionByGyid(guidDoc: String): Action {
+        val doc = dao.getActionByGuid(guidDoc)
+        return doc!!.toObject()
+    }
+
+    override fun getListProductAction(guidDoc: String): List<ProductAction> {
+        return dao.getListProductActionByGuidDoc(guidDoc).map {
+            it.toObject()
+        }
+    }
+
+    override fun getListPalletAction(guidProduct: String): List<PalletAction> {
+        return dao.getListPalletActionByGuidProduct(guidProduct).map {
+            it.toObject()
+        }
+    }
+
+    override fun getListBoxAction(guidProduct: String): List<BoxAction> {
+        return dao.getListBoxByGuidProduct(guidProduct).map {
+            it.toObject()
+        }
+    }
+
 }

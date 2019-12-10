@@ -59,7 +59,7 @@ class ProductDialogCreatePalletViewModel(private val modelRx: CreatePalletModelR
     override fun callKeyDown(keyCode: Int?, position: Int?) {
         super.callKeyDown(keyCode, position)
         when (keyCode) {
-            Constants.KEY_2 -> {
+            Constants.KEY_1 -> {
                 commandChannel.postValue(
                     Command.EditNumberDialog(
                         "Начало",
@@ -69,22 +69,22 @@ class ProductDialogCreatePalletViewModel(private val modelRx: CreatePalletModelR
                     )
                 )
             }
-            Constants.KEY_3 -> {
+            Constants.KEY_2 -> {
                 commandChannel.postValue(
                     Command.EditNumberDialog(
-                        "Начало",
+                        "Конец",
                         Constants.EDIT_END_DIALOG,
                         false,
                         (product.value!!.weightEndProduct ?: 0).toString()
                     )
                 )
             }
-            Constants.KEY_4 -> {
+            Constants.KEY_3 -> {
                 commandChannel.postValue(
                     Command.EditNumberDialog(
-                        "Начало",
+                        "Коэффицент",
                         Constants.EDIT_COFF_DIALOG,
-                        false,
+                        true,
                         (product.value!!.weightCoffProduct ?: 0).toString()
                     )
                 )

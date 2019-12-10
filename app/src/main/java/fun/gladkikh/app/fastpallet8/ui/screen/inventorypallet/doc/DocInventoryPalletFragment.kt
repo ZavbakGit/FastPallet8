@@ -4,13 +4,12 @@ import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.R
 import `fun`.gladkikh.app.fastpallet8.common.toSimpleDateTime
 import `fun`.gladkikh.app.fastpallet8.common.toSimpleFormat
-import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.BoxInventoryPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.InventoryPallet
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseFragment
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.*
-import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet
+import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.WrapperGuidInventoryPallet
 import `fun`.gladkikh.fastpallet7.ui.base.MyBaseAdapter
 import android.content.Context
 import android.view.View
@@ -20,7 +19,6 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.block_pallet.*
-import kotlinx.android.synthetic.main.block_product.*
 import kotlinx.android.synthetic.main.create_pallet_fragment_pallet.*
 import kotlinx.android.synthetic.main.list_block.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -105,9 +103,9 @@ class DocInventoryPalletFragment : BaseFragment() {
                         navigateHandler.
                             startInventoryPalletBox(command.data as WrapperGuidInventoryPallet)
                     }
-                    Constants.OPEN_PRODUCT_CREATE_PALLET_DIALOG_FORM->{
+                    Constants.OPEN_PRODUCT_INVENTORY_PALLET_DIALOG_FORM->{
                         navigateHandler.
-                            startProductDialogCreatePallet(command.data as WrapperGuidCreatePallet)
+                            startInventoryPalletProductDialog(command.data as WrapperGuidInventoryPallet)
                     }
                 }
             }

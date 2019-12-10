@@ -1,26 +1,25 @@
-package `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.box
+package `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.productdialog
 
 import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.R
-import `fun`.gladkikh.app.fastpallet8.common.toSimpleDateTime
+import `fun`.gladkikh.app.fastpallet8.common.getWeightByBarcode
 import `fun`.gladkikh.app.fastpallet8.common.toSimpleFormat
-import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.BoxInventoryPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.InventoryPallet
-
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseFragment
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.WrapperGuidInventoryPallet
 
+
 import androidx.lifecycle.Observer
 import com.google.gson.GsonBuilder
-import kotlinx.android.synthetic.main.block_box.*
-import kotlinx.android.synthetic.main.block_pallet.*
+import kotlinx.android.synthetic.main.product_template_weight_fragment.*
+
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BoxInventoryPalletFragment : BaseFragment() {
+class ProductDialogInventoryPalletFragment : BaseFragment() {
 
-    override val layoutRes = R.layout.inventory_pallet_fragment_box
-    override val viewModel: BoxInventoryPalletViewModel by viewModel()
+    override val layoutRes = R.layout.product_template_weight_fragment
+    override val viewModel: ProductDialogInventoryPalletViewModel by viewModel()
 
     override fun initSubscription() {
         super.initSubscription()
@@ -37,27 +36,19 @@ class BoxInventoryPalletFragment : BaseFragment() {
                 ) as WrapperGuidInventoryPallet
         }
 
-
-
         viewModel.getDocLiveData().observe(viewLifecycleOwner, Observer {
             renderDoc(it)
         })
 
 
-
-        viewModel.getBoxLiveData().observe(viewLifecycleOwner, Observer {
-            renderBox(it)
-        })
+        tvBarcodeProductDialog.setOnClickListener {
+            viewModel.readBarcode("${(10..99).random()}123456789")
+        }
 
         mainActivity.barcodeLiveData.observe(viewLifecycleOwner, Observer {
             viewModel.readBarcode(it)
         })
 
-
-
-        tvCountBox.setOnClickListener {
-            viewModel.readBarcode("${(10..99).random()}123456789")
-        }
     }
 
     override fun commandListener(command: Command) {
@@ -66,21 +57,30 @@ class BoxInventoryPalletFragment : BaseFragment() {
             is Command.Close -> {
                 navigateHandler.popBackStack()
             }
-
         }
     }
 
-
     private fun renderDoc(doc: InventoryPallet?) {
-        tvNumberPallet.text = doc?.number ?: ""
-        tvCountPallet.text = doc?.count.toSimpleFormat()
-        tvCountPlacePallet.text = doc?.countBox.toSimpleFormat()
-        tvCountRowPallet.text = doc?.countRow.toSimpleFormat()
-    }
+        tvNameProductDialog.text = doc?.nameProduct ?: ""
 
-    private fun renderBox(box: BoxInventoryPallet?) {
-        tvDateBox.text = box?.dateChanged.toSimpleDateTime()
-        tvCountBox.text = box?.count.toSimpleFormat()
-        tvCountPlaceBox.text = box?.countBox.toSimpleFormat()
+        val barcode = doc?.barcode ?: ""
+        val start = doc?.weightStartProduct ?: 0
+        val finish = doc?.weightEndProduct ?: 0
+        val coff = doc?.weightCoffProduct ?: 0f
+
+
+        tvBarcodeProductDialog.text = barcode
+        tvStartProductDialog.text = start.toSimpleFormat()
+        tvEndProductDialog.text = finish.toSimpleFormat()
+        tvCoffProductDialog.text = coff.toSimpleFormat()
+
+        val weight = getWeightByBarcode(
+            barcode = barcode,
+            start = start,
+            finish = finish,
+            coff = coff
+        )
+
+        tvWeightProductDialog.text = weight.toSimpleFormat()
     }
 }
