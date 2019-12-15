@@ -20,7 +20,7 @@ import java.util.*
 class SaveHandlerPalletAction(
     compositeDisposable: CompositeDisposable,
     private val modelRx: ActionModelRx,
-    private val messageError: MutableLiveData<String>,
+    private val messageError: MutableLiveData<String?>,
     private val doAfterSave: (pallet: PalletAction) -> Unit
 ) {
 

@@ -12,14 +12,14 @@ import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel : ViewModel() {
 
-    protected val messageChannel = SingleLiveEvent<String>()
-    protected val messageErrorChannel = SingleLiveEvent<String>()
+    protected val messageChannel = SingleLiveEvent<String?>()
+    protected val messageErrorChannel = SingleLiveEvent<String?>()
     protected val showProgressChannel = MutableLiveData<Boolean>()
     protected val commandChannel = SingleLiveEvent<Command>()
 
     fun getCommandChannel(): LiveData<Command> = commandChannel
-    fun getMessageChannel(): LiveData<String> = messageChannel
-    fun getMessageErrorChannel(): LiveData<String> = messageErrorChannel
+    fun getMessageChannel(): LiveData<String?> = messageChannel
+    fun getMessageErrorChannel(): LiveData<String?> = messageErrorChannel
     fun getShowProgressChannel(): LiveData<Boolean> = showProgressChannel
 
 

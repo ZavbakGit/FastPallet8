@@ -15,7 +15,7 @@ import io.reactivex.subjects.PublishSubject
 class SaveHandlerPalletInventoryPallet(
     compositeDisposable: CompositeDisposable,
     private val modelRx: InventoryPalletModelRx,
-    private val messageError: MutableLiveData<String>,
+    private val messageError: MutableLiveData<String?>,
     private val doAfterSave: (doc: InventoryPallet) -> Unit
 ) {
 

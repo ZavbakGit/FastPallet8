@@ -1,6 +1,8 @@
 package `fun`.gladkikh.app.fastpallet8.common
 
-import java.text.DecimalFormat
+
+import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,10 +18,22 @@ fun Date?.toSimpleDateTime(): String {
 
 fun Float?.toSimpleFormat(): String {
     return if (this == null) {
-        "0.0"
+        val df = NumberFormat.getInstance()
+
+        //val df = DecimalFormat("### ###.###")
+        //val df = DecimalFormatSymbols(Locale.getDefault())
+
+        df.format(0)
+
     } else {
-        val df = DecimalFormat("###,###.###")
-        df.format(this).replace(",", " ")
+
+        val df = NumberFormat.getInstance()
+
+        //val df = DecimalFormat("### ###.###")
+        //val df = DecimalFormatSymbols(Locale.getDefault())
+
+        df.format(this)
+        //df.format(this).replace(",", " ")
     }
 }
 
@@ -27,7 +41,9 @@ fun Int?.toSimpleFormat(): String {
     return if (this == null) {
         "0"
     } else {
-        String.format("%,d", this)
+        //String.format("%,d", this)
+        val df = NumberFormat.getInstance()
+        df.format(this)
     }
 }
 

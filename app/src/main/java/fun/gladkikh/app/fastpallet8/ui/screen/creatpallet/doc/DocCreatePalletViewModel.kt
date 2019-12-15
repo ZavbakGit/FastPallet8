@@ -101,8 +101,4 @@ class DocCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseV
 
     }
 
-    @SuppressLint("CheckResult")
-    fun readBarcode(barcode: String) {
-    }
-
 }

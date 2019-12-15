@@ -88,7 +88,13 @@ class DocumentListFragment : BaseFragment() {
 
     private fun showMenu() {
         val popupMenu = PopupMenu(activity, tvInfo)
-        popupMenu.inflate(R.menu.main)
+
+        if (Constants.IS_TEST_BUILD){
+            popupMenu.inflate(R.menu.test_main)
+        }else{
+            popupMenu.inflate(R.menu.main)
+        }
+
         popupMenu
             .setOnMenuItemClickListener { item ->
                 when (item.itemId) {

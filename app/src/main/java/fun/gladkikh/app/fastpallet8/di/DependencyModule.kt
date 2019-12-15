@@ -13,7 +13,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet.InventoryPall
 import `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet.InventoryPalletModelRxImpl
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.GetInfoPalletUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.creatpallet.SaveLoadedCreatePalletUseCase
-import `fun`.gladkikh.app.fastpallet8.domain.usecase.creatpallet.SendCreatePalletUseCase
+import `fun`.gladkikh.app.fastpallet8.domain.usecase.documents.SendDocumentPalletUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.documents.LoadDocumentsUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.recalcdb.RecalcDbUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.testdata.AddTestDataActionUseCase
@@ -75,7 +75,13 @@ object DependencyModule {
         single { RecalcDbUseCase(get()) }
         single { SaveLoadedCreatePalletUseCase(get()) }
         single { LoadDocumentsUseCase(get(), get(), get()) }
-        single { SendCreatePalletUseCase(get(), get(), get()) }
+        single {
+            SendDocumentPalletUseCase(
+                get(),
+                get(),
+                get()
+            )
+        }
 
 
         single { GetInfoPalletUseCase(get(), get()) }
@@ -168,7 +174,7 @@ object DependencyModule {
     private fun getDocumentModelRx(
         repository: DocumentRepository
         , loadDocumentsUseCase: LoadDocumentsUseCase
-        , sendCreatePalletUseCase: SendCreatePalletUseCase
+        , sendCreatePalletUseCase: SendDocumentPalletUseCase
         , addTestDataUseCaseCreatePallet: AddTestDataCreatePalletUseCase
         , addTestDataActionUseCase: AddTestDataActionUseCase
         , addTestDataInventoryPalletUseCase: AddTestDataInventoryPalletUseCase

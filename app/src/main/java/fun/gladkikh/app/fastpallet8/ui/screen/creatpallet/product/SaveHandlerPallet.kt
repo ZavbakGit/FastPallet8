@@ -18,7 +18,7 @@ import java.util.*
 class SaveHandlerPallet(
     compositeDisposable: CompositeDisposable,
     private val modelRx: CreatePalletModelRx,
-    private val messageError: MutableLiveData<String>,
+    private val messageError: MutableLiveData<String?>,
     private val doAfterSave: (pallet: PalletCreatePallet) -> Unit
 ) {
 

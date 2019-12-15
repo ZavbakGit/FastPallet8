@@ -206,10 +206,10 @@ interface CreatPalletDao{
     fun delete(entity: CreatePalletDb)
 
     @Query("SELECT * FROM CreatePalletDb WHERE guid = :guid")
-    fun getDocByGuid(guid: String): CreatePalletDb?
+    fun getCreatePalletByGuid(guid: String): CreatePalletDb?
 
     @Query("SELECT * FROM CreatePalletDb WHERE guidServer = :guidServer")
-    fun getDocByGuidServer(guidServer: String): CreatePalletDb?
+    fun getCreatePalletByGuidServer(guidServer: String): CreatePalletDb?
     //endregion
 
     //region function for Recalc

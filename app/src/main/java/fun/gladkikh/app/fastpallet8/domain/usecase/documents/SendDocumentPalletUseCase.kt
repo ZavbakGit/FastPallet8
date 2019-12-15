@@ -1,4 +1,4 @@
-package `fun`.gladkikh.app.fastpallet8.domain.usecase.creatpallet
+package `fun`.gladkikh.app.fastpallet8.domain.usecase.documents
 
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.domain.entity.ItemListDocument
@@ -13,13 +13,11 @@ import `fun`.gladkikh.app.fastpallet8.repository.setting.SettingsRepository
 import `fun`.gladkikh.app.fastpallet8.domain.model.Type
 import `fun`.gladkikh.app.fastpallet8.network.intity.old.MetaObjServer
 import `fun`.gladkikh.app.fastpallet8.network.intity.old.metaobj.*
-import android.drm.DrmStore
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.*
 
-class SendCreatePalletUseCase(
+class SendDocumentPalletUseCase(
     private val repository: DocumentRepository,
     private val settingsRepository: SettingsRepository,
     private val apiFactory: ApiFactory
@@ -71,20 +69,20 @@ class SendCreatePalletUseCase(
     }
 
     fun send(itemListDocument: ItemListDocument): Completable {
-        checkEditDocByStatusFlowable(itemListDocument)
+       return checkEditDocByStatusFlowable(itemListDocument)
             .flatMap {
                 return@flatMap getSingleDoc(itemListDocument)
             }
             .map {
                 it as MetaObjServer
             }
-            .flatMap {
+            .map {
                 val objReqest = SendDocumentsReqest(
                     settingsRepository.settingApp?.code ?: "",
                     list = listOf(it)
                 )
 
-                return@flatMap objReqest
+                return@map objReqest
             }
             .flatMap {
                 apiFactory.request(

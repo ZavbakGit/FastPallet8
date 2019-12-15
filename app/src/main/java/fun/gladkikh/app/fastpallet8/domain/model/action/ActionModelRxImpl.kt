@@ -143,7 +143,7 @@ class ActionModelRxImpl(
         )
 
         if (weight == 0f) {
-            throw Throwable("Ошибка считывания веса!")
+            return DataWrapper(error = Throwable("Ошибка шаблона веса!"))
         }
 
 

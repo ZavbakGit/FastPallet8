@@ -18,6 +18,7 @@ interface DocumentRepository {
     fun getListDocument(): Flowable<List<ItemListDocument>>
     fun save(document: Any)
     fun delete(document: Any)
+    fun delete(itemListDocument: ItemListDocument)
     fun saveCreatePalletFromServer(
         doc: CreatePallet,
         listSave: List<ProductCreatePallet>,

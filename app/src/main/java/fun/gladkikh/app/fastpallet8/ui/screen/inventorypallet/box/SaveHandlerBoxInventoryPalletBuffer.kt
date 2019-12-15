@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 class SaveHandlerBoxInventoryPalletBuffer(
     compositeDisposable: CompositeDisposable,
     private val modelRx: InventoryPalletModelRx,
-    private val messageError: MutableLiveData<String>,
+    private val messageError: MutableLiveData<String?>,
     private val doAfterSaveBuffer: (lastBox: BoxInventoryPallet) -> Unit
 ) {
 

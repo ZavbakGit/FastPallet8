@@ -60,9 +60,12 @@ class DocInventoryPalletFragment : BaseFragment() {
             renderList(it)
         })
 
-        tvCountPallet.setOnClickListener {
-            viewModel.readBarcode("${(10..99).random()}123456789")
+        if (Constants.IS_TEST_BUILD){
+            tvCountPallet.setOnClickListener {
+                viewModel.readBarcode("${(10..99).random()}123456789")
+            }
         }
+
 
         mainActivity.barcodeLiveData.observe(viewLifecycleOwner, Observer {
             viewModel.readBarcode(it)

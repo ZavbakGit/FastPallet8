@@ -31,7 +31,10 @@ class BoxCreatePalletFragment : BaseFragment() {
             val gson = GsonBuilder().create()
             val strJson = arguments!!.get(Constants.EXTRA_WRAP_GUID) as String
             viewModel.wrapperGuid =
-                gson.fromJson(strJson, WrapperGuidCreatePallet::class.java) as WrapperGuidCreatePallet
+                gson.fromJson(
+                    strJson,
+                    WrapperGuidCreatePallet::class.java
+                ) as WrapperGuidCreatePallet
         }
 
 
@@ -54,8 +57,10 @@ class BoxCreatePalletFragment : BaseFragment() {
 
 
 
-        tvCountBox.setOnClickListener {
-            viewModel.readBarcode("${(10..99).random()}123456789")
+        if (Constants.IS_TEST_BUILD) {
+            tvCountBox.setOnClickListener {
+                viewModel.readBarcode("${(10..99).random()}123456789")
+            }
         }
     }
 

@@ -41,6 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
     <TextView
+        android:textSize="24sp"
         android:id="@+id/tvCountBox"
         style="@style/DataTextLargAccent"
         android:layout_width="wrap_content"
@@ -53,6 +54,7 @@
         tools:text="352,568" />
 
     <TextView
+        android:textSize="24sp"
         android:id="@+id/tvCountPlaceBox"
         style="@style/DataTextLargAccent"
         android:layout_width="wrap_content"

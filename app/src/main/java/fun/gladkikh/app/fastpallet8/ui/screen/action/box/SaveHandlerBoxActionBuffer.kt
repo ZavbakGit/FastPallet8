@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 
 class SaveHandlerBoxActionBuffer(compositeDisposable: CompositeDisposable,
                                  private val modelRx: ActionModelRx,
-                                 private val messageError:MutableLiveData<String>,
+                                 private val messageError:MutableLiveData<String?>,
                                  private val doAfterSaveBuffer:(lastBox: BoxAction) ->Unit) {
 
     private val publishSubjectSaveBuffer = PublishSubject.create<BoxAction>()

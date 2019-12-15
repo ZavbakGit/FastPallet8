@@ -95,18 +95,20 @@ class DocCreatePalletFragment : BaseFragment() {
     private class Adapter(mContext: Context) : MyBaseAdapter<ProductCreatePallet>(mContext) {
         override fun bindView(item: ProductCreatePallet, holder: Any) {
             holder as ViewHolder
-
-            holder.tvCountBackProduct.text = item.countBack.toSimpleFormat()
-            holder.tvCountPlaceBackProduct.text = item.countBoxBack.toSimpleFormat()
-            holder.tvCountProduct.text = item.count.toSimpleFormat()
-            holder.tvCountPlaceProduct.text = item.countBox.toSimpleFormat()
-            holder.tvCountPalletProduct.text = item.countPallet.toSimpleFormat()
-
             holder.tvNameProduct.text = item.nameProduct
+
+//            holder.tvCountDoc.text = item.countBack.toSimpleFormat()
+//            holder.tvPlaceDoc.text = item.countBoxBack.toSimpleFormat()
+//
+//            holder.tvCountFact.text = item.count.toSimpleFormat()
+//            holder.tvPalceFact.text = item.countBox.toSimpleFormat()
+//            holder.tvPalletFact.text = item.countPallet.toSimpleFormat()
+
+
 
         }
 
-        override fun getLayout(): Int = R.layout.item_product
+        override fun getLayout(): Int = R.layout.item_product_n
         override fun createViewHolder(view: View): Any =
             ViewHolder(
                 view
@@ -114,13 +116,16 @@ class DocCreatePalletFragment : BaseFragment() {
     }
 
     private class ViewHolder(view: View) {
-        var tvCountBackProduct: TextView = view.findViewById(R.id.tvCountBackProduct)
-        var tvCountPlaceBackProduct: TextView = view.findViewById(R.id.tvCountPlaceBackProduct)
-
-        var tvCountProduct: TextView = view.findViewById(R.id.tvCountProduct)
-        var tvCountPlaceProduct: TextView = view.findViewById(R.id.tvCountPlaceProduct)
-        var tvCountPalletProduct: TextView = view.findViewById(R.id.tvCountPalletProduct)
         var tvNameProduct: TextView = view.findViewById(R.id.tvNameProduct)
+        var tvNumberView: TextView = view.findViewById(R.id.tvNumberView)
+
+//        var tvCountDoc: TextView = view.findViewById(R.id.tvCountDoc)
+//        var tvPlaceDoc: TextView = view.findViewById(R.id.tvPlaceDoc)
+//
+//
+//        var tvCountFact: TextView = view.findViewById(R.id.tvCountFact)
+//        var tvPalceFact: TextView = view.findViewById(R.id.tvPalceFact)
+//        var tvPalletFact: TextView = view.findViewById(R.id.tvPalletFact)
     }
 
 }

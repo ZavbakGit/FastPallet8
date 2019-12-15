@@ -38,7 +38,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Добавить(3) Удалить (9) Информация (5)"
+        android:text="Добавить3) Удалить(9) \n Шаблон(4) Загрузить(5)"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

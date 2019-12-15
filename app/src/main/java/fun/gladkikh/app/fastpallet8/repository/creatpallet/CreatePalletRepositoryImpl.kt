@@ -31,7 +31,7 @@ class CreatePalletRepositoryImpl(private val dao: MainDao) :
             .observeOn(Schedulers.io())
             .toFlowable(BackpressureStrategy.BUFFER)
             .map {
-                return@map DataWrapper(data = dao.getDocByGuid(it)!!.toObject())
+                return@map DataWrapper(data = dao.getCreatePalletByGuid(it)!!.toObject())
             }
             .onErrorReturn {
                 DataWrapper(error = it)

@@ -12,6 +12,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.PalletCreatePall
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.BoxInventoryPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.InventoryPallet
+import `fun`.gladkikh.app.fastpallet8.domain.model.Type
 import `fun`.gladkikh.app.fastpallet8.map.toDb
 import `fun`.gladkikh.app.fastpallet8.map.toObject
 import `fun`.gladkikh.app.fastpallet8.map.toOject
@@ -54,6 +55,23 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
         }
     }
 
+    override fun delete(itemListDocument: ItemListDocument) {
+        when(itemListDocument.type){
+            Type.CREATE_PALLET->{
+                val doc = dao.getCreatePalletByGuid(itemListDocument.guid)
+                dao.deleteTrigger(doc!!)
+            }
+            Type.INVENTORY_PALLET->{
+                val doc = dao.getDocInventoryPalletByGuid(itemListDocument.guid)
+                dao.deleteTrigger(doc!!)
+            }
+            Type.ACTION_PALLET->{
+                val doc = dao.getDocInventoryPalletByGuid(itemListDocument.guid)
+                dao.deleteTrigger(doc!!)
+            }
+        }
+    }
+
     override fun saveCreatePalletFromServer(
         doc: CreatePallet,
         listSave: List<ProductCreatePallet>,
@@ -67,12 +85,12 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
     }
 
     override fun getCreatePalletByGuidServer(guidServer: String): CreatePallet? {
-        val doc = dao.getDocByGuidServer(guidServer)
+        val doc = dao.getCreatePalletByGuidServer(guidServer)
         return doc?.toObject()
     }
 
     override fun getCreatePalletByGuid(guid: String): CreatePallet? {
-        val doc = dao.getDocByGuid(guid)
+        val doc = dao.getCreatePalletByGuid(guid)
         return doc?.toObject()
     }
 

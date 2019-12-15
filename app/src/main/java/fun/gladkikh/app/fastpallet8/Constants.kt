@@ -72,5 +72,8 @@ object Constants {
     const val COMMAND_START_MENU = 9
 
     const val CONFIRM_SEND_DIALOG = 10
+
+
+    const val IS_TEST_BUILD = false
 }
 

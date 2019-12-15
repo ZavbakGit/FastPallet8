@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 class SaveHandlerBoxBuffer(compositeDisposable: CompositeDisposable,
                            private val modelRx: CreatePalletModelRx,
-                           private val messageError:MutableLiveData<String>,
+                           private val messageError:MutableLiveData<String?>,
                            private val doAfterSaveBuffer:(lastBox: BoxCreatePallet) ->Unit) {
 
     private val publishSubjectSaveBuffer = PublishSubject.create<BoxCreatePallet>()

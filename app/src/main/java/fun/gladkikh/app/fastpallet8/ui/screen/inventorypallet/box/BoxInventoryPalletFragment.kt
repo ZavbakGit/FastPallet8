@@ -55,9 +55,12 @@ class BoxInventoryPalletFragment : BaseFragment() {
 
 
 
-        tvCountBox.setOnClickListener {
-            viewModel.readBarcode("${(10..99).random()}123456789")
+        if (Constants.IS_TEST_BUILD) {
+            tvCountBox.setOnClickListener {
+                viewModel.readBarcode("${(10..99).random()}123456789")
+            }
         }
+
     }
 
     override fun commandListener(command: Command) {
