@@ -8,6 +8,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.PalletCreatePall
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.BackpressureStrategy
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.Flowables
@@ -16,7 +17,7 @@ import io.reactivex.subjects.PublishSubject
 import java.util.*
 
 class SaveHandlerPallet(
-    compositeDisposable: CompositeDisposable,
+    private val compositeDisposable: CompositeDisposable,
     private val modelRx: CreatePalletModelRx,
     private val messageError: MutableLiveData<String?>,
     private val doAfterSave: (pallet: PalletCreatePallet) -> Unit
@@ -24,19 +25,13 @@ class SaveHandlerPallet(
 
     private val publishSubjectBarcode = PublishSubject.create<String>()
 
-    //Документ устанавливаем потом
-    var product: ProductCreatePallet? = null
-    var doc: CreatePallet? = null
+    fun getCompletableSave(barcode: String): Completable {
+        return Flowable.just(barcode)
+            .flatMap {
+                try {
+                    val number = getNumberDocByBarCode(it)
 
-    init {
-        compositeDisposable.add(
-            publishSubjectBarcode
-                .observeOn(Schedulers.io())
-                .toFlowable(BackpressureStrategy.BUFFER)
-                .map {
-                    //Вытаскиваем номер
-
-                    return@map PalletCreatePallet(
+                    val pallet = PalletCreatePallet(
                         guid = UUID.randomUUID().toString(),
                         guidProduct = product!!.guid,
                         barcode = it,
@@ -45,54 +40,78 @@ class SaveHandlerPallet(
                         countRow = null,
                         dateChanged = Date(),
                         nameProduct = product!!.nameProduct,
-                        number = getNumberDocByBarCode(it),
+                        number = number,
                         numberView = null,
                         sclad = null,
                         state = null
                     )
+                    return@flatMap Flowable.just(pallet)
 
-
+                } catch (e: Exception) {
+                    return@flatMap Flowable.error<Throwable>(e)
                 }
-                .flatMap {
+            }
+            .map {
+                it as PalletCreatePallet
+            }
+            .flatMap {
 
-                    //Ищем паллету во всех документах
-                    val palletFlow= Flowable.just(it)
-                    val dataWrapperPalletSearchFlow = modelRx.getPalletByNumber(it.number!!)
+                //Ищем паллету во всех документах
+                val palletFlow = Flowable.just(it)
+                val dataWrapperPalletSearchFlow = modelRx.getPalletByNumber(it.number!!)
 
-                    return@flatMap Flowables.zip(
-                        palletFlow,
-                        dataWrapperPalletSearchFlow
-                    ) { pallet, data ->
-                        pallet to data
+                return@flatMap Flowables.zip(
+                    palletFlow,
+                    dataWrapperPalletSearchFlow
+                ) { pallet, data ->
+                    pallet to data
+                }
+            }
+            .filter {
+                //Если нашли, то нельзя
+                if (it.second.data != null) {
+                    messageError.postValue("Паллета уже используется! ${it.first.number}")
+                    return@filter false
+                } else {
+                    return@filter true
+                }
+            }
+            .doOnNext {
+                it.first as PalletCreatePallet
+                //Записываем
+                modelRx.savePallet(it.first, doc!!)
+                    .doFinally {
+                        //Выполняем в конце
+                        doAfterSave(it.first)
                     }
-                }
-                .filter{
-                    //Если нашли, то нельзя
-                    if (it.second.data != null) {
-                        messageError.postValue("Паллета уже используется! ${it.first.number}")
-                        return@filter false
-                    }else{
-                        return@filter true
-                    }
-                }
-                .doOnNext {
-                    it.first as PalletCreatePallet
-                    //Записываем
-                    modelRx.savePallet(it.first, doc!!)
-                        .doFinally {
-                            //Выполняем в конце
-                            doAfterSave(it.first)
-                        }
-                        .subscribe({}, { throwable ->
-                            messageError.postValue(throwable.message)
-                        })
-                }
-                .subscribe({
+                    .subscribe({}, { throwable ->
+                        messageError.postValue(throwable.message)
+                    })
+            }
+            .doOnError {
+                messageError.postValue(it.message)
+            }
+            .ignoreElements()
 
-                }, {
-                    messageError.postValue(it.message)
-                })
-        )
+    }
+
+
+    //Документ устанавливаем потом
+    var product: ProductCreatePallet? = null
+    var doc: CreatePallet? = null
+
+    val disposable = publishSubjectBarcode
+        .observeOn(Schedulers.io())
+        .toFlowable(BackpressureStrategy.BUFFER)
+        .doOnNext {
+            getCompletableSave(it)
+                .subscribe({},{})
+        }
+        .subscribe()
+
+
+    init {
+        compositeDisposable.add(disposable)
     }
 
     fun save(barcode: String) {

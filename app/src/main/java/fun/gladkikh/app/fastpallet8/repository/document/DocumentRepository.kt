@@ -31,9 +31,11 @@ interface DocumentRepository {
     fun getListBox(guidPallet:String):List<BoxCreatePallet>
 
     fun getInventoryPalletByGuid(guidDoc:String): InventoryPallet?
+    fun getInventoryPalletByGuidServer(guidDoc:String): InventoryPallet?
     fun getListBoxInventoryPallet(guidDoc:String):List<BoxInventoryPallet>
 
-    fun getActionByGyid(guid:String):Action
+    fun getActionByGuid(guid:String):Action
+    fun getActionByGuidServer(guid:String):Action
     fun getListProductAction(guidDoc:String):List<ProductAction>
     fun getListPalletAction(guidProduct:String):List<PalletAction>
     fun getListBoxAction(guidProduct:String):List<BoxAction>

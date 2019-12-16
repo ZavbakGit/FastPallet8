@@ -12,40 +12,45 @@ import java.util.concurrent.TimeUnit
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
+
+    fun get(i: Int): Flowable<Int> {
+        return Flowable.just(i)
+            .map {
+                if (it == 10) {
+                    throw Throwable("Eror")
+                } else {
+                    it
+                }
+            }
+    }
+
     @Test
     fun addition_isCorrect() {
 
-        var count = 50
 
-        Flowable.interval(500, TimeUnit.MILLISECONDS)
-            .buffer(1000, TimeUnit.MILLISECONDS)
+        Flowable.fromIterable((0..100))
             .doOnNext {
-                it.forEach {
-                    save(it)
-                        .subscribe({
 
-                        }, {
-                            println(it.message)
-                        })
-                }
-
-                println("Установить ${it.last()}")
+                Flowable.just(it)
+                    .map {
+                        if (it == 10) {
+                            throw Throwable("Eroror")
+                        } else {
+                            it
+                        }
+                    }
+                    .subscribe({
+                        println(it)
+                    }, {
+                        println(it)
+                    })
 
             }
             .subscribe()
 
 
-
-        Thread.sleep(10000)
         assertEquals(4, 2 + 2)
     }
 
-    fun save(i: Long): Completable {
-        return Completable.fromAction {
-            if (i == 10L) {
-                throw Throwable("Error!!!!")
-            }
-            println("Hi $i")
-        }
-    }
+
 }

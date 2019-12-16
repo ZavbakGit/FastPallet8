@@ -62,11 +62,11 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
                 dao.deleteTrigger(doc!!)
             }
             Type.INVENTORY_PALLET->{
-                val doc = dao.getDocInventoryPalletByGuid(itemListDocument.guid)
+                val doc = dao.getInventoryPalletByGuid(itemListDocument.guid)
                 dao.deleteTrigger(doc!!)
             }
             Type.ACTION_PALLET->{
-                val doc = dao.getDocInventoryPalletByGuid(itemListDocument.guid)
+                val doc = dao.getInventoryPalletByGuid(itemListDocument.guid)
                 dao.deleteTrigger(doc!!)
             }
         }
@@ -113,7 +113,17 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
     }
 
     override fun getInventoryPalletByGuid(guidDoc: String): InventoryPallet? {
-        val doc = dao.getDocInventoryPalletByGuid(guidDoc)
+        val doc = dao.getInventoryPalletByGuid(guidDoc)
+        return doc!!.toObject()
+    }
+
+    override fun getActionByGuidServer(guid: String): Action {
+        val doc = dao.getActionByGuidServer(guid)
+        return doc!!.toObject()
+    }
+
+    override fun getInventoryPalletByGuidServer(guidDoc: String): InventoryPallet? {
+        val doc = dao.getInventoryPalletByGuid(guidDoc)
         return doc!!.toObject()
     }
 
@@ -123,7 +133,7 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
         }
     }
 
-    override fun getActionByGyid(guidDoc: String): Action {
+    override fun getActionByGuid(guidDoc: String): Action {
         val doc = dao.getActionByGuid(guidDoc)
         return doc!!.toObject()
     }

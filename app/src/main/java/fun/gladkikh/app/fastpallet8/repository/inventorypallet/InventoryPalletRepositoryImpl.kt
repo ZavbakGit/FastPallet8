@@ -1,7 +1,6 @@
 package `fun`.gladkikh.app.fastpallet8.repository.inventorypallet
 
 import `fun`.gladkikh.app.fastpallet8.db.dao.MainDao
-import `fun`.gladkikh.app.fastpallet8.domain.entity.action.PalletAction
 import `fun`.gladkikh.app.fastpallet8.map.toDb
 import `fun`.gladkikh.app.fastpallet8.map.toObject
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
@@ -35,7 +34,7 @@ class InventoryPalletRepositoryImpl(private val dao: MainDao) : InventoryPalletR
             .observeOn(Schedulers.io())
             .toFlowable(BackpressureStrategy.BUFFER)
             .map {
-                return@map DataWrapper(data = dao.getDocInventoryPalletByGuid(it)!!.toObject())
+                return@map DataWrapper(data = dao.getInventoryPalletByGuid(it)!!.toObject())
             }
             .onErrorReturn {
                 DataWrapper(error = it)

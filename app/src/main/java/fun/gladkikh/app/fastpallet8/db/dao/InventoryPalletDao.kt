@@ -19,7 +19,8 @@ interface InventoryPalletDao {
     fun delete(entity: InventoryPalletDb)
 
     @Query("SELECT * FROM InventoryPalletDb WHERE guid = :guid")
-    fun getDocInventoryPalletByGuid(guid: String): InventoryPalletDb?
+    fun getInventoryPalletByGuid(guid: String): InventoryPalletDb?
+
     //endregion
 
     //region function for Box
@@ -52,7 +53,7 @@ interface InventoryPalletDao {
             update(entity)
         }
 
-        val doc = getDocInventoryPalletByGuid(entity.guidDoc)
+        val doc = getInventoryPalletByGuid(entity.guidDoc)
         doc!!.count = ((doc.count ?: 0f).toBigDecimal() + count).toFloat()
         doc.countBox = (doc.countBox ?: 0) + countBox
         doc.countRow = (doc.countRow ?: 0) + row
@@ -70,7 +71,7 @@ interface InventoryPalletDao {
         delete(entity)
 
 
-        val doc = getDocInventoryPalletByGuid(entity.guidDoc)
+        val doc = getInventoryPalletByGuid(entity.guidDoc)
         doc!!.count = ((doc.count ?: 0f).toBigDecimal() - count).toFloat()
         doc.countBox = (doc.countBox ?: 0) - countBox
         doc.countRow = (doc.countRow ?: 0) - 1

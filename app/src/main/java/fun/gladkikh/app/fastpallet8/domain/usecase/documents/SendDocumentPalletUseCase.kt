@@ -49,7 +49,7 @@ class SendDocumentPalletUseCase(
             }
             Type.ACTION_PALLET -> {
                 return Single.just(
-                    repository.getActionByGyid(
+                    repository.getActionByGuid(
                         itemListDocument.guid
                     )!!.toServerDoc()
                 )
@@ -69,7 +69,7 @@ class SendDocumentPalletUseCase(
     }
 
     fun send(itemListDocument: ItemListDocument): Completable {
-       return checkEditDocByStatusFlowable(itemListDocument)
+        return checkEditDocByStatusFlowable(itemListDocument)
             .flatMap {
                 return@flatMap getSingleDoc(itemListDocument)
             }
@@ -95,11 +95,29 @@ class SendDocumentPalletUseCase(
                 it as SendDocumentsResponse
             }
             .doOnSuccess { response ->
-                response.listConfirm.forEach {
-                    val docSave =
-                        repository.getCreatePalletByGuidServer(it.guid)
 
-                    repository.save(docSave!!.copy(status = Status.getStatusByString(it.status)))
+
+                response.listConfirm.forEach {
+
+                    val type = itemListDocument.type
+
+                    when (type) {
+                        Type.CREATE_PALLET -> {
+                            val docSave =
+                                repository.getCreatePalletByGuidServer(it.guid)
+                            repository.save(docSave!!.copy(status = Status.getStatusByString(it.status)))
+                        }
+                        Type.INVENTORY_PALLET -> {
+                            val docSave = repository.getInventoryPalletByGuid(it.guid)
+                            repository.save(docSave!!.copy(status = Status.getStatusByString(it.status)))
+                        }
+                        Type.ACTION_PALLET -> {
+                            val docSave = repository.getActionByGuidServer(it.guid)
+                            repository.save(docSave!!.copy(status = Status.getStatusByString(it.status)))
+                        }
+                    }
+
+
                 }
             }
             .ignoreElement()

@@ -4,6 +4,7 @@ import `fun`.gladkikh.app.fastpallet8.R
 import `fun`.gladkikh.app.fastpallet8.repository.setting.SettingsRepository
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseActivity
 import `fun`.gladkikh.app.fastpallet8.ui.navigate.NavigateHandler
+import `fun`.gladkikh.app.fastpallet8.ui.sound.PlaySound
 
 import android.os.Bundle
 import android.view.View
@@ -63,11 +64,15 @@ class MainActivity : BaseActivity() {
 
         Snackbar.make(root, text?:"", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
+
+
     }
 
     fun showErrorMessage(text: CharSequence?) {
         Snackbar.make(root, text?:"", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
+
+        PlaySound.playError()
     }
 
     fun showProgress() {
