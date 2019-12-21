@@ -12,6 +12,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.model.documentmodel.DocumentModelRx
 import `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet.InventoryPalletModelRx
 import `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet.InventoryPalletModelRxImpl
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.GetInfoPalletUseCase
+import `fun`.gladkikh.app.fastpallet8.domain.usecase.action.SaveLoadedActionUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.creatpallet.SaveLoadedCreatePalletUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.documents.SendDocumentPalletUseCase
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.documents.LoadDocumentsUseCase
@@ -74,7 +75,8 @@ object DependencyModule {
         single { AddTestDataActionUseCase(get()) }
         single { RecalcDbUseCase(get()) }
         single { SaveLoadedCreatePalletUseCase(get()) }
-        single { LoadDocumentsUseCase(get(), get(), get()) }
+        single { SaveLoadedActionUseCase(get()) }
+        single { LoadDocumentsUseCase(get(), get(), get(),get()) }
         single {
             SendDocumentPalletUseCase(
                 get(),

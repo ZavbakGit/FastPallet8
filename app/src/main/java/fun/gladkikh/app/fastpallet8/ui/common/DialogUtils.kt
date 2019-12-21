@@ -3,7 +3,11 @@ package `fun`.gladkikh.app.fastpallet8.ui.common
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.ConfirmDialog
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.EditNumberDialog
 import android.content.Context
+import android.graphics.Color
 import android.text.InputType
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 
@@ -49,6 +53,25 @@ fun startEditDialogNumber(
     }
 
     dialog.show(supportFragmentManager, "editDescription")
+}
+
+
+fun formatTextSelection(str: String, start: Int?, finish: Int?): SpannableStringBuilder {
+    val text = SpannableStringBuilder(str)
+    val style = ForegroundColorSpan(Color.rgb(255, 0, 0))
+
+    try {
+        text.setSpan(
+            style,
+            start!! - 1,
+            finish!!,
+            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+        )
+    } catch (e: Exception) {
+        return SpannableStringBuilder(str)
+    }
+
+    return text
 }
 
 

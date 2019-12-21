@@ -15,8 +15,10 @@ data class Action(
     override var dateChanged: Date?,
     override var isLastLoad: Boolean?,
     override var description: String?,
-    override var barcode: String?
-) : Document(Type.ACTION_PALLET)
+    override var barcode: String?,
+    val typeFromServer1: String? = null
+
+) : Document(Type.ACTION_PALLET, typeFromServer1)
 
 data class ProductAction(
     val guid: String,

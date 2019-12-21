@@ -84,6 +84,18 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
         )
     }
 
+    override fun saveActionFromServer(
+        doc: Action,
+        listSave: List<ProductAction>,
+        lisDell: List<ProductAction>
+    ) {
+        dao.saveActionFromServer(
+            doc = doc.toDb(),
+            lisDell = lisDell.map { it.toDb() },
+            listSave = listSave.map { it.toDb() }
+        )
+    }
+
     override fun getCreatePalletByGuidServer(guidServer: String): CreatePallet? {
         val doc = dao.getCreatePalletByGuidServer(guidServer)
         return doc?.toObject()

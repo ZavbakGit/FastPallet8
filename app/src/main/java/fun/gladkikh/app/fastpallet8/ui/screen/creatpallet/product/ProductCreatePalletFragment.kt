@@ -49,6 +49,10 @@ class ProductCreatePalletFragment : BaseFragment() {
             renderProduct(it)
         })
 
+        viewModel.getSetCurrentPosition().observe(viewLifecycleOwner, Observer {
+            listView.setSelection(it)
+        })
+
 
 
         viewModel.getListPalletLiveData().observe(viewLifecycleOwner, Observer {

@@ -16,7 +16,7 @@ data class CreatePallet(
     override var isLastLoad: Boolean?,
     override var description: String?,
     override var barcode: String?
-) : Document(Type.CREATE_PALLET)
+) : Document(Type.CREATE_PALLET,"ФормированиеПалет")
 
 data class ProductCreatePallet(
     val guid: String,

@@ -19,7 +19,7 @@ fun confirmLoadDocuments(
 
 
     val list = listDocuments.map {
-        DocConfirm(it.guid, Type.CREATE_PALLET.nameServer)
+        DocConfirm(it.guid, it.type)
     }
 
 

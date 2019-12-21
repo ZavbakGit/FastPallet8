@@ -31,7 +31,7 @@ data class InventoryPallet(
     var count: Float?, //Количество
     var countBox: Int?, //Количество мест
     var countRow: Int?  //Количество строк
-) : Document(Type.INVENTORY_PALLET)
+) : Document(Type.INVENTORY_PALLET,"ИнвентаризацияПалет")
 
 
 

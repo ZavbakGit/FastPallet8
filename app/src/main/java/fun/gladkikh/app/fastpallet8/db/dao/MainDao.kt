@@ -85,6 +85,9 @@ interface MainDao:DocumentDao,CreatPalletDao,ActionDao,InventoryPalletDao {
     }
     //endregion
 
+
+
+
     @Transaction
     fun insertOrUpdate(entity: CreatePalletDb) {
         if (insertIgnore(entity) == -1L) {

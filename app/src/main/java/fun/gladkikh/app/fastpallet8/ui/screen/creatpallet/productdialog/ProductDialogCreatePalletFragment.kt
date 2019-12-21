@@ -7,6 +7,7 @@ import `fun`.gladkikh.app.fastpallet8.common.toSimpleFormat
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseFragment
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
+import `fun`.gladkikh.app.fastpallet8.ui.common.formatTextSelection
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet
 
 import androidx.lifecycle.Observer
@@ -68,7 +69,7 @@ class ProductDialogCreatePalletFragment : BaseFragment() {
         val coff = product?.weightCoffProduct ?: 0f
 
 
-        tvBarcodeProductDialog.text = barcode
+        tvBarcodeProductDialog.text = formatTextSelection(barcode,start,finish)
         tvStartProductDialog.text = start.toSimpleFormat()
         tvEndProductDialog.text = finish.toSimpleFormat()
         tvCoffProductDialog.text = coff.toSimpleFormat()

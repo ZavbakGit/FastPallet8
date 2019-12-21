@@ -139,6 +139,7 @@ class PalletCreatePalletFragment : BaseFragment() {
             holder.tvCountBox.text = item.count.toSimpleFormat()
             holder.tvCountPlaceBox.text = item.countBox.toSimpleFormat()
             holder.tvNumberBox.text = item.numberView.toSimpleFormat()
+            holder.tvBarcode.text = item.barcode?:"пустой"
 
         }
 
@@ -154,6 +155,7 @@ class PalletCreatePalletFragment : BaseFragment() {
         var tvCountBox: TextView = view.findViewById(R.id.tvCountBox)
         var tvCountPlaceBox: TextView = view.findViewById(R.id.tvCountPlaceBox)
         var tvNumberBox: TextView = view.findViewById(R.id.tvNumberView)
+        var tvBarcode: TextView = view.findViewById(R.id.tvBarcode)
     }
 
 }

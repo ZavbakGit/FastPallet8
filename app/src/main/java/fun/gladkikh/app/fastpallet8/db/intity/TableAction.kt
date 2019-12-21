@@ -15,7 +15,8 @@ data class ActionDb(
     var dateChanged: Long?,
     var isLastLoad: Boolean?,
     var description: String?,
-    var barcode: String?
+    var barcode: String?,
+    var typeFromServer:String?
 )
 
 @Entity(

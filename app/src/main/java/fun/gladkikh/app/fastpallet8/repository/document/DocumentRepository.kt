@@ -24,6 +24,13 @@ interface DocumentRepository {
         listSave: List<ProductCreatePallet>,
         lisDell: List<ProductCreatePallet>
     )
+
+    fun saveActionFromServer(
+        doc: Action,
+        listSave: List<ProductAction>,
+        lisDell: List<ProductAction>
+    )
+
     fun getCreatePalletByGuidServer(guidServer:String): CreatePallet?
     fun getCreatePalletByGuid(guid:String): CreatePallet?
     fun getListProduct(guidDoc:String):List<ProductCreatePallet>

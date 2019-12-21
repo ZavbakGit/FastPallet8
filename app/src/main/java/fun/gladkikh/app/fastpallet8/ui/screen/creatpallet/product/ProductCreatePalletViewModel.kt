@@ -8,6 +8,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.PalletCreatePall
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
+import `fun`.gladkikh.app.fastpallet8.ui.common.SingleLiveEvent
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
@@ -19,17 +20,34 @@ class ProductCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : B
     private val product = MutableLiveData<ProductCreatePallet>()
     private val listPallet = MutableLiveData<List<PalletCreatePallet>>()
 
+    private val setCurrentPosition = SingleLiveEvent<Int>()
+
 
     fun getProductLiveData(): LiveData<ProductCreatePallet> = product
     fun getListPalletLiveData(): LiveData<List<PalletCreatePallet>> = listPallet
+    fun getSetCurrentPosition(): LiveData<Int> = setCurrentPosition
+
+
 
     private val saveHandlerPallet = SaveHandlerPallet(
         compositeDisposable = compositeDisposable,
         messageError = messageErrorChannel,
-        modelRx = modelRx
-    ) {
-        modelRx.setProduct(it.guidProduct)
-    }
+        modelRx = modelRx,
+        doAfterSave = {
+            modelRx.setProduct(it.guidProduct)
+        },
+        doFoundPallet = {pall->
+            val item =
+                getListPalletLiveData().value!!.withIndex().find { it.value.number == pall.number  }
+
+            if (item != null){
+                setCurrentPosition.postValue(item.index)
+            }else{
+                messageErrorChannel.postValue("Паллета уже используется!")
+            }
+
+        }
+    )
 
 
     //Все пареметры запросов

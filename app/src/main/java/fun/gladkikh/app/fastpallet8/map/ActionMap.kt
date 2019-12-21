@@ -21,7 +21,8 @@ fun ActionDb.toObject(): Action {
         description = description,
         status = Status.getStatusById(status),
         dateChanged = this.dateChanged?.let { Date(it) },
-        isLastLoad = isLastLoad
+        isLastLoad = isLastLoad,
+        typeFromServer1 = typeFromServer
     )
 }
 
@@ -36,7 +37,8 @@ fun Action.toDb(): ActionDb {
         description = description,
         status = status?.id,
         dateChanged = dateChanged?.time,
-        isLastLoad = isLastLoad
+        isLastLoad = isLastLoad,
+        typeFromServer = typeFromServer
     )
 }
 

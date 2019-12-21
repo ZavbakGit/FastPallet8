@@ -4,7 +4,7 @@ import `fun`.gladkikh.app.fastpallet8.R
 import `fun`.gladkikh.app.fastpallet8.repository.setting.SettingsRepository
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseActivity
 import `fun`.gladkikh.app.fastpallet8.ui.navigate.NavigateHandler
-import `fun`.gladkikh.app.fastpallet8.ui.sound.PlaySound
+import `fun`.gladkikh.app.fastpallet8.ui.sound.SoundVibro
 
 import android.os.Bundle
 import android.view.View
@@ -28,6 +28,8 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    lateinit var soundVibro: SoundVibro
+
 
     lateinit var navigateHandler: NavigateHandler
         private set
@@ -43,6 +45,8 @@ class MainActivity : BaseActivity() {
                refreshSettingApp()
             }
         }
+
+        soundVibro = SoundVibro(this)
 
         refreshSettingApp()
     }
@@ -72,7 +76,7 @@ class MainActivity : BaseActivity() {
         Snackbar.make(root, text?:"", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
 
-        PlaySound.playError()
+        soundVibro.playError()
     }
 
     fun showProgress() {

@@ -20,7 +20,8 @@ class SaveHandlerPallet(
     private val compositeDisposable: CompositeDisposable,
     private val modelRx: CreatePalletModelRx,
     private val messageError: MutableLiveData<String?>,
-    private val doAfterSave: (pallet: PalletCreatePallet) -> Unit
+    private val doAfterSave: (pallet: PalletCreatePallet) -> Unit,
+    private val doFoundPallet:(pallet: PalletCreatePallet) -> Unit
 ) {
 
     private val publishSubjectBarcode = PublishSubject.create<String>()
@@ -70,7 +71,8 @@ class SaveHandlerPallet(
             .filter {
                 //Если нашли, то нельзя
                 if (it.second.data != null) {
-                    messageError.postValue("Паллета уже используется! ${it.first.number}")
+                    doFoundPallet(it.first)
+                    //messageError.postValue("Паллета уже используется! ${it.first.number}")
                     return@filter false
                 } else {
                     return@filter true
