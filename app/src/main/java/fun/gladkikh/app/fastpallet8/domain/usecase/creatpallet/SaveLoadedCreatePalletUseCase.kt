@@ -26,7 +26,7 @@ class SaveLoadedCreatePalletUseCase(private val repository: DocumentRepository) 
         )
 
 
-        val docDb: CreatePallet? = getDocFromDb(docFromServer.guidServer!!)
+        val docDb: CreatePallet? = docFromServer.guidServer?.let { getDocFromDb(it) }
 
         val docForSave = if (docDb != null) {
             CreatePallet(

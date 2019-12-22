@@ -159,14 +159,16 @@ class ActionModelRxImpl(
         return DataWrapper(data = box)
     }
 
-    private fun getListPalletFromDoc(guidDoc: String): List<PalletAction> {
+    private fun getListPalletFromDoc(guidDoc: String): List<Pair<ProductAction, PalletAction>> {
         return repository.getListProductByGuidDoc(guidDoc)
-            .flatMap {
-                repository.getListPalletByGuidProduct(it.guid)
+            .flatMap { product ->
+                repository.getListPalletByGuidProduct(product.guid).map {
+                    product to it
+                }
             }
     }
 
-    override fun loadInfoPalletFromServer(doc: Action): Completable {
+    override fun loadInfoPalletFromServer(doc: Action): Single<List<PalletAction>> {
         return Single.just(doc.guid)
             .map {
                 //Выбираем все паллеты по документу
@@ -174,8 +176,8 @@ class ActionModelRxImpl(
             }
             .flatMap {
                 val list = it
-                    .map { pallet ->
-                        pallet.number!!
+                    .map { pair ->
+                        pair.second.number!!
                     }
                 //Отправляем запрос
                 return@flatMap getInfoPalletUseCase.get(list)
@@ -183,11 +185,29 @@ class ActionModelRxImpl(
             .map { listInfo ->
                 //Изменяем паллеты
                 getListPalletFromDoc(doc.guid)
-                    .map { pallet ->
-                        val info = listInfo.find { it.code == pallet.number }
+                    .map {
+
+                        val pallet = it.second
+                        val product = it.first
+
+                        val info = listInfo.find { info -> info.code == pallet.number }
 
                         if (info != null) {
-                            return@map pallet.copy(countBox = info.countBox, count = info.count)
+                            val nameProduct = if (info.guidProduct != product.guidProductBack) {
+                                if (info.nameProduct.isNullOrEmpty()){
+                                    "Пустая на сервере!"
+                                }else{
+                                    info.nameProduct
+                                }
+
+                            } else {
+                                null
+                            }
+                            return@map pallet.copy(
+                                countBox = info.countBox,
+                                count = info.count,
+                                nameProduct = nameProduct
+                            )
                         } else {
                             return@map pallet
                         }
@@ -199,7 +219,7 @@ class ActionModelRxImpl(
                     repository.savePalletToBase(pallet)
                 }
             }
-            .ignoreElement()
+
     }
 
 }

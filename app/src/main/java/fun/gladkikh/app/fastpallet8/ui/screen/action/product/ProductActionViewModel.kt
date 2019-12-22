@@ -101,7 +101,8 @@ class ProductActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel
                             numberView = null,
                             description = pallet.number,
                             pallet = pallet,
-                            type = PALLET
+                            type = PALLET,
+                            nameProduct = pallet.nameProduct
                         )
                     } ?: listOf()
 
@@ -175,9 +176,6 @@ class ProductActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel
             }
         }
     }
-
-
-
 
     //Подтверждение диалога ввода числа
     override fun callBackEditNumberDialog(editNumberDialog: EditNumberDialog) {
@@ -277,11 +275,22 @@ class ProductActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel
             modelRx.loadInfoPalletFromServer(doc.value!!)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe({
+                .subscribe({ listPallet ->
+                    wrapperGuid = wrapperGuid?.copy()
+
+
+                    listPallet.forEach {
+                        if (it.nameProduct != null){
+                            messageErrorChannel.postValue("Ошибка ${it.number}")
+                        }
+                    }
                     messageChannel.postValue("Загрузили!!")
+
                 }, {
                     messageErrorChannel.postValue(it.message?:"")
                 })
+        }else{
+            messageErrorChannel.postValue("Нет паллет!")
         }
     }
 
@@ -309,6 +318,5 @@ class ProductActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel
                 })
         }
     }
-
 
 }

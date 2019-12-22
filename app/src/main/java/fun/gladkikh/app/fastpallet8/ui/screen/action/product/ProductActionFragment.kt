@@ -59,13 +59,16 @@ class ProductActionFragment : BaseFragment() {
             viewModel.callKeyDown(position = i)
         }
 
-        tvCountProduct.setOnClickListener {
-            viewModel.readBarcode("${(10..99).random()}123456789")
+        if (Constants.IS_TEST_BUILD){
+            tvCountProduct.setOnClickListener {
+                viewModel.readBarcode("${(10..99).random()}123456789")
+            }
+
+            tvCountPalletProduct.setOnClickListener {
+                viewModel.readBarcode("<pal>0214${(10..99).random()}</pal>")
+            }
         }
 
-        tvCountPalletProduct.setOnClickListener {
-            viewModel.readBarcode("<pal>0214${(10..99).random()}</pal>")
-        }
 
         mainActivity.barcodeLiveData.observe(viewLifecycleOwner, Observer {
             viewModel.readBarcode(it)
@@ -124,6 +127,8 @@ class ProductActionFragment : BaseFragment() {
             holder.tvCountBox.text = item.count.toSimpleFormat()
             holder.tvCountPlaceBox.text = item.countBox.toSimpleFormat()
             holder.tvNumberView.text = item.numberView.toSimpleFormat()
+            holder.tvNumberView.text = item.numberView.toSimpleFormat()
+            holder.tvNameProduct.text = item.nameProduct?:""
 
         }
 
@@ -139,6 +144,7 @@ class ProductActionFragment : BaseFragment() {
         var tvCountBox: TextView = view.findViewById(R.id.tvCountBox)
         var tvCountPlaceBox: TextView = view.findViewById(R.id.tvCountPlaceBox)
         var tvNumberView: TextView = view.findViewById(R.id.tvNumberView)
+        var tvNameProduct: TextView = view.findViewById(R.id.tvNameProduct)
     }
 
 }

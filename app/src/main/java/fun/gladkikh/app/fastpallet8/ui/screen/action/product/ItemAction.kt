@@ -12,6 +12,7 @@ data class ItemAction(
     , val countBox: Int?
     , val box: BoxAction? = null
     , val pallet: PalletAction? = null
+    , val nameProduct: String? = null
 )
 
 enum class TYPE_ITEM_ACTION {

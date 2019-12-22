@@ -46,7 +46,7 @@ class SaveHandlerPalletAction(
                         countBox = null,
                         countRow = null,
                         dateChanged = Date(),
-                        nameProduct = product!!.nameProduct,
+                        nameProduct = null,
                         number = getNumberDocByBarCode(it),
                         numberView = null,
                         sclad = null,

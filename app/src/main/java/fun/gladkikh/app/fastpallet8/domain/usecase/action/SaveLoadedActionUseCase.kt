@@ -4,7 +4,6 @@ import `fun`.gladkikh.app.fastpallet8.common.getFloatByParseStr
 import `fun`.gladkikh.app.fastpallet8.common.getIntByParseStr
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.Action
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
-import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.CreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.network.intity.DocResponse
 import `fun`.gladkikh.app.fastpallet8.repository.document.DocumentRepository
@@ -28,7 +27,9 @@ class SaveLoadedActionUseCase(private val repository: DocumentRepository) {
         )
 
 
-        val docDb: Action? = getDocFromDb(docFromServer.guidServer!!)
+        val docDb: Action? = docFromServer.guidServer?.let {
+            getDocFromDb(it)
+        }
 
         val docForSave = if (docDb != null) {
             Action(

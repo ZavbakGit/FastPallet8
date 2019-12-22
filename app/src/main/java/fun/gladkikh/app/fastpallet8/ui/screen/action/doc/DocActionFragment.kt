@@ -96,17 +96,17 @@ class DocActionFragment : BaseFragment() {
         override fun bindView(item: ProductAction, holder: Any) {
             holder as ViewHolder
 
-            holder.tvCountBackProduct.text = item.countBack.toSimpleFormat()
-            holder.tvCountPlaceBackProduct.text = item.countBoxBack.toSimpleFormat()
-            holder.tvCountProduct.text = item.count.toSimpleFormat()
-            holder.tvCountPlaceProduct.text = item.countBox.toSimpleFormat()
-            holder.tvCountPalletProduct.text = item.countPallet.toSimpleFormat()
+//            holder.tvCountBackProduct.text = item.countBack.toSimpleFormat()
+//            holder.tvCountPlaceBackProduct.text = item.countBoxBack.toSimpleFormat()
+//            holder.tvCountProduct.text = item.count.toSimpleFormat()
+//            holder.tvCountPlaceProduct.text = item.countBox.toSimpleFormat()
+//            holder.tvCountPalletProduct.text = item.countPallet.toSimpleFormat()
 
             holder.tvNameProduct.text = item.nameProduct
 
         }
 
-        override fun getLayout(): Int = R.layout.item_product
+        override fun getLayout(): Int = R.layout.item_product_n
         override fun createViewHolder(view: View): Any =
             ViewHolder(
                 view
@@ -114,12 +114,12 @@ class DocActionFragment : BaseFragment() {
     }
 
     private class ViewHolder(view: View) {
-        var tvCountBackProduct: TextView = view.findViewById(R.id.tvCountBackProduct)
-        var tvCountPlaceBackProduct: TextView = view.findViewById(R.id.tvCountPlaceBackProduct)
-
-        var tvCountProduct: TextView = view.findViewById(R.id.tvCountProduct)
-        var tvCountPlaceProduct: TextView = view.findViewById(R.id.tvCountPlaceProduct)
-        var tvCountPalletProduct: TextView = view.findViewById(R.id.tvCountPalletProduct)
+//        var tvCountBackProduct: TextView = view.findViewById(R.id.tvCountBackProduct)
+//        var tvCountPlaceBackProduct: TextView = view.findViewById(R.id.tvCountPlaceBackProduct)
+//
+//        var tvCountProduct: TextView = view.findViewById(R.id.tvCountProduct)
+//        var tvCountPlaceProduct: TextView = view.findViewById(R.id.tvCountPlaceProduct)
+//        var tvCountPalletProduct: TextView = view.findViewById(R.id.tvCountPalletProduct)
         var tvNameProduct: TextView = view.findViewById(R.id.tvNameProduct)
     }
 

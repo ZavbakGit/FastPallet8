@@ -5,6 +5,7 @@ import `fun`.gladkikh.app.fastpallet8.domain.entity.action.*
 
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 interface ActionModelRx {
     fun getDoc(): Flowable<DataWrapper<Action>>
@@ -45,7 +46,7 @@ interface ActionModelRx {
     )
             : DataWrapper<BoxAction>
 
-    fun loadInfoPalletFromServer(doc:Action):Completable
+    fun loadInfoPalletFromServer(doc:Action): Single<List<PalletAction>>
 
 
 }

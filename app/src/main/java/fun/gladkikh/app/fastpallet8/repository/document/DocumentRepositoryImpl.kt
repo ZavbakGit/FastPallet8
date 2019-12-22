@@ -126,17 +126,17 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
 
     override fun getInventoryPalletByGuid(guidDoc: String): InventoryPallet? {
         val doc = dao.getInventoryPalletByGuid(guidDoc)
-        return doc!!.toObject()
+        return doc?.toObject()
     }
 
-    override fun getActionByGuidServer(guid: String): Action {
+    override fun getActionByGuidServer(guid: String): Action? {
         val doc = dao.getActionByGuidServer(guid)
-        return doc!!.toObject()
+        return doc?.toObject()
     }
 
     override fun getInventoryPalletByGuidServer(guidDoc: String): InventoryPallet? {
         val doc = dao.getInventoryPalletByGuid(guidDoc)
-        return doc!!.toObject()
+        return doc?.toObject()
     }
 
     override fun getListBoxInventoryPallet(guidDoc: String): List<BoxInventoryPallet> {
@@ -145,9 +145,9 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
         }
     }
 
-    override fun getActionByGuid(guidDoc: String): Action {
+    override fun getActionByGuid(guidDoc: String): Action? {
         val doc = dao.getActionByGuid(guidDoc)
-        return doc!!.toObject()
+        return doc?.toObject()
     }
 
     override fun getListProductAction(guidDoc: String): List<ProductAction> {
