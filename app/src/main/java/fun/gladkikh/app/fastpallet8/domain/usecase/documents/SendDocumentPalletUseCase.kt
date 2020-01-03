@@ -341,7 +341,7 @@ class SendDocumentPalletUseCase(
             type = type,
             dataChanged = dateChanged,
             isWasLoadedLastTime = isLastLoad,
-            typeFromServer = Type.ACTION_PALLET.nameServer,
+            typeFromServer = typeFromServer,
             stringProducts = getListProduct(guid)
         )
     }

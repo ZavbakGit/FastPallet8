@@ -38,6 +38,9 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
             is InventoryPallet->{
                 dao.insertOrUpdate(document.toDb())
             }
+            is Action->{
+                dao.insertOrUpdate(document.toDb())
+            }
             else -> {
                 throw Throwable("Неизвестный тип документа")
             }
@@ -47,6 +50,9 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
     override fun delete(document: Any) {
         when (document) {
             is CreatePallet -> {
+                dao.deleteTrigger(document.toDb())
+            }
+            is Action->{
                 dao.deleteTrigger(document.toDb())
             }
             else -> {
@@ -66,7 +72,7 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
                 dao.deleteTrigger(doc!!)
             }
             Type.ACTION_PALLET->{
-                val doc = dao.getInventoryPalletByGuid(itemListDocument.guid)
+                val doc = dao.getActionByGuid(itemListDocument.guid)
                 dao.deleteTrigger(doc!!)
             }
         }
