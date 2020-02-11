@@ -51,7 +51,7 @@ data class ProductAction(
     var numberView: Int? = null
 )
 
-data class PalletAction(
+data class InfoPallet(
     val guid: String,
     var guidProduct: String,
     var number: String?,

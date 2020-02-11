@@ -4,7 +4,7 @@ import `fun`.gladkikh.app.fastpallet8.db.dao.MainDao
 import `fun`.gladkikh.app.fastpallet8.domain.entity.ItemListDocument
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.Action
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.BoxAction
-import `fun`.gladkikh.app.fastpallet8.domain.entity.action.PalletAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.InfoPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.BoxCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.CreatePallet
@@ -162,7 +162,7 @@ class DocumentRepositoryImpl(private val dao: MainDao) :
         }
     }
 
-    override fun getListPalletAction(guidProduct: String): List<PalletAction> {
+    override fun getListPalletAction(guidProduct: String): List<InfoPallet> {
         return dao.getListPalletActionByGuidProduct(guidProduct).map {
             it.toObject()
         }

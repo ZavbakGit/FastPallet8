@@ -3,20 +3,24 @@ package `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet
 import `fun`.gladkikh.app.fastpallet8.common.getFloatByParseStr
 import `fun`.gladkikh.app.fastpallet8.common.getIntByParseStr
 import `fun`.gladkikh.app.fastpallet8.common.getWeightByBarcode
+import `fun`.gladkikh.app.fastpallet8.common.isPallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.BoxInventoryPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.InventoryPallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.GetInfoPalletUseCase
 import `fun`.gladkikh.app.fastpallet8.repository.inventorypallet.InventoryPalletRepository
+import `fun`.gladkikh.app.fastpallet8.repository.setting.SettingsRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.*
 
 class InventoryPalletModelRxImpl(
-    val repository: InventoryPalletRepository
-    , private val getInfoPalletUseCase: GetInfoPalletUseCase
+    val repository: InventoryPalletRepository,
+    private val getInfoPalletUseCase: GetInfoPalletUseCase,
+    private val settingsRepository: SettingsRepository
 ) : InventoryPalletModelRx {
 
     override fun checkEditDocByStatus(status: Status?): Boolean {
@@ -45,6 +49,14 @@ class InventoryPalletModelRxImpl(
     ): DataWrapper<BoxInventoryPallet> {
         if (!checkEditDocByStatus(doc.status)) {
             return DataWrapper(error = Throwable("Нельзя изменять документ с этим статусом"))
+        }
+
+        if (isPallet(barcode)){
+            return DataWrapper(error = Throwable("Это паллета!"))
+        }
+
+        if (!checkLengthBarcode(barcode,doc)){
+            return DataWrapper(error = Throwable("Не верная длинна ШК!"))
         }
 
         val weight = getWeightByBarcode(
@@ -91,10 +103,22 @@ class InventoryPalletModelRxImpl(
 
     override fun dellDoc(doc: InventoryPallet) = repository.dellDoc(doc)
 
+    override fun checkLengthBarcode(barcode: String, doc: InventoryPallet): Boolean {
+        val setting = settingsRepository.getSetting()
+        return if (setting.checkLengthBarcode == false) {
+            true
+        } else {
+            if (doc.weightBarcode.isNullOrBlank()) {
+                return true
+            }
+            return barcode.length == doc.weightBarcode!!.length
+        }
+    }
+
     override fun loadInfoPalletFromServer(doc: InventoryPallet): Completable {
         return Single.just(doc)
             .flatMap {
-                if (!checkEditDocByStatus(doc.status)){
+                if (!checkEditDocByStatus(doc.status)) {
                     return@flatMap Single.error<Throwable>(Throwable("Нельзя редактировать документ!"))
                 }
 

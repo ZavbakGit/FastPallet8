@@ -1,6 +1,7 @@
 package `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.box
 
 import `fun`.gladkikh.app.fastpallet8.Constants
+import `fun`.gladkikh.app.fastpallet8.common.isPallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModelRx
 
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.BoxCreatePallet
@@ -215,6 +216,17 @@ class BoxCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseV
     }
 
     fun readBarcode(barcode: String) {
+
+        if (isPallet(barcode)){
+            messageErrorChannel.postValue("Это паллета!")
+            return
+        }
+
+        if (!modelRx.checkLengthBarcode(barcode,product.value!!)){
+            messageErrorChannel.postValue("Не верная длинна ШК!")
+            return
+        }
+
         val data = modelRx.getBoxByBarcode(
             barcode = barcode,
             doc = doc.value!!,

@@ -112,7 +112,7 @@ class ProductDialogInventoryPalletViewModel(private val modelRx: InventoryPallet
 
     @SuppressLint("CheckResult")
     fun readBarcode(barcode: String) {
-        modelRx.saveDoc(doc.value!!.copy(barcode = barcode))
+        modelRx.saveDoc(doc.value!!.copy(weightBarcode = barcode))
             .subscribe({
                 wrapperGuid = wrapperGuid!!.copy()
             }, {

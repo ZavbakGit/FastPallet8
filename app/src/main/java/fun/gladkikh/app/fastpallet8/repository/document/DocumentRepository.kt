@@ -3,7 +3,7 @@ package `fun`.gladkikh.app.fastpallet8.repository.document
 import `fun`.gladkikh.app.fastpallet8.domain.entity.ItemListDocument
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.Action
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.BoxAction
-import `fun`.gladkikh.app.fastpallet8.domain.entity.action.PalletAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.InfoPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.BoxCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.CreatePallet
@@ -44,6 +44,6 @@ interface DocumentRepository {
     fun getActionByGuid(guid:String):Action?
     fun getActionByGuidServer(guid:String):Action?
     fun getListProductAction(guidDoc:String):List<ProductAction>
-    fun getListPalletAction(guidProduct:String):List<PalletAction>
+    fun getListPalletAction(guidProduct:String):List<InfoPallet>
     fun getListBoxAction(guidProduct:String):List<BoxAction>
 }

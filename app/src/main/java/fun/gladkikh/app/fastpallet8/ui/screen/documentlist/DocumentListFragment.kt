@@ -8,6 +8,7 @@ import `fun`.gladkikh.app.fastpallet8.ui.common.Command
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.*
 import `fun`.gladkikh.app.fastpallet8.ui.screen.action.WrapperGuidAction
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet
+
 import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.WrapperGuidInventoryPallet
 import `fun`.gladkikh.fastpallet7.ui.base.MyBaseAdapter
 import android.content.Context
@@ -103,11 +104,7 @@ class DocumentListFragment : BaseFragment() {
                         true
                     }
                     R.id.menuInfoPallet -> {
-                        Toast.makeText(
-                            activity,
-                            "Информация по паллете",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        navigateHandler.startInfoPallet()
                         true
                     }
                     R.id.menuSettings -> {

@@ -75,5 +75,7 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
+    compile 'com.github.bosphere.android-filelogger:filelogger:1.0.7'
+
     implementation project(path: ':barcode')
 }

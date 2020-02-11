@@ -7,9 +7,12 @@ import `fun`.gladkikh.app.fastpallet8.ui.navigate.NavigateHandler
 import `fun`.gladkikh.app.fastpallet8.ui.sound.SoundVibro
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import com.bosphere.filelogger.FL
 import com.gladkikh.mylibrary.BarcodeHelper
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,7 +45,7 @@ class MainActivity : BaseActivity() {
 
         navigateHandler.navController.addOnDestinationChangedListener { controller, destination, arguments ->
             if (destination.id == R.id.documentListFragment) {
-               refreshSettingApp()
+                refreshSettingApp()
             }
         }
 
@@ -53,6 +56,7 @@ class MainActivity : BaseActivity() {
 
     fun refreshSettingApp() {
         settingsRepository.refresh()
+        //Toast.makeText(this,settingsRepository.getSetting().code,Toast.LENGTH_SHORT).show()
 
         barcodeHelper?.getBarcodeLiveData()?.removeObserver(barcodeObserver)
 
@@ -64,17 +68,18 @@ class MainActivity : BaseActivity() {
     }
 
     fun showMessage(text: CharSequence?) {
-
-
-        Snackbar.make(root, text?:"", Snackbar.LENGTH_LONG)
+        Snackbar.make(root, text ?: "", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
-
-
+        Log.d("anit", "showMessage $text")
+        FL.d("anit","showMessage $text")
     }
 
     fun showErrorMessage(text: CharSequence?) {
-        Snackbar.make(root, text?:"", Snackbar.LENGTH_LONG)
+        Snackbar.make(root, text ?: "", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
+
+        Log.e("anit", "showErrorMessage $text")
+        FL.e("anit","showErrorMessage $text")
 
         soundVibro.playError()
     }

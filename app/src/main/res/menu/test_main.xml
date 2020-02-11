@@ -10,10 +10,6 @@
             android:icon="@mipmap/ic_launcher"
             android:title="Загрузить" />
         <item
-            android:id="@+id/menuInventory"
-            android:title="Инвентаризация" />
-
-        <item
             android:id="@+id/menuInfoPallet"
             android:title="Информация о паллете" />
 

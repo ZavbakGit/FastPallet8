@@ -48,6 +48,8 @@ object Constants {
     const val OPEN_PRODUCT_INVENTORY_PALLET_DIALOG_FORM = 11
     const val OPEN_BOX_INVENTORY_PALLET_FORM = 12
 
+    const val OPEN_INFO_PALLET = 13
+
 
 
     //Вызов диалога удаления
@@ -74,6 +76,6 @@ object Constants {
     const val CONFIRM_SEND_DIALOG = 10
 
 
-    const val IS_TEST_BUILD = false
+    const val IS_TEST_BUILD = true
 }
 

@@ -96,8 +96,12 @@ class ProductCreatePalletFragment : BaseFragment() {
                     Constants.OPEN_PALLET_CREATE_PALLET_FORM -> {
                         navigateHandler.startCreatePalletPallet(command.data as WrapperGuidCreatePallet)
                     }
+                    Constants.OPEN_PRODUCT_CREATE_PALLET_DIALOG_FORM ->{
+                        navigateHandler.startProductDialogCreatePallet(command.data as WrapperGuidCreatePallet)
+                    }
                 }
             }
+
         }
     }
 

@@ -63,7 +63,7 @@ class ProductDialogCreatePalletFragment : BaseFragment() {
     private fun renderProduct(product: ProductCreatePallet?) {
         tvNameProductDialog.text = product?.nameProduct ?: ""
 
-        val barcode = product?.barcode ?: ""
+        val barcode = product?.weightBarcode ?: ""
         val start = product?.weightStartProduct ?: 0
         val finish = product?.weightEndProduct ?: 0
         val coff = product?.weightCoffProduct ?: 0f

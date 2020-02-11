@@ -7,6 +7,7 @@ import `fun`.gladkikh.app.fastpallet8.common.toSimpleFormat
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseFragment
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command
+import `fun`.gladkikh.app.fastpallet8.ui.common.formatTextSelection
 import `fun`.gladkikh.app.fastpallet8.ui.screen.action.WrapperGuidAction
 
 
@@ -40,9 +41,10 @@ class ProductDialogActionFragment : BaseFragment() {
             renderProduct(it)
         })
 
-
-        tvBarcodeProductDialog.setOnClickListener {
-            viewModel.readBarcode("${(10..99).random()}123456789")
+        if (Constants.IS_TEST_BUILD) {
+            tvBarcodeProductDialog.setOnClickListener {
+                viewModel.readBarcode("${(10..99).random()}123456789")
+            }
         }
 
         mainActivity.barcodeLiveData.observe(viewLifecycleOwner, Observer {
@@ -63,13 +65,13 @@ class ProductDialogActionFragment : BaseFragment() {
     private fun renderProduct(product: ProductAction?) {
         tvNameProductDialog.text = product?.nameProduct ?: ""
 
-        val barcode = product?.barcode ?: ""
+        val barcode = product?.weightBarcode ?: ""
         val start = product?.weightStartProduct ?: 0
         val finish = product?.weightEndProduct ?: 0
         val coff = product?.weightCoffProduct ?: 0f
 
 
-        tvBarcodeProductDialog.text = barcode
+
         tvStartProductDialog.text = start.toSimpleFormat()
         tvEndProductDialog.text = finish.toSimpleFormat()
         tvCoffProductDialog.text = coff.toSimpleFormat()
@@ -80,6 +82,8 @@ class ProductDialogActionFragment : BaseFragment() {
             finish = finish,
             coff = coff
         )
+
+        tvBarcodeProductDialog.text = formatTextSelection(barcode, start, finish)
 
         tvWeightProductDialog.text = weight.toSimpleFormat()
     }

@@ -9,6 +9,8 @@ import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModel
 import `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet.CreatePalletModelRxImpl
 import `fun`.gladkikh.app.fastpallet8.domain.model.documentmodel.DocumentModelImpl
 import `fun`.gladkikh.app.fastpallet8.domain.model.documentmodel.DocumentModelRx
+import `fun`.gladkikh.app.fastpallet8.domain.model.infopallet.InfoPalletModelRx
+import `fun`.gladkikh.app.fastpallet8.domain.model.infopallet.InfoPalletModelRxImpl
 import `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet.InventoryPalletModelRx
 import `fun`.gladkikh.app.fastpallet8.domain.model.inventorypallet.InventoryPalletModelRxImpl
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.GetInfoPalletUseCase
@@ -40,6 +42,8 @@ import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.pallet.PalletCreateP
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.product.ProductCreatePalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.productdialog.ProductDialogCreatePalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.screen.documentlist.DocumentListViewModel
+import `fun`.gladkikh.app.fastpallet8.ui.screen.infopallet.InfoPalletFragment
+import `fun`.gladkikh.app.fastpallet8.ui.screen.infopallet.InfoPalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.box.BoxInventoryPalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.doc.DocInventoryPalletViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.productdialog.ProductDialogInventoryPalletViewModel
@@ -91,10 +95,13 @@ object DependencyModule {
 
         //****************************************************************************************
         //MODEL
-        single { getInventoryPalletModelRx(get(),get()) }
-        single { getActionModelRx(get(), get()) }
-        single { getCreatePalletModelRx(get()) }
+        single { getInventoryPalletModelRx(get(),get(),get()) }
+        single { getActionModelRx(get(), get(),get()) }
+        single { getCreatePalletModelRx(get(),get()) }
         single { getDocumentModelRx(get(), get(), get(), get(), get(), get()) }
+        single { getActModelRx(get()) }
+
+
         //****************************************************************************************
         //VIEW MODEL
         viewModel { DocumentListViewModel(get()) }
@@ -103,6 +110,7 @@ object DependencyModule {
         viewModel { ProductDialogCreatePalletViewModel(get()) }
         viewModel { ProductCreatePalletViewModel(get()) }
         viewModel { DocCreatePalletViewModel(get()) }
+        viewModel { InfoPalletViewModel(get()) }
 
 
         viewModel { DocActionViewModel(get()) }
@@ -155,21 +163,31 @@ object DependencyModule {
 
     //MODEL
     private fun getInventoryPalletModelRx(
-        repository: InventoryPalletRepository
-        , getInfoPalletUseCase: GetInfoPalletUseCase
+        repository: InventoryPalletRepository,
+        getInfoPalletUseCase: GetInfoPalletUseCase,
+        settingsRepository: SettingsRepository
     ): InventoryPalletModelRx {
-        return InventoryPalletModelRxImpl(repository,getInfoPalletUseCase)
+        return InventoryPalletModelRxImpl(repository,getInfoPalletUseCase,settingsRepository)
     }
+
+
 
     private fun getActionModelRx(
         repository: ActionRepository,
-        getInfoPalletUseCase: GetInfoPalletUseCase
+        getInfoPalletUseCase: GetInfoPalletUseCase,
+        settingsRepository: SettingsRepository
     ): ActionModelRx {
-        return ActionModelRxImpl(repository, getInfoPalletUseCase)
+        return ActionModelRxImpl(repository, getInfoPalletUseCase,settingsRepository)
     }
 
-    private fun getCreatePalletModelRx(repository: CreatePalletRepository): CreatePalletModelRx {
-        return CreatePalletModelRxImpl(repository)
+    private fun getActModelRx(
+        getInfoPalletUseCase: GetInfoPalletUseCase
+    ): InfoPalletModelRx {
+        return InfoPalletModelRxImpl(getInfoPalletUseCase)
+    }
+
+    private fun getCreatePalletModelRx(repository: CreatePalletRepository,settingsRepository: SettingsRepository): CreatePalletModelRx {
+        return CreatePalletModelRxImpl(repository,settingsRepository)
     }
 
 

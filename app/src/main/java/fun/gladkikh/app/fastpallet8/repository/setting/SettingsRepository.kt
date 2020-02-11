@@ -16,6 +16,7 @@ class SettingsRepository(private val context: Context) {
         val pass = "preference_pass"
         val code = "preference_code_1c"
         val listTsd = "list_tsd"
+        val checkLengthBarcode = "check_length_barcode"
 
 
         settingApp = SettingApp(
@@ -23,7 +24,8 @@ class SettingsRepository(private val context: Context) {
             code = sharedPref.getString(code, "333"),
             login = sharedPref.getString(login, "Администратор"),
             pass = sharedPref.getString(pass, ""),
-            typeTsd = sharedPref.getString(listTsd, 1.toString()).toIntOrNull()
+            typeTsd = sharedPref.getString(listTsd, 1.toString()).toIntOrNull(),
+            checkLengthBarcode = sharedPref.getBoolean(checkLengthBarcode, true)
         )
     }
 

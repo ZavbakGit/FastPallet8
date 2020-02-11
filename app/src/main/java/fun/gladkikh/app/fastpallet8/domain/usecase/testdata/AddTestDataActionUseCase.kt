@@ -5,7 +5,7 @@ import `fun`.gladkikh.app.fastpallet8.db.dao.MainDao
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.Action
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.BoxAction
-import `fun`.gladkikh.app.fastpallet8.domain.entity.action.PalletAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.InfoPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
 import `fun`.gladkikh.app.fastpallet8.map.toDb
 import java.util.*
@@ -87,9 +87,9 @@ class AddTestDataActionUseCase (private val dao: MainDao) {
         }
     }
 
-    private fun getListPallets(guidProduct: String): List<PalletAction> {
+    private fun getListPallets(guidProduct: String): List<InfoPallet> {
         return (0..1).map {
-            PalletAction(
+            InfoPallet(
                 guid = guidProduct + "_" + it,
                 guidProduct = guidProduct,
                 number = guidProduct + "_" + it,

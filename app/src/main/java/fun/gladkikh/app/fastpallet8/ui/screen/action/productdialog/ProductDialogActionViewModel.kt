@@ -1,10 +1,11 @@
 package `fun`.gladkikh.app.fastpallet8.ui.screen.action.productdialog
 
 import `fun`.gladkikh.app.fastpallet8.Constants
-import `fun`.gladkikh.app.fastpallet8.domain.model.action.ActionModelRx
+
 
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.Action
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
+import `fun`.gladkikh.app.fastpallet8.domain.model.action.ActionModelRx
 
 
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseViewModel
@@ -133,7 +134,7 @@ class ProductDialogActionViewModel(private val modelRx: ActionModelRx) : BaseVie
 
     @SuppressLint("CheckResult")
     fun readBarcode(barcode: String) {
-        modelRx.saveProduct(product.value!!.copy(barcode = barcode), doc.value!!)
+        modelRx.saveProduct(product.value!!.copy(weightBarcode = barcode), doc.value!!)
             .subscribe({
                 wrapperGuid = wrapperGuid!!.copy()
             }, {

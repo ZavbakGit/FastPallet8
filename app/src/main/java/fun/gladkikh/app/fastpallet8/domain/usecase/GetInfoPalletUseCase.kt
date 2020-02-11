@@ -45,5 +45,8 @@ class GetInfoPalletUseCase(
                     )
                 }
             }
+            .map {
+                it
+            }
     }
 }

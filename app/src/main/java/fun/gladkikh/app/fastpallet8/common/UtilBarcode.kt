@@ -41,6 +41,8 @@ fun isPallet(barcode: String): Boolean {
     return barcode.startsWith("<pal>", true) && barcode.endsWith("</pal>", true)
 }
 
+
+
 fun getNumberDocByBarCode(barcode: String): String {
     //<pal>021400000007</pal>
     if (!isPallet(barcode)) {

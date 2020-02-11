@@ -47,4 +47,5 @@ interface CreatePalletModelRx {
             : DataWrapper<BoxCreatePallet>
 
 
+    fun checkLengthBarcode(barcode: String, product: ProductCreatePallet): Boolean
 }

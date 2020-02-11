@@ -13,6 +13,10 @@ import com.google.gson.GsonBuilder
 
 class NavigateHandler(val navController: NavController) {
 
+    fun startInfoPallet(){
+        navigate(R.id.infoPalletFragment, null)
+    }
+
     fun startSettings() {
         navigate(R.id.settingsFragment, null)
     }

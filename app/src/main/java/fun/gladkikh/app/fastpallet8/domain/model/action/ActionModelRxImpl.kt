@@ -1,14 +1,14 @@
 package `fun`.gladkikh.app.fastpallet8.domain.model.action
 
+
 import `fun`.gladkikh.app.fastpallet8.common.getWeightByBarcode
+import `fun`.gladkikh.app.fastpallet8.common.isPallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.*
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
-import `fun`.gladkikh.app.fastpallet8.domain.entity.action.*
 import `fun`.gladkikh.app.fastpallet8.domain.usecase.GetInfoPalletUseCase
-
 import `fun`.gladkikh.app.fastpallet8.repository.action.ActionRepository
-
-
+import `fun`.gladkikh.app.fastpallet8.repository.setting.SettingsRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -16,8 +16,9 @@ import java.util.*
 
 
 class ActionModelRxImpl(
-    private val repository: ActionRepository
-    , private val getInfoPalletUseCase: GetInfoPalletUseCase
+    private val repository: ActionRepository,
+    private val getInfoPalletUseCase: GetInfoPalletUseCase,
+    private val settingsRepository: SettingsRepository
 ) : ActionModelRx {
 
     private fun checkEditDocByStatus(status: Status?): Boolean {
@@ -35,10 +36,10 @@ class ActionModelRxImpl(
         repository.getProduct()
 
 
-    override fun getListPallet(): Flowable<DataWrapper<List<PalletAction>>> =
+    override fun getListPallet(): Flowable<DataWrapper<List<InfoPallet>>> =
         repository.getListPallet()
 
-    override fun getPallet(): Flowable<DataWrapper<PalletAction>> =
+    override fun getPallet(): Flowable<DataWrapper<InfoPallet>> =
         repository.getPallet()
 
     override fun getWraperListBoxListPallet(): Flowable<DataWrapper<WraperListBoxListPallet>> =
@@ -88,7 +89,7 @@ class ActionModelRxImpl(
         }
     }
 
-    override fun savePallet(pallet: PalletAction, doc: Action): Completable {
+    override fun savePallet(pallet: InfoPallet, doc: Action): Completable {
         return if (!checkEditDocByStatus(doc.status)) {
             Completable.error(Throwable("Нельзя изменять документ с этим статусом"))
         } else {
@@ -96,7 +97,7 @@ class ActionModelRxImpl(
         }
     }
 
-    override fun dellPallet(pallet: PalletAction, doc: Action): Completable {
+    override fun dellPallet(pallet: InfoPallet, doc: Action): Completable {
         return if (!checkEditDocByStatus(doc.status)) {
             Completable.error(Throwable("Нельзя изменять документ с этим статусом"))
         } else {
@@ -123,7 +124,7 @@ class ActionModelRxImpl(
     override fun getPalletByNumber(
         numberPallet: String,
         guidProduct: String
-    ): Flowable<DataWrapper<PalletAction>> {
+    ): Flowable<DataWrapper<InfoPallet>> {
         return repository.getPalletByNumber(numberPallet, guidProduct)
     }
 
@@ -133,6 +134,14 @@ class ActionModelRxImpl(
     ): DataWrapper<BoxAction> {
         if (!checkEditDocByStatus(doc.status)) {
             return DataWrapper(error = Throwable("Нельзя изменять документ с этим статусом"))
+        }
+
+        if (isPallet(barcode)){
+            return DataWrapper(error = Throwable("Это паллета!"))
+        }
+
+        if (!checkLengthBarcode(barcode,product)){
+            return DataWrapper(error = Throwable("Не верная длинна ШК!"))
         }
 
         val weight = getWeightByBarcode(
@@ -159,7 +168,7 @@ class ActionModelRxImpl(
         return DataWrapper(data = box)
     }
 
-    private fun getListPalletFromDoc(guidDoc: String): List<Pair<ProductAction, PalletAction>> {
+    private fun getListPalletFromDoc(guidDoc: String): List<Pair<ProductAction, InfoPallet>> {
         return repository.getListProductByGuidDoc(guidDoc)
             .flatMap { product ->
                 repository.getListPalletByGuidProduct(product.guid).map {
@@ -168,7 +177,19 @@ class ActionModelRxImpl(
             }
     }
 
-    override fun loadInfoPalletFromServer(doc: Action): Single<List<PalletAction>> {
+    override fun checkLengthBarcode(barcode:String,product: ProductAction):Boolean{
+        val setting = settingsRepository.getSetting()
+        return if (setting.checkLengthBarcode == false){
+            true
+        }else{
+            if (product.weightBarcode.isNullOrBlank()) {
+                return true
+            }
+            return barcode.length == product.weightBarcode!!.length
+        }
+    }
+
+    override fun loadInfoPalletFromServer(doc: Action): Single<List<InfoPallet>> {
         return Single.just(doc.guid)
             .map {
                 //Выбираем все паллеты по документу

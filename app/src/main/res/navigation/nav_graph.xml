@@ -65,4 +65,8 @@
         android:id="@+id/productDialogInventoryPalletFragment"
         android:name="fun.gladkikh.app.fastpallet8.ui.screen.inventorypallet.productdialog.ProductDialogInventoryPalletFragment"
         android:label="ProductDialogInventoryPalletFragment" />
+    <fragment
+        android:id="@+id/infoPalletFragment"
+        android:name="fun.gladkikh.app.fastpallet8.ui.screen.infopallet.InfoPalletFragment"
+        android:label="InfoPalletFragment" />
 </navigation>

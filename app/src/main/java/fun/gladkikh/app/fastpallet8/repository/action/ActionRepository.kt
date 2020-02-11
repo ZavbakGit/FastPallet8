@@ -11,12 +11,12 @@ interface ActionRepository {
     fun getListProduct(): Flowable<DataWrapper<List<ProductAction>>>
 
     fun getProduct(): Flowable<DataWrapper<ProductAction>>
-    fun getListPallet(): Flowable<DataWrapper<List<PalletAction>>>
+    fun getListPallet(): Flowable<DataWrapper<List<InfoPallet>>>
     fun getWraperListBoxListPallet(): Flowable<DataWrapper<WraperListBoxListPallet>>
 
-    fun getPallet(): Flowable<DataWrapper<PalletAction>>
+    fun getPallet(): Flowable<DataWrapper<InfoPallet>>
     fun getListBox(): Flowable<DataWrapper<List<BoxAction>>>
-    fun getPalletByNumber(numberPallet:String,guidProduct:String): Flowable<DataWrapper<PalletAction>>
+    fun getPalletByNumber(numberPallet:String,guidProduct:String): Flowable<DataWrapper<InfoPallet>>
     fun getBox(): Flowable<DataWrapper<BoxAction>>
 
     fun setDoc(guid:String?)
@@ -30,14 +30,14 @@ interface ActionRepository {
     fun saveProduct(product:ProductAction):Completable
     fun dellProduct(doc:ProductAction):Completable
 
-    fun savePallet(pallet:PalletAction):Completable
-    fun dellPallet(pallet:PalletAction):Completable
+    fun savePallet(pallet:InfoPallet):Completable
+    fun dellPallet(pallet:InfoPallet):Completable
 
     fun saveBox(box:BoxAction):Completable
     fun dellBox(box:BoxAction):Completable
 
 
     fun getListProductByGuidDoc(guidDoc: String): List<ProductAction>
-    fun getListPalletByGuidProduct(guidProduct: String): List<PalletAction>
-    fun savePalletToBase(pallet: PalletAction)
+    fun getListPalletByGuidProduct(guidProduct: String): List<InfoPallet>
+    fun savePalletToBase(pallet: InfoPallet)
 }

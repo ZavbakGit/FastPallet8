@@ -7,7 +7,7 @@ import `fun`.gladkikh.app.fastpallet8.db.intity.ProductActionDb
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.Action
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.BoxAction
-import `fun`.gladkikh.app.fastpallet8.domain.entity.action.PalletAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.InfoPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
 import java.util.*
 
@@ -94,8 +94,8 @@ fun ProductAction.toDb(): ProductActionDb {
     )
 }
 
-fun PalletActionDb.toObject(): PalletAction {
-    return PalletAction(
+fun PalletActionDb.toObject(): InfoPallet {
+    return InfoPallet(
         guid = guid,
         countRow = countRow,
         count = count,
@@ -110,7 +110,7 @@ fun PalletActionDb.toObject(): PalletAction {
     )
 }
 
-fun PalletAction.toDb(): PalletActionDb {
+fun InfoPallet.toDb(): PalletActionDb {
     return PalletActionDb(
         guid = guid,
         countRow = countRow,

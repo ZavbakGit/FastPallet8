@@ -6,5 +6,6 @@ data class SettingApp(
     var login: String? = null,
     var pass: String? = null,
     var code: String? = null,
-    var typeTsd: Int? = null
+    var typeTsd: Int? = null,
+    var checkLengthBarcode: Boolean? = false
 )

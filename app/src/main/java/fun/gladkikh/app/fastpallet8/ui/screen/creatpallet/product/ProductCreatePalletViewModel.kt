@@ -126,6 +126,14 @@ class ProductCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : B
                     )
                 }
             }
+            Constants.KEY_4 -> {
+                commandChannel.postValue(
+                    Command.OpenForm(
+                        code = Constants.OPEN_PRODUCT_CREATE_PALLET_DIALOG_FORM,
+                        data = wrapperGuid!!
+                    )
+                )
+            }
             Constants.KEY_9 -> {
                 if (position != -1) {
                     commandChannel.postValue(

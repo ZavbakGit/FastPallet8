@@ -3,10 +3,11 @@ package `fun`.gladkikh.app.fastpallet8.ui.screen.action.product
 import `fun`.gladkikh.app.fastpallet8.Constants
 import `fun`.gladkikh.app.fastpallet8.common.isPallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
-import `fun`.gladkikh.app.fastpallet8.domain.model.action.ActionModelRx
+
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.Action
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.BoxAction
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
+import `fun`.gladkikh.app.fastpallet8.domain.model.action.ActionModelRx
 import `fun`.gladkikh.app.fastpallet8.ui.base.BaseViewModel
 import `fun`.gladkikh.app.fastpallet8.ui.common.Command.*
 import `fun`.gladkikh.app.fastpallet8.ui.screen.action.WrapperGuidAction

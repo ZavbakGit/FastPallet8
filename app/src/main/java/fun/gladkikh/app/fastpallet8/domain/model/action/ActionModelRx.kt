@@ -12,9 +12,9 @@ interface ActionModelRx {
     fun getListProduct(): Flowable<DataWrapper<List<ProductAction>>>
 
     fun getProduct(): Flowable<DataWrapper<ProductAction>>
-    fun getListPallet(): Flowable<DataWrapper<List<PalletAction>>>
+    fun getListPallet(): Flowable<DataWrapper<List<InfoPallet>>>
 
-    fun getPallet(): Flowable<DataWrapper<PalletAction>>
+    fun getPallet(): Flowable<DataWrapper<InfoPallet>>
     fun getWraperListBoxListPallet(): Flowable<DataWrapper<WraperListBoxListPallet>>
     fun getListBox(): Flowable<DataWrapper<List<BoxAction>>>
 
@@ -32,13 +32,13 @@ interface ActionModelRx {
     fun saveProduct(product: ProductAction, doc: Action): Completable
     fun dellProduct(product: ProductAction, doc: Action): Completable
 
-    fun savePallet(pallet: PalletAction, doc: Action): Completable
-    fun dellPallet(pallet: PalletAction, doc: Action): Completable
+    fun savePallet(pallet: InfoPallet, doc: Action): Completable
+    fun dellPallet(pallet: InfoPallet, doc: Action): Completable
 
     fun saveBox(box: BoxAction, doc: Action): Completable
     fun dellBox(box: BoxAction, doc: Action): Completable
 
-    fun getPalletByNumber(numberPallet: String,guidProduct:String): Flowable<DataWrapper<PalletAction>>
+    fun getPalletByNumber(numberPallet: String,guidProduct:String): Flowable<DataWrapper<InfoPallet>>
 
     fun getBoxByBarcode(
         barcode: String, doc: Action,
@@ -46,7 +46,8 @@ interface ActionModelRx {
     )
             : DataWrapper<BoxAction>
 
-    fun loadInfoPalletFromServer(doc:Action): Single<List<PalletAction>>
+    fun loadInfoPalletFromServer(doc:Action): Single<List<InfoPallet>>
 
 
+    fun checkLengthBarcode(barcode: String, product: ProductAction): Boolean
 }

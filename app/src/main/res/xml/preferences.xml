@@ -29,6 +29,11 @@
             android:singleLine="true"
             android:title="Код терминала" />
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="check_length_barcode"
+        android:title="Проверять длинну штрих кода" />
+
     <ListPreference
             android:entries="@array/entries_type_tsd"
             android:entryValues="@array/entry_values_tsd"

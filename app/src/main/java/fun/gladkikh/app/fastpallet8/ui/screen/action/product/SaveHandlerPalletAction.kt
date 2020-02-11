@@ -1,11 +1,12 @@
 package `fun`.gladkikh.app.fastpallet8.ui.screen.action.product
 
 import `fun`.gladkikh.app.fastpallet8.common.getNumberDocByBarCode
-import `fun`.gladkikh.app.fastpallet8.domain.model.action.ActionModelRx
+
 
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.Action
-import `fun`.gladkikh.app.fastpallet8.domain.entity.action.PalletAction
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.InfoPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
+import `fun`.gladkikh.app.fastpallet8.domain.model.action.ActionModelRx
 
 
 import androidx.lifecycle.MutableLiveData
@@ -21,7 +22,7 @@ class SaveHandlerPalletAction(
     compositeDisposable: CompositeDisposable,
     private val modelRx: ActionModelRx,
     private val messageError: MutableLiveData<String?>,
-    private val doAfterSave: (pallet: PalletAction) -> Unit
+    private val doAfterSave: (pallet: InfoPallet) -> Unit
 ) {
 
     private val publishSubjectBarcode = PublishSubject.create<String>()
@@ -38,7 +39,7 @@ class SaveHandlerPalletAction(
                 .map {
                     //Вытаскиваем номер
 
-                    return@map PalletAction(
+                    return@map InfoPallet(
                         guid = UUID.randomUUID().toString(),
                         guidProduct = product!!.guid,
                         barcode = it,
@@ -79,7 +80,7 @@ class SaveHandlerPalletAction(
                     }
                 }
                 .doOnNext {
-                    it.first as PalletAction
+                    it.first as InfoPallet
                     //Записываем
                     modelRx.savePallet(it.first, doc!!)
                         .doFinally {

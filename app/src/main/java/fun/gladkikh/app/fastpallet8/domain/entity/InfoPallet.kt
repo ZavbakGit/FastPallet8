@@ -13,5 +13,6 @@ data class InfoPallet(
     var barcode: String? = null,
     var weightStartProduct: String? = null,
     var weightEndProduct: String? = null,
-    var weightCoffProduct:String? = null
+    var weightCoffProduct:String? = null,
+    var numberView: Int? = null
 )

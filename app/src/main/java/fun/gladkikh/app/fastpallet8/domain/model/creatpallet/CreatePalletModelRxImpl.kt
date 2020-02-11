@@ -1,6 +1,7 @@
 package `fun`.gladkikh.app.fastpallet8.domain.model.creatpallet
 
 import `fun`.gladkikh.app.fastpallet8.common.getWeightByBarcode
+import `fun`.gladkikh.app.fastpallet8.common.isPallet
 import `fun`.gladkikh.app.fastpallet8.domain.model.DataWrapper
 import `fun`.gladkikh.app.fastpallet8.domain.model.Status
 
@@ -9,13 +10,15 @@ import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.CreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.PalletCreatePallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.creatpallet.ProductCreatePallet
 import `fun`.gladkikh.app.fastpallet8.repository.creatpallet.CreatePalletRepository
+import `fun`.gladkikh.app.fastpallet8.repository.setting.SettingsRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import java.util.*
 
 
 class CreatePalletModelRxImpl(
-    val repository: CreatePalletRepository
+    val repository: CreatePalletRepository,
+    val settingsRepository: SettingsRepository
 ) : CreatePalletModelRx {
 
     private fun checkEditDocByStatus(status: Status?): Boolean {
@@ -127,6 +130,14 @@ class CreatePalletModelRxImpl(
             return DataWrapper(error = Throwable("Нельзя изменять документ с этим статусом"))
         }
 
+        if (isPallet(barcode)){
+            return DataWrapper(error = Throwable("Это паллета!"))
+        }
+
+        if (!checkLengthBarcode(barcode,product)){
+            return DataWrapper(error = Throwable("Не верная длинна ШК!"))
+        }
+
         val weight = getWeightByBarcode(
             barcode = barcode,
             start = product?.weightStartProduct ?: 0,
@@ -149,6 +160,18 @@ class CreatePalletModelRxImpl(
         )
 
         return DataWrapper(data = box)
+    }
+
+    override fun checkLengthBarcode(barcode:String,product: ProductCreatePallet):Boolean{
+        val setting = settingsRepository.getSetting()
+        return if (setting.checkLengthBarcode == false){
+            true
+        }else{
+            if (product.weightBarcode.isNullOrBlank()) {
+                return true
+            }
+            return barcode.length == product.weightBarcode!!.length
+        }
     }
 
 

@@ -64,7 +64,7 @@ class ActionRepositoryImpl(private val dao: MainDao) : ActionRepository {
 
     }
 
-    override fun getListPallet(): Flowable<DataWrapper<List<PalletAction>>> {
+    override fun getListPallet(): Flowable<DataWrapper<List<InfoPallet>>> {
         return guidProductPublishSubject
             .observeOn(Schedulers.io())
             .toFlowable(BackpressureStrategy.BUFFER)
@@ -109,7 +109,7 @@ class ActionRepositoryImpl(private val dao: MainDao) : ActionRepository {
     }
 
 
-    override fun getPallet(): Flowable<DataWrapper<PalletAction>> {
+    override fun getPallet(): Flowable<DataWrapper<InfoPallet>> {
         return guidPalletPublishSubject
             .observeOn(Schedulers.io())
             .toFlowable(BackpressureStrategy.BUFFER)
@@ -125,7 +125,7 @@ class ActionRepositoryImpl(private val dao: MainDao) : ActionRepository {
     override fun getPalletByNumber(
         numberPallet: String,
         guidProduct: String
-    ): Flowable<DataWrapper<PalletAction>> {
+    ): Flowable<DataWrapper<InfoPallet>> {
         return Flowable.just(numberPallet)
             .map {
                 return@map DataWrapper(
@@ -145,7 +145,7 @@ class ActionRepositoryImpl(private val dao: MainDao) : ActionRepository {
         return dao.getListProductActionByGuidDoc(guidDoc).map { it.toObject()}
     }
 
-    override fun getListPalletByGuidProduct(guidProduct: String): List<PalletAction> {
+    override fun getListPalletByGuidProduct(guidProduct: String): List<InfoPallet> {
         return dao.getListPalletActionByGuidProduct(guidProduct).map { it.toObject()}
     }
 
@@ -227,7 +227,7 @@ class ActionRepositoryImpl(private val dao: MainDao) : ActionRepository {
             .ignoreElements()
     }
 
-    override fun savePallet(pallet: PalletAction): Completable {
+    override fun savePallet(pallet: InfoPallet): Completable {
         return Flowable.just(pallet)
             .observeOn(Schedulers.io())
             .doOnNext {
@@ -235,11 +235,11 @@ class ActionRepositoryImpl(private val dao: MainDao) : ActionRepository {
             }.ignoreElements()
     }
 
-    override fun savePalletToBase(pallet: PalletAction){
+    override fun savePalletToBase(pallet: InfoPallet){
         dao.insertOrUpdate(pallet.toDb())
     }
 
-    override fun dellPallet(pallet: PalletAction): Completable {
+    override fun dellPallet(pallet: InfoPallet): Completable {
         return Flowable.just(pallet)
             .observeOn(Schedulers.io())
             .doOnNext {
