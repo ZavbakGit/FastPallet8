@@ -7,7 +7,7 @@ import androidx.room.Dao
 import androidx.room.Transaction
 
 @Dao
-interface MainDao:DocumentDao,CreatPalletDao,ActionDao,InventoryPalletDao {
+interface MainDao:DocumentDao,CreatPalletDao,ActionDao,InventoryPalletDao,RecountDao {
 
     //region function InventoryPallet
     //******************************************************************************************

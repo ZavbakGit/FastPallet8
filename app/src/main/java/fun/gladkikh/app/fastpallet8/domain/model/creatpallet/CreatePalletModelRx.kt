@@ -48,4 +48,10 @@ interface CreatePalletModelRx {
 
 
     fun checkLengthBarcode(barcode: String, product: ProductCreatePallet): Boolean
+
+
+
+    fun recalculatePallet(pallet:PalletCreatePallet,product:ProductCreatePallet,doc: CreatePallet):Completable
+    fun recalculateProduct(product:ProductCreatePallet,doc: CreatePallet):Completable
+
 }

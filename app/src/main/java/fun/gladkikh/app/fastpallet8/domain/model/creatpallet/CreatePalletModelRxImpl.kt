@@ -175,4 +175,24 @@ class CreatePalletModelRxImpl(
     }
 
 
+
+    override fun recalculatePallet(
+        pallet: PalletCreatePallet,
+        product: ProductCreatePallet,
+        doc: CreatePallet
+    ): Completable {
+        return if (!checkEditDocByStatus(doc.status)) {
+            Completable.error(Throwable("Нельзя изменять документ с этим статусом"))
+        } else {
+            repository.recalculatePallet(pallet)
+        }
+    }
+
+    override fun recalculateProduct(product: ProductCreatePallet, doc: CreatePallet): Completable {
+        return if (!checkEditDocByStatus(doc.status)) {
+            Completable.error(Throwable("Нельзя изменять документ с этим статусом"))
+        } else {
+            repository.recalculateProduct(product)
+        }
+    }
 }

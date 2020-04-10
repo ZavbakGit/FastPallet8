@@ -13,6 +13,7 @@ import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePal
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.Completable
 
 class ProductCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseViewModel() {
 
@@ -155,6 +156,9 @@ class ProductCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : B
             Constants.CONFIRM_DELETE_DIALOG -> {
                 val position = confirmDialog.data as Int
                 modelRx.dellPallet(listPallet.value!![position], doc.value!!)
+                    .andThen(Completable.defer{
+                        modelRx.recalculateProduct(product.value!!,doc.value!!)
+                    })
                     .subscribe({
                         wrapperGuid = wrapperGuid!!.copy()
                     }, {

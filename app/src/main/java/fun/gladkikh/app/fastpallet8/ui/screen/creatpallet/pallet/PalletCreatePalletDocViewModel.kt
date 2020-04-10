@@ -13,6 +13,7 @@ import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePal
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.Completable
 import java.util.*
 
 class PalletCreatePalletDocViewModel(private val modelRx: CreatePalletModelRx) : BaseViewModel() {
@@ -162,6 +163,9 @@ class PalletCreatePalletDocViewModel(private val modelRx: CreatePalletModelRx) :
             Constants.CONFIRM_DELETE_DIALOG -> {
                 val position = confirmDialog.data as Int
                 modelRx.dellBox(listBox.value!![position], doc.value!!)
+                    .andThen(Completable.defer{
+                        modelRx.recalculatePallet(pallet.value!!,product.value!!,doc.value!!)
+                    })
                     .subscribe({
                         wrapperGuid = wrapperGuid!!.copy()
                     }, {
@@ -188,12 +192,14 @@ class PalletCreatePalletDocViewModel(private val modelRx: CreatePalletModelRx) :
                         count = count,
                         dateChanged = Date()
                     )
-                    modelRx.saveBox(box, doc.value!!)
-                        .subscribe({
-                            wrapperGuid = wrapperGuid!!.copy()
-                        }, {
-                            messageErrorChannel.postValue(it.message)
-                        })
+                    saveBox(box)
+
+//                    modelRx.saveBox(box, doc.value!!)
+//                        .subscribe({
+//                            wrapperGuid = wrapperGuid!!.copy()
+//                        }, {
+//                            messageErrorChannel.postValue(it.message)
+//                        })
                 }
             }
         }
@@ -211,18 +217,37 @@ class PalletCreatePalletDocViewModel(private val modelRx: CreatePalletModelRx) :
         if (dataWrapper.error != null) {
             messageErrorChannel.postValue(dataWrapper.error.message)
         } else {
-            modelRx.saveBox(dataWrapper.data!!, doc.value!!)
-                .subscribe({
-                    commandChannel.postValue(
-                        OpenForm(
-                            code = Constants.OPEN_BOX_CREATE_PALLET_FORM,
-                            data = wrapperGuid!!.copy(guidBox = dataWrapper.data.guid)
-                        )
-                    )
-                }, {
-                    messageErrorChannel.postValue(it.message)
-                })
+            saveBox(dataWrapper.data!!)
+//            modelRx.saveBox(dataWrapper.data!!, doc.value!!)
+//                .subscribe({
+//                    commandChannel.postValue(
+//                        OpenForm(
+//                            code = Constants.OPEN_BOX_CREATE_PALLET_FORM,
+//                            data = wrapperGuid!!.copy(guidBox = dataWrapper.data.guid)
+//                        )
+//                    )
+//                }, {
+//                    messageErrorChannel.postValue(it.message)
+//                })
         }
-
     }
+
+    @SuppressLint("CheckResult")
+    private fun saveBox(box: BoxCreatePallet) {
+        modelRx.saveBox(box, doc.value!!)
+            .andThen(
+                Completable.defer{modelRx.recalculatePallet(pallet.value!!,product.value!!,doc.value!!)}
+            )
+            .subscribe({
+                commandChannel.postValue(
+                    OpenForm(
+                        code = Constants.OPEN_BOX_CREATE_PALLET_FORM,
+                        data = wrapperGuid!!.copy(guidBox = box.guid)
+                    )
+                )
+            }, {
+                messageErrorChannel.postValue(it.message)
+            })
+    }
+
 }

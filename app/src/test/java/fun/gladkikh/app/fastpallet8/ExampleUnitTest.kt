@@ -27,26 +27,24 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
 
-
-        Flowable.fromIterable((0..100))
+        val com1 = Flowable.just(1)
             .doOnNext {
-
-                Flowable.just(it)
-                    .map {
-                        if (it == 10) {
-                            throw Throwable("Eroror")
-                        } else {
-                            it
-                        }
-                    }
-                    .subscribe({
-                        println(it)
-                    }, {
-                        println(it)
-                    })
-
+                println(it)
             }
+            .ignoreElements()
+
+        val com2 = Flowable.just(2)
+            .doOnNext {
+                println(it)
+            }
+            .ignoreElements()
+
+
+        com1
+            .andThen ( Completable.defer{com2} )
             .subscribe()
+
+
 
 
         assertEquals(4, 2 + 2)

@@ -38,8 +38,11 @@ interface CreatePalletRepository {
     fun saveBox(box: BoxCreatePallet):Completable
     fun dellBox(box: BoxCreatePallet):Completable
 
-    fun recalcPallet()
-    fun recalcProduct()
+    fun recalculatePallet()
+    fun recalculateProduct()
+
+    fun recalculatePallet(pallet:PalletCreatePallet):Completable
+    fun recalculateProduct(product:ProductCreatePallet):Completable
 
 
 

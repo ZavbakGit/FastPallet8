@@ -26,6 +26,10 @@ class SaveHandlerPallet(
 
     private val publishSubjectBarcode = PublishSubject.create<String>()
 
+    //Документ устанавливаем потом
+    var product: ProductCreatePallet? = null
+    var doc: CreatePallet? = null
+
     fun getCompletableSave(barcode: String): Completable {
         return Flowable.just(barcode)
             .flatMap {
@@ -82,6 +86,9 @@ class SaveHandlerPallet(
                 it.first as PalletCreatePallet
                 //Записываем
                 modelRx.savePallet(it.first, doc!!)
+                    .andThen(Completable.defer{
+                        modelRx.recalculateProduct(product!!,doc!!)
+                    })
                     .doFinally {
                         //Выполняем в конце
                         doAfterSave(it.first)
@@ -98,9 +105,7 @@ class SaveHandlerPallet(
     }
 
 
-    //Документ устанавливаем потом
-    var product: ProductCreatePallet? = null
-    var doc: CreatePallet? = null
+
 
     val disposable = publishSubjectBarcode
         .observeOn(Schedulers.io())

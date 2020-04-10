@@ -9,7 +9,6 @@ import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.After
-import java.math.BigDecimal
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -90,13 +89,13 @@ class TestRecount {
     }
 
     val listBox = listPallet.flatMap { pallet ->
-        (1..10).map {
+        (1..5).map {
             BoxCreatePalletDb(
                 guid = pallet.guid + "_" + it,
                 dateChanged = Date().time,
                 barcode = null,
-                count = 10.75f,
-                countBox = 1,
+                count =  listOf(10.5f,10.25f,10.50f,10.75f).random(),
+                countBox = listOf(1,2,4).random(),
                 guidPallet = pallet.guid
             )
         }
@@ -114,17 +113,36 @@ class TestRecount {
 
     @Test
     fun useAppContext() {
+
         equalsObjectAndDb()
 
         listProduct.forEach {
-            println(getSumByProduct(it.guid))
+            assertNotEquals("Почему то равны тестовые данные по продуктам",getSumByProductFromDb(it.guid),getSumByProductFromTestData(it.guid))
         }
 
+       
+
+        listPallet.forEach {
+            assertNotEquals("Почему то равны тестовые данные паллете",getSumByPalletFromDb(it.guid),getSumByPalletFromTestData(it.guid))
+        }
+
+
+        listPallet.forEach {
+            mainDao.recalculatePalletCreatePallet(it.guid)
+            assertEquals("Не сходтся расчеты по паллете $it",
+                getSumByPalletFromDb(it.guid),getSumByPalletFromTestData(it.guid))
+        }
+
+        listProduct.forEach {
+            mainDao.recalculateProductCreatePallet(it.guid)
+            assertEquals("Не сходятся расчеты по продукту $it",
+                getSumByProductFromDb(it.guid),getSumByProductFromTestData(it.guid))
+        }
+
+
+
         assertTrue(true)
-//
-//        listPallet.forEach {
-//            println(it.guid)
-//        }
+
     }
 
 
@@ -190,7 +208,17 @@ class TestRecount {
         }
     }
 
-    private fun getSumByPallet(guidPallet: String): WrapperSum =
+    private fun getSumByPalletFromDb(guidPallet:String): WrapperSum {
+        val item = mainDao.getPalletByGuid(guidPallet)
+        return WrapperSum(item.count,item.countBox,item.countRow)
+    }
+
+    private fun getSumByProductFromDb(guidProduct:String): WrapperSum {
+        val item = mainDao.getProductByGuid(guidProduct)
+        return WrapperSum(item.count,item.countBox,item.countRow)
+    }
+
+    private fun getSumByPalletFromTestData(guidPallet: String): WrapperSum =
         listBox.filter { it.guidPallet == guidPallet }
             .fold(WrapperSum(0f, 0, 0)) { total, next ->
                 val countNext = (next.count ?: 0f).toBigDecimal()
@@ -199,27 +227,27 @@ class TestRecount {
 
                 total.copy(
                     count = ((total.count ?: 0f).toBigDecimal() + countNext).toFloat(),
-                    countBox = total.countBox + countBoxNex,
-                    countRow = total.countRow + countRowNex
+                    countBox = (total.countBox?:0) + (countBoxNex?:0),
+                    countRow = (total.countRow?:0) + (countRowNex?:0)
                 )
             }
 
-    private fun getSumByProduct(guidProduct: String): WrapperSum =
+    private fun getSumByProductFromTestData(guidProduct: String): WrapperSum =
         listPallet.filter { it.guidProduct == guidProduct }
             .fold(WrapperSum(0f, 0, 0)) { total, next ->
 
-                val sumPallet = getSumByPallet(next.guid)
+                val sumPallet = getSumByPalletFromTestData(next.guid)
 
                 total.copy(
                     count = ((sumPallet.count ?: 0f).toBigDecimal() + (total.count
                         ?: 0f).toBigDecimal()).toFloat(),
-                    countRow = total.countRow + sumPallet.countRow,
-                    countBox = total.countBox + sumPallet.countBox
+                    countRow = (total.countRow?:0) + (sumPallet.countRow?:0),
+                    countBox = (total.countBox?:0) + (sumPallet.countBox?:0)
                 )
             }
 
 
-    data class WrapperSum(val count: Float?, val countBox: Int, val countRow: Int)
+    data class WrapperSum(val count: Float?, val countBox: Int?, val countRow: Int?)
 
     @After
     fun closeDb() {

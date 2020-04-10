@@ -54,24 +54,24 @@ interface CreatPalletDao{
 
     @Transaction
     fun deleteTrigger(entity: BoxCreatePalletDb) {
-        val countBox: Int = entity.countBox ?: 0
-        val count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
+//        val countBox: Int = entity.countBox ?: 0
+//        val count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
 
         delete(entity)
 
 
-        val pallet = getPalletByGuid(entity.guidPallet)
-        pallet.count = ((pallet.count ?: 0f).toBigDecimal() - count).toFloat()
-        pallet.countBox = (pallet.countBox ?: 0) - countBox
-        pallet.countRow = (pallet.countRow ?: 0) - 1
-
-        insertOrUpdate(pallet)
-
-        val product = getProductByGuid(pallet.guidProduct)
-        product.count = ((product.count ?: 0f).toBigDecimal() - count).toFloat()
-        product.countBox = (product.countBox ?: 0) - countBox
-        product.countRow = (product.countRow ?: 0) - 1
-        insertOrUpdate(product)
+//        val pallet = getPalletByGuid(entity.guidPallet)
+//        pallet.count = ((pallet.count ?: 0f).toBigDecimal() - count).toFloat()
+//        pallet.countBox = (pallet.countBox ?: 0) - countBox
+//        pallet.countRow = (pallet.countRow ?: 0) - 1
+//
+//        insertOrUpdate(pallet)
+//
+//        val product = getProductByGuid(pallet.guidProduct)
+//        product.count = ((product.count ?: 0f).toBigDecimal() - count).toFloat()
+//        product.countBox = (product.countBox ?: 0) - countBox
+//        product.countRow = (product.countRow ?: 0) - 1
+//        insertOrUpdate(product)
 
     }
 
@@ -123,19 +123,19 @@ interface CreatPalletDao{
 
     @Transaction
     fun deleteTrigger(entity: PalletCreatePalletDb) {
-        val countBox: Int = entity.countBox ?: 0
-        val count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
-        val countRow: Int = entity.countRow ?: 0
+//        val countBox: Int = entity.countBox ?: 0
+//        val count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
+//        val countRow: Int = entity.countRow ?: 0
 
         delete(entity)
 
-        val product = getProductByGuid(entity.guidProduct)
-        product.count = ((product.count ?: 0f).toBigDecimal() - count).toFloat()
-        product.countBox = (product.countBox ?: 0) - countBox
-        product.countRow = (product.countRow ?: 0) - countRow
-        product.countPallet = (product.countPallet ?: 0) - 1
-
-        insertOrUpdate(product)
+//        val product = getProductByGuid(entity.guidProduct)
+//        product.count = ((product.count ?: 0f).toBigDecimal() - count).toFloat()
+//        product.countBox = (product.countBox ?: 0) - countBox
+//        product.countRow = (product.countRow ?: 0) - countRow
+//        product.countPallet = (product.countPallet ?: 0) - 1
+//
+//        insertOrUpdate(product)
     }
 
     @Delete

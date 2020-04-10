@@ -13,6 +13,7 @@ import `fun`.gladkikh.app.fastpallet8.ui.common.Command.*
 import `fun`.gladkikh.app.fastpallet8.ui.screen.creatpallet.WrapperGuidCreatePallet
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.Completable
 import java.util.*
 
 class BoxCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseViewModel() {
@@ -66,6 +67,7 @@ class BoxCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseV
                         messageErrorChannel.postValue(it.error.message)
                     } else {
                         product.postValue(it.data)
+                        saveHandlerBox.product = it.data
                     }
                 }, {
                     messageErrorChannel.postValue(it.message)
@@ -79,6 +81,7 @@ class BoxCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseV
                         messageErrorChannel.postValue(it.error.message)
                     } else {
                         pallet.postValue(it.data)
+                        saveHandlerBox.pallet = it.data
                     }
                 }, {
                     messageErrorChannel.postValue(it.message)
@@ -148,6 +151,9 @@ class BoxCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseV
         when (confirmDialog.requestCode) {
             Constants.CONFIRM_DELETE_DIALOG -> {
                 modelRx.dellBox(box.value!!, doc.value!!)
+                    .andThen(Completable.defer{
+                        modelRx.recalculatePallet(pallet.value!!,product.value!!,doc.value!!)
+                    })
                     .subscribe({
                         commandChannel.postValue(Close)
                     }, {
@@ -167,12 +173,15 @@ class BoxCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseV
                     messageErrorChannel.postValue("Не верное число!")
                 } else {
                     box.value!!.countBox = place
-                    modelRx.saveBox(box.value!!, doc.value!!)
-                        .subscribe({
-                            wrapperGuid = wrapperGuid!!.copy()
-                        }, {
-                            messageErrorChannel.postValue(it.message)
-                        })
+                    saveHandlerBox.saveBuffer(box.value!!)
+
+//Убрал сохраняю все через буфер
+//                    modelRx.saveBox(box.value!!, doc.value!!)
+//                        .subscribe({
+//                            wrapperGuid = wrapperGuid!!.copy()
+//                        }, {
+//                            messageErrorChannel.postValue(it.message)
+//                        })
                 }
             }
             Constants.EDIT_COUNT_DIALOG -> {
@@ -181,12 +190,15 @@ class BoxCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseV
                     messageErrorChannel.postValue("Не верное число!")
                 } else {
                     box.value!!.count = count
-                    modelRx.saveBox(box.value!!, doc.value!!)
-                        .subscribe({
-                            wrapperGuid = wrapperGuid!!.copy()
-                        }, {
-                            messageErrorChannel.postValue(it.message)
-                        })
+                    saveHandlerBox.saveBuffer(box.value!!)
+
+                    //Убрал сохраняю все через буфер
+//                    modelRx.saveBox(box.value!!, doc.value!!)
+//                        .subscribe({
+//                            wrapperGuid = wrapperGuid!!.copy()
+//                        }, {
+//                            messageErrorChannel.postValue(it.message)
+//                        })
                 }
             }
             Constants.ADD_COUNT_DIALOG -> {
@@ -202,12 +214,16 @@ class BoxCreatePalletViewModel(private val modelRx: CreatePalletModelRx) : BaseV
                         count = count,
                         dateChanged = Date()
                     )
-                    modelRx.saveBox(box, doc.value!!)
-                        .subscribe({
-                            wrapperGuid = wrapperGuid!!.copy(guidBox = box.guid)
-                        }, {
-                            messageErrorChannel.postValue(it.message)
-                        })
+                    saveHandlerBox.saveBuffer(box)
+
+
+                    //Убрал сохраняю все через буфер
+//                    modelRx.saveBox(box, doc.value!!)
+//                        .subscribe({
+//                            wrapperGuid = wrapperGuid!!.copy(guidBox = box.guid)
+//                        }, {
+//                            messageErrorChannel.postValue(it.message)
+//                        })
                 }
             }
 

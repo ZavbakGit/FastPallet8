@@ -5,7 +5,7 @@ import `fun`.gladkikh.app.fastpallet8.repository.creatpallet.CreatePalletReposit
 
 class RecalcDbUseCase(private val createPalletRepositoryUpdate: CreatePalletRepository) {
     fun recalc() {
-        createPalletRepositoryUpdate.recalcPallet()
-        createPalletRepositoryUpdate.recalcProduct()
+        createPalletRepositoryUpdate.recalculatePallet()
+        createPalletRepositoryUpdate.recalculateProduct()
     }
 }

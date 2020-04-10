@@ -218,6 +218,23 @@ class CreatePalletRepositoryImpl(private val dao: MainDao) :
             }.ignoreElements()
     }
 
-    override fun recalcPallet() = dao.recalcPallet()
-    override fun recalcProduct() = dao.reCalcProduct()
+    override fun recalculatePallet() = dao.recalcPallet()
+
+    override fun recalculatePallet(pallet: PalletCreatePallet): Completable {
+        return Flowable.just(pallet)
+            .observeOn(Schedulers.io())
+            .doOnNext {
+                dao.recalculatePalletCreatePallet(pallet.guid)
+                dao.recalculateProductCreatePallet(pallet.guidProduct)
+            }.ignoreElements()
+    }
+
+    override fun recalculateProduct() = dao.reCalcProduct()
+    override fun recalculateProduct(product: ProductCreatePallet): Completable {
+        return Flowable.just(product)
+            .observeOn(Schedulers.io())
+            .doOnNext {
+                dao.recalculateProductCreatePallet(product.guid)
+            }.ignoreElements()
+    }
 }
