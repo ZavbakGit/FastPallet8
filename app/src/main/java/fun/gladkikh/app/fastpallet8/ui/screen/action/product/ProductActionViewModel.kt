@@ -16,6 +16,7 @@ import `fun`.gladkikh.app.fastpallet8.ui.screen.action.product.TYPE_ITEM_ACTION.
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
@@ -196,6 +197,9 @@ class ProductActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel
                         dateChanged = Date()
                     )
                     modelRx.saveBox(box, doc.value!!)
+                        .andThen(Completable.defer{
+                            modelRx.recalculateProductAction(doc.value!!,product.value!!)
+                        })
                         .subscribe({
                             wrapperGuid = wrapperGuid!!.copy()
                         }, {
@@ -222,6 +226,9 @@ class ProductActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel
 
         if (itemAction.type == PALLET) {
             modelRx.dellPallet(itemAction.pallet!!, doc.value!!)
+                .andThen(Completable.defer{
+                    modelRx.recalculateProductAction(doc.value!!,product.value!!)
+                })
                 .subscribe({
                     wrapperGuid = wrapperGuid!!.copy()
                 }, {
@@ -229,6 +236,9 @@ class ProductActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel
                 })
         } else {
             modelRx.dellBox(itemAction.box!!, doc.value!!)
+                .andThen(Completable.defer{
+                    modelRx.recalculateProductAction(doc.value!!,product.value!!)
+                })
                 .subscribe({
                     wrapperGuid = wrapperGuid!!.copy()
                 }, {
@@ -281,8 +291,8 @@ class ProductActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel
 
 
                     listPallet.forEach {
-                        if (it.nameProduct != null){
-                            messageErrorChannel.postValue("Ошибка ${it.number}")
+                        if (it.second.nameProduct != null){
+                            messageErrorChannel.postValue("Ошибка ${it.second.number}")
                         }
                     }
                     messageChannel.postValue("Загрузили!!")
@@ -307,6 +317,9 @@ class ProductActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel
             messageErrorChannel.postValue(dataWrapper.error.message)
         } else {
             modelRx.saveBox(dataWrapper.data!!, doc.value!!)
+                .andThen(Completable.defer{
+                    modelRx.recalculateProductAction(doc.value!!,product.value!!)
+                })
                 .subscribe({
                     commandChannel.postValue(
                         OpenForm(

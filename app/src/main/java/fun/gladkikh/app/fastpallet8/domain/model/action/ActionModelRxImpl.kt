@@ -189,7 +189,7 @@ class ActionModelRxImpl(
         }
     }
 
-    override fun loadInfoPalletFromServer(doc: Action): Single<List<InfoPallet>> {
+    override fun loadInfoPalletFromServer(doc: Action): Single<List<Pair<ProductAction, InfoPallet>>> {
         return Single.just(doc.guid)
             .map {
                 //Выбираем все паллеты по документу
@@ -224,23 +224,35 @@ class ActionModelRxImpl(
                             } else {
                                 null
                             }
-                            return@map pallet.copy(
+                            return@map product to pallet.copy(
                                 countBox = info.countBox,
                                 count = info.count,
                                 nameProduct = nameProduct
                             )
                         } else {
-                            return@map pallet
+                            return@map product to pallet
                         }
                     }
             }
             .doOnSuccess {
                 //Сохраняем
-                it.forEach { pallet ->
-                    repository.savePalletToBase(pallet)
+                it.forEach { pair ->
+                    repository.savePalletToBase(pair.second)
+                    repository.recalculateProductAction(pair.first)
+                        .subscribe()
                 }
             }
+    }
 
+    override fun recalculateProductAction(
+        doc: Action,
+        product: ProductAction
+    ): Completable {
+        return if (!checkEditDocByStatus(doc.status)) {
+            Completable.error(Throwable("Нельзя изменять документ с этим статусом"))
+        } else {
+            repository.recalculateProductAction(product)
+        }
     }
 
 }

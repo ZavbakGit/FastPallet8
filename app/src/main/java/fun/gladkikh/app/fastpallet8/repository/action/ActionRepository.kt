@@ -40,4 +40,5 @@ interface ActionRepository {
     fun getListProductByGuidDoc(guidDoc: String): List<ProductAction>
     fun getListPalletByGuidProduct(guidProduct: String): List<InfoPallet>
     fun savePalletToBase(pallet: InfoPallet)
+    fun recalculateProductAction(product: ProductAction): Completable
 }

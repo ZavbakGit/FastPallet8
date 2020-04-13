@@ -13,6 +13,7 @@ import `fun`.gladkikh.app.fastpallet8.ui.screen.inventorypallet.WrapperGuidInven
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
@@ -138,6 +139,9 @@ class DocInventoryPalletViewModel(private val modelRx: InventoryPalletModelRx) :
             Constants.CONFIRM_DELETE_DIALOG -> {
                 val position = confirmDialog.data as Int
                 modelRx.dellBox(listBox.value!![position], doc.value!!)
+                    .andThen(Completable.defer{
+                        modelRx.recalculateInventoryPallet(doc.value!!)
+                    })
                     .subscribe({
                         wrapperGuid = wrapperGuid!!.copy()
                     }, {
@@ -165,6 +169,9 @@ class DocInventoryPalletViewModel(private val modelRx: InventoryPalletModelRx) :
                         dateChanged = Date()
                     )
                     modelRx.saveBox(box, doc.value!!)
+                        .andThen(Completable.defer{
+                            modelRx.recalculateInventoryPallet(doc.value!!)
+                        })
                         .subscribe({
                             wrapperGuid = wrapperGuid!!.copy()
                         }, {
@@ -207,6 +214,9 @@ class DocInventoryPalletViewModel(private val modelRx: InventoryPalletModelRx) :
             messageErrorChannel.postValue(dataWrapper.error.message)
         } else {
             modelRx.saveBox(dataWrapper.data!!, doc.value!!)
+                .andThen(Completable.defer{
+                    modelRx.recalculateInventoryPallet(doc.value!!)
+                })
                 .observeOn(Schedulers.io())
                 .subscribe({
                     commandChannel.postValue(

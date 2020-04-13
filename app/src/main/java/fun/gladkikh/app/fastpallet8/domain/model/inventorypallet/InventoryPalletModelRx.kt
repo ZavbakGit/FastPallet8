@@ -27,4 +27,5 @@ interface InventoryPalletModelRx {
     fun checkEditDocByStatus(status: Status?): Boolean
     fun loadInfoPalletFromServer(doc: InventoryPallet): Completable
     fun checkLengthBarcode(barcode: String, doc: InventoryPallet): Boolean
+    fun recalculateInventoryPallet(doc: InventoryPallet): Completable
 }

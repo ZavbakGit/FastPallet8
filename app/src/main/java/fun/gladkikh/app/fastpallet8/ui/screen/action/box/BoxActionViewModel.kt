@@ -14,6 +14,7 @@ import `fun`.gladkikh.app.fastpallet8.ui.screen.action.WrapperGuidAction
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.Completable
 import java.util.*
 
 class BoxActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel() {
@@ -64,6 +65,7 @@ class BoxActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel() {
                         messageErrorChannel.postValue(it.error.message)
                     } else {
                         product.postValue(it.data)
+                        saveHandlerBox.product = it.data
                     }
                 }, {
                     messageErrorChannel.postValue(it.message)
@@ -133,6 +135,9 @@ class BoxActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel() {
         when (confirmDialog.requestCode) {
             Constants.CONFIRM_DELETE_DIALOG -> {
                 modelRx.dellBox(box.value!!, doc.value!!)
+                    .andThen(Completable.defer{
+                        modelRx.recalculateProductAction(doc.value!!,product.value!!)
+                    })
                     .subscribe({
                         commandChannel.postValue(Close)
                     }, {
@@ -152,12 +157,14 @@ class BoxActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel() {
                     messageErrorChannel.postValue("Не верное число!")
                 } else {
                     box.value!!.countBox = place
-                    modelRx.saveBox(box.value!!, doc.value!!)
-                        .subscribe({
-                            wrapperGuid = wrapperGuid!!.copy()
-                        }, {
-                            messageErrorChannel.postValue(it.message)
-                        })
+                    saveHandlerBox.saveBuffer(box.value!!)
+
+//                    modelRx.saveBox(box.value!!, doc.value!!)
+//                        .subscribe({
+//                            wrapperGuid = wrapperGuid!!.copy()
+//                        }, {
+//                            messageErrorChannel.postValue(it.message)
+//                        })
                 }
             }
             Constants.EDIT_COUNT_DIALOG -> {
@@ -166,12 +173,13 @@ class BoxActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel() {
                     messageErrorChannel.postValue("Не верное число!")
                 } else {
                     box.value!!.count = count
-                    modelRx.saveBox(box.value!!, doc.value!!)
-                        .subscribe({
-                            wrapperGuid = wrapperGuid!!.copy()
-                        }, {
-                            messageErrorChannel.postValue(it.message)
-                        })
+                    saveHandlerBox.saveBuffer(box.value!!)
+//                    modelRx.saveBox(box.value!!, doc.value!!)
+//                        .subscribe({
+//                            wrapperGuid = wrapperGuid!!.copy()
+//                        }, {
+//                            messageErrorChannel.postValue(it.message)
+//                        })
                 }
             }
             Constants.ADD_COUNT_DIALOG -> {
@@ -187,12 +195,13 @@ class BoxActionViewModel(private val modelRx: ActionModelRx) : BaseViewModel() {
                         count = count,
                         dateChanged = Date()
                     )
-                    modelRx.saveBox(box, doc.value!!)
-                        .subscribe({
-                            wrapperGuid = wrapperGuid!!.copy(guidBox = box.guid)
-                        }, {
-                            messageErrorChannel.postValue(it.message)
-                        })
+                    saveHandlerBox.saveBuffer(box)
+//                    modelRx.saveBox(box, doc.value!!)
+//                        .subscribe({
+//                            wrapperGuid = wrapperGuid!!.copy(guidBox = box.guid)
+//                        }, {
+//                            messageErrorChannel.postValue(it.message)
+//                        })
                 }
             }
 

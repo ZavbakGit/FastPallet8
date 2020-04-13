@@ -76,6 +76,6 @@ object Constants {
     const val CONFIRM_SEND_DIALOG = 10
 
 
-    const val IS_TEST_BUILD = false
+    const val IS_TEST_BUILD = true
 }
 

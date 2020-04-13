@@ -23,40 +23,40 @@ interface ActionDao {
 
     @Transaction
     fun insertOrUpdate(entity: BoxActionDb) {
-        var countBox: Int = entity.countBox ?: 0
-        var count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
-        var row = 1
+//        var countBox: Int = entity.countBox ?: 0
+//        var count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
+//        var row = 1
         if (insertIgnoreAction(entity) == -1L) {
-            val box = getBoxActionByGuid(entity.guid)
-
-            countBox -= (box.countBox ?: 0)
-            count -= (box.count ?: 0f).toBigDecimal()
-            row -= 1
+//            val box = getBoxActionByGuid(entity.guid)
+//
+//            countBox -= (box.countBox ?: 0)
+//            count -= (box.count ?: 0f).toBigDecimal()
+//            row -= 1
 
             update(entity)
         }
 
 
-        val product = getProductActionByGuid(entity.guidProduct)
-        product.count = ((product.count ?: 0f).toBigDecimal() + count).toFloat()
-        product.countBox = (product.countBox ?: 0) + countBox
-        product.countRow = (product.countRow ?: 0) + row
-
-        update(product)
+//        val product = getProductActionByGuid(entity.guidProduct)
+//        product.count = ((product.count ?: 0f).toBigDecimal() + count).toFloat()
+//        product.countBox = (product.countBox ?: 0) + countBox
+//        product.countRow = (product.countRow ?: 0) + row
+//
+//        update(product)
     }
 
     @Transaction
     fun deleteTrigger(entity: BoxActionDb) {
-        val countBox: Int = entity.countBox ?: 0
-        val count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
+//        val countBox: Int = entity.countBox ?: 0
+//        val count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
 
         delete(entity)
 
-        val product = getProductActionByGuid(entity.guidProduct)
-        product.count = ((product.count ?: 0f).toBigDecimal() - count).toFloat()
-        product.countBox = (product.countBox ?: 0) - countBox
-        product.countRow = (product.countRow ?: 0) - 1
-        update(product)
+//        val product = getProductActionByGuid(entity.guidProduct)
+//        product.count = ((product.count ?: 0f).toBigDecimal() - count).toFloat()
+//        product.countBox = (product.countBox ?: 0) - countBox
+//        product.countRow = (product.countRow ?: 0) - 1
+//        update(product)
     }
 
     @Delete
@@ -84,29 +84,29 @@ interface ActionDao {
     @Transaction
     fun insertOrUpdate(entity: PalletActionDb) {
 
-        var countBox: Int = entity.countBox ?: 0
-        var count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
-        var row = 1
-        var countPalet = 1
+//        var countBox: Int = entity.countBox ?: 0
+//        var count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
+//        var row = 1
+//        var countPalet = 1
 
         if (insertIgnore(entity) == -1L) {
-            val pallet = getPalletActionByGuid(entity.guid)
-
-            countBox -= (pallet.countBox ?: 0)
-            count -= (pallet.count ?: 0f).toBigDecimal()
-            row -= 1
-            countPalet -= 1
+//            val pallet = getPalletActionByGuid(entity.guid)
+//
+//            countBox -= (pallet.countBox ?: 0)
+//            count -= (pallet.count ?: 0f).toBigDecimal()
+//            row -= 1
+//            countPalet -= 1
 
             update(entity)
         }
 
-        val product = getProductActionByGuid(entity.guidProduct)
-        product.count = ((product.count ?: 0f).toBigDecimal() + count).toFloat()
-        product.countBox = (product.countBox ?: 0) + countBox
-        product.countRow = (product.countRow ?: 0) + row
-        product.countPallet = (product.countPallet ?: 0) + countPalet
-
-        update(product)
+//        val product = getProductActionByGuid(entity.guidProduct)
+//        product.count = ((product.count ?: 0f).toBigDecimal() + count).toFloat()
+//        product.countBox = (product.countBox ?: 0) + countBox
+//        product.countRow = (product.countRow ?: 0) + row
+//        product.countPallet = (product.countPallet ?: 0) + countPalet
+//
+//        update(product)
     }
 
     @Transaction
@@ -120,19 +120,19 @@ interface ActionDao {
 
     @Transaction
     fun deleteTrigger(entity: PalletActionDb) {
-        val countBox: Int = entity.countBox ?: 0
-        val count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
-        val countRow: Int = entity.countRow ?: 0
+//        val countBox: Int = entity.countBox ?: 0
+//        val count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
+//        val countRow: Int = entity.countRow ?: 0
 
         delete(entity)
 
-        val product = getProductActionByGuid(entity.guidProduct)
-        product.count = ((product.count ?: 0f).toBigDecimal() - count).toFloat()
-        product.countBox = (product.countBox ?: 0) - countBox
-        product.countRow = (product.countRow ?: 0) - countRow
-        product.countPallet = (product.countPallet ?: 0) - 1
-
-        update(product)
+//        val product = getProductActionByGuid(entity.guidProduct)
+//        product.count = ((product.count ?: 0f).toBigDecimal() - count).toFloat()
+//        product.countBox = (product.countBox ?: 0) - countBox
+//        product.countRow = (product.countRow ?: 0) - countRow
+//        product.countPallet = (product.countPallet ?: 0) - 1
+//
+//        update(product)
     }
 
     @Delete
@@ -163,11 +163,11 @@ interface ActionDao {
     @Transaction
     fun insertOrUpdate(entity: ProductActionDb) {
         if (insertIgnore(entity) == -1L) {
-            val product = getProductActionByGuid(entity.guid)
-            entity.count = product.count
-            entity.countBox = product.countBox
-            entity.countPallet = product.countPallet
-            entity.countRow = product.countRow
+//            val product = getProductActionByGuid(entity.guid)
+//            entity.count = product.count
+//            entity.countBox = product.countBox
+//            entity.countPallet = product.countPallet
+//            entity.countRow = product.countRow
             update(entity)
         }
     }

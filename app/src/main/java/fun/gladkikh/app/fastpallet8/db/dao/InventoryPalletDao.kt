@@ -39,44 +39,44 @@ interface InventoryPalletDao {
 
     @Transaction
     fun insertOrUpdate(entity: BoxInventoryPalletDb) {
-        var countBox: Int = entity.countBox ?: 0
-        var count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
-        var row = 1
+//        var countBox: Int = entity.countBox ?: 0
+//        var count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
+//        var row = 1
 
         if (insertIgnore(entity) == -1L) {
-            val box = getBoxInventoryPalletByGuid(entity.guid)
-
-            countBox -= (box.countBox ?: 0)
-            count -= (box.count ?: 0f).toBigDecimal()
-            row -= 1
+//            val box = getBoxInventoryPalletByGuid(entity.guid)
+//
+//            countBox -= (box.countBox ?: 0)
+//            count -= (box.count ?: 0f).toBigDecimal()
+//            row -= 1
 
             update(entity)
         }
 
-        val doc = getInventoryPalletByGuid(entity.guidDoc)
-        doc!!.count = ((doc.count ?: 0f).toBigDecimal() + count).toFloat()
-        doc.countBox = (doc.countBox ?: 0) + countBox
-        doc.countRow = (doc.countRow ?: 0) + row
-
-        update(doc)
+//        val doc = getInventoryPalletByGuid(entity.guidDoc)
+//        doc!!.count = ((doc.count ?: 0f).toBigDecimal() + count).toFloat()
+//        doc.countBox = (doc.countBox ?: 0) + countBox
+//        doc.countRow = (doc.countRow ?: 0) + row
+//
+//        update(doc)
 
 
     }
 
     @Transaction
     fun deleteTrigger(entity: BoxInventoryPalletDb) {
-        val countBox: Int = entity.countBox ?: 0
-        val count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
+//        val countBox: Int = entity.countBox ?: 0
+//        val count: BigDecimal = (entity.count ?: 0f).toBigDecimal()
 
         delete(entity)
 
-
-        val doc = getInventoryPalletByGuid(entity.guidDoc)
-        doc!!.count = ((doc.count ?: 0f).toBigDecimal() - count).toFloat()
-        doc.countBox = (doc.countBox ?: 0) - countBox
-        doc.countRow = (doc.countRow ?: 0) - 1
-
-        update(doc)
+//
+//        val doc = getInventoryPalletByGuid(entity.guidDoc)
+//        doc!!.count = ((doc.count ?: 0f).toBigDecimal() - count).toFloat()
+//        doc.countBox = (doc.countBox ?: 0) - countBox
+//        doc.countRow = (doc.countRow ?: 0) - 1
+//
+//        update(doc)
 
     }
 

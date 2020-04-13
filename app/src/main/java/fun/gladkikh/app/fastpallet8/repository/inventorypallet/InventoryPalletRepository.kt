@@ -26,4 +26,5 @@ interface InventoryPalletRepository {
     fun getListBoxByGuidDoc(guidDoc: String): List<BoxInventoryPallet>
 
     fun savePalletToBase(doc: InventoryPallet)
+    fun recalculateProductAction(doc: InventoryPallet): Completable
 }

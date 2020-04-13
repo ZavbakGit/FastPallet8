@@ -4,6 +4,7 @@ import `fun`.gladkikh.app.fastpallet8.common.getFloatByParseStr
 import `fun`.gladkikh.app.fastpallet8.common.getIntByParseStr
 import `fun`.gladkikh.app.fastpallet8.common.getWeightByBarcode
 import `fun`.gladkikh.app.fastpallet8.common.isPallet
+import `fun`.gladkikh.app.fastpallet8.domain.entity.action.Action
 import `fun`.gladkikh.app.fastpallet8.domain.entity.action.ProductAction
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.BoxInventoryPallet
 import `fun`.gladkikh.app.fastpallet8.domain.entity.inventorypallet.InventoryPallet
@@ -154,6 +155,16 @@ class InventoryPalletModelRxImpl(
                 repository.savePalletToBase(it)
             }
             .ignoreElement()
+    }
+
+    override fun recalculateInventoryPallet(
+        doc: InventoryPallet
+    ): Completable {
+        return if (!checkEditDocByStatus(doc.status)) {
+            Completable.error(Throwable("Нельзя изменять документ с этим статусом"))
+        } else {
+            repository.recalculateProductAction(doc)
+        }
     }
 
 

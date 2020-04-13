@@ -33,7 +33,14 @@ class SaveHandlerBoxInventoryPalletBuffer(
                             .doFinally {
                                 //После последней записи оповещаем
                                 if (index == listBox.size - 1) {
-                                    doAfterSaveBuffer(box)
+                                    //Пересчет
+                                    modelRx.recalculateInventoryPallet(doc!!)
+                                        .subscribe({
+                                            doAfterSaveBuffer(box)
+                                        }, {
+                                            messageError.postValue(it.message)
+                                        })
+
                                 }
                             }
                             .subscribe({}, {

@@ -264,4 +264,12 @@ class ActionRepositoryImpl(private val dao: MainDao) : ActionRepository {
             }.ignoreElements()
     }
 
+    override fun recalculateProductAction(product: ProductAction):Completable{
+        return Flowable.just(product)
+            .observeOn(Schedulers.io())
+            .doOnNext {
+                dao.recalculateProductAction(product.guid)
+            }.ignoreElements()
+    }
+
 }

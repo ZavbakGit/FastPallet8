@@ -46,8 +46,9 @@ interface ActionModelRx {
     )
             : DataWrapper<BoxAction>
 
-    fun loadInfoPalletFromServer(doc:Action): Single<List<InfoPallet>>
+    fun loadInfoPalletFromServer(doc:Action): Single<List<Pair<ProductAction, InfoPallet>>>
 
 
     fun checkLengthBarcode(barcode: String, product: ProductAction): Boolean
+    fun recalculateProductAction(doc: Action, product: ProductAction): Completable
 }

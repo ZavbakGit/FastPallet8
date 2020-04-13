@@ -85,7 +85,14 @@ class SaveHandlerPalletAction(
                     modelRx.savePallet(it.first, doc!!)
                         .doFinally {
                             //Выполняем в конце
-                            doAfterSave(it.first)
+                            //Пересчет
+                            modelRx.recalculateProductAction(doc!!, product!!)
+                                .subscribe({
+                                    doAfterSave(it.first)
+                                }, {
+                                    messageError.postValue(it.message)
+                                })
+
                         }
                         .subscribe({}, { throwable ->
                             messageError.postValue(throwable.message)
