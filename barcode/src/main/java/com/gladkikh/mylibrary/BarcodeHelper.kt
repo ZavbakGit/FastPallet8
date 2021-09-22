@@ -12,12 +12,18 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 
-class BarcodeHelper(private val context: AppCompatActivity, typE_TSD: TYPE_TSD?) : LifecycleObserver {
+class BarcodeHelper(private val context: AppCompatActivity, typE_TSD: TYPE_TSD?) :
+    LifecycleObserver {
 
     private val intent: Intent
     private val mServiceConn: ServiceConnection
 
-    enum class TYPE_TSD(val id: Int, val fullName: String, val action: String, val keyBarcode: String) {
+    enum class TYPE_TSD(
+        val id: Int,
+        val fullName: String,
+        val action: String,
+        val keyBarcode: String
+    ) {
         ATOL_SMART_DROID(
             1, "АТОЛ Smart.Droid",
             "DATA_SCAN",
@@ -28,6 +34,12 @@ class BarcodeHelper(private val context: AppCompatActivity, typE_TSD: TYPE_TSD?)
             2, "АТОЛ Smart.Lite",
             "com.xcheng.scanner.action.BARCODE_DECODING_BROADCAST",
             "EXTRA_BARCODE_DECODING_DATA"
+        ),
+
+        HONEYWELL(
+            3, "Honeywell (action - actionscan)",
+            "actionscan",
+            "data"
         );
 
         companion object {
@@ -35,6 +47,7 @@ class BarcodeHelper(private val context: AppCompatActivity, typE_TSD: TYPE_TSD?)
                 return when (id) {
                     1 -> ATOL_SMART_DROID
                     2 -> ATOL_SMART_LIGHT
+                    3 -> HONEYWELL
                     else -> null
                 }
             }
@@ -47,7 +60,6 @@ class BarcodeHelper(private val context: AppCompatActivity, typE_TSD: TYPE_TSD?)
      */
     public val barcodePublishSubject = PublishSubject.create<String?>()
     private val barcodeLd = MutableLiveData<String>()
-
 
 
     private val disposables = CompositeDisposable()

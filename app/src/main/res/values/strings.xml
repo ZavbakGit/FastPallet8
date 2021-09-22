@@ -4,9 +4,11 @@
     <string-array name="entries_type_tsd">
         <item>АТОЛ Smart.Droid</item>
         <item>АТОЛ Smart.Lite</item>
+        <item>Honeywell</item>
     </string-array>
     <string-array name="entry_values_tsd">
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 </resources>
