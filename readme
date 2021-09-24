@@ -1,0 +1,4 @@
+Для honeywell надо зайти в настройки, Honeywell settings, scanning, internal Scanner, default profile, data Processing Settings,
+Включаем data intent, и в настройках data intent в Action пишем - actionscan
+
+остальное пустое
